@@ -3,7 +3,7 @@
 They are used to tune the raster parameters and for every public picture; the FloorPlanCAD drawings are neither.
 Each drawing targets one thing that is hard for one of the two routes.
 
-Usage: uv run python eval/synth.py runs/inputs/synth
+Usage: uv run python -m eval.synth runs/inputs/synth
 """
 
 import itertools

@@ -1,0 +1,48 @@
+{
+ "tuned_on": [
+  "synth-1-walls",
+  "synth-2-diagonal",
+  "synth-3-doors",
+  "synth-4-stair",
+  "synth-5-near-parallel"
+ ],
+ "dpi": 300,
+ "objective": "mean f1 over the tuning drawings",
+ "grid": {
+  "threshold": [
+   100,
+   128,
+   160
+  ],
+  "close_px": [
+   0,
+   1
+  ],
+  "hough_votes_pt": [
+   3.0,
+   6.0,
+   10.0
+  ],
+  "min_line_pt": [
+   1.5,
+   3.0,
+   5.0
+  ],
+  "max_gap_pt": [
+   0.5,
+   1.0,
+   2.0
+  ]
+ },
+ "chosen": {
+  "threshold": 100,
+  "close_px": 0,
+  "hough_votes_pt": 3.0,
+  "min_line_pt": 1.5,
+  "max_gap_pt": 1.0,
+  "merge_gap_pt": 2.0
+ },
+ "chosen_mean_f1": 0.9948,
+ "default_mean_f1": 0.9926,
+ "trials": 162
+}

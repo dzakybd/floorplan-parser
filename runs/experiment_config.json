@@ -1,0 +1,58 @@
+{
+ "page_pt": 800.0,
+ "dpis": [
+  150,
+  300,
+  600
+ ],
+ "held_out": [
+  "0674-0822",
+  "1010-0022",
+  "0393-0004"
+ ],
+ "synthetic_tuning": [
+  "synth-1-walls",
+  "synth-2-diagonal",
+  "synth-3-doors",
+  "synth-4-stair",
+  "synth-5-near-parallel"
+ ],
+ "text_fixture": "synth-text-paths",
+ "rotate_deg": 2.0,
+ "scan": {
+  "noise_sigma": 8.0,
+  "blur_px": 1,
+  "seed": 0
+ },
+ "scoring": {
+  "tessellation_tol_pt": 0.1,
+  "dist_tol_pt": 2.0,
+  "angle_tol_deg": 5.0,
+  "sample_step_pt": 1.0,
+  "endpoint_radius_pt": 5.0,
+  "short_segment_pt": 4.0
+ },
+ "raster_params": {
+  "threshold": 100,
+  "close_px": 0,
+  "hough_votes_pt": 3.0,
+  "min_line_pt": 1.5,
+  "max_gap_pt": 1.0,
+  "merge_gap_pt": 2.0
+ },
+ "timing": "median of 3 runs of the extract call (open + read/decode + detect + clean-up); PDF preparation is not timed",
+ "packages": {
+  "pymupdf": "1.28.2",
+  "opencv-python-headless": "5.0.0.93",
+  "shapely": "2.2.0",
+  "svgelements": "1.9.6",
+  "numpy": "2.5.4"
+ },
+ "python": "3.12.12",
+ "hardware": {
+  "platform": "macOS-26.7.1-arm64-arm-64bit",
+  "cpu": "Apple M3 Pro",
+  "cpu_count": 12,
+  "ram_gb": 36
+ }
+}

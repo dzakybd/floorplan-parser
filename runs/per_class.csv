@@ -1,0 +1,81 @@
+drawing,setting,class,gt_lines,recall
+0674-0822,vector,unlabelled,84,1.0
+0674-0822,vector,railing,30,1.0
+0674-0822,raster-150,unlabelled,84,0.9945
+0674-0822,raster-150,railing,30,0.9998
+0674-0822,raster-300,unlabelled,84,0.9992
+0674-0822,raster-300,railing,30,1.0
+0674-0822,raster-600,unlabelled,84,0.9992
+0674-0822,raster-600,railing,30,1.0
+1010-0022,vector,unlabelled,70,1.0
+1010-0022,vector,double door,117,1.0
+1010-0022,vector,escalator,17,1.0
+1010-0022,vector,single door,13,1.0
+1010-0022,vector,folding door,10,1.0
+1010-0022,vector,wall,2,1.0
+1010-0022,raster-150,unlabelled,70,0.9829
+1010-0022,raster-150,double door,117,0.8274
+1010-0022,raster-150,escalator,17,0.9282
+1010-0022,raster-150,single door,13,0.966
+1010-0022,raster-150,folding door,10,0.8185
+1010-0022,raster-150,wall,2,1.0
+1010-0022,raster-300,unlabelled,70,0.986
+1010-0022,raster-300,double door,117,0.8897
+1010-0022,raster-300,escalator,17,0.9692
+1010-0022,raster-300,single door,13,0.9887
+1010-0022,raster-300,folding door,10,0.9628
+1010-0022,raster-300,wall,2,1.0
+1010-0022,raster-600,unlabelled,70,0.9904
+1010-0022,raster-600,double door,117,0.9048
+1010-0022,raster-600,escalator,17,0.9603
+1010-0022,raster-600,single door,13,0.9794
+1010-0022,raster-600,folding door,10,0.9023
+1010-0022,raster-600,wall,2,1.0
+0393-0004,vector,unlabelled,363,1.0
+0393-0004,vector,refrigerator,27,1.0
+0393-0004,vector,squat toilet,30,1.0
+0393-0004,vector,bath,30,1.0
+0393-0004,vector,bath tub,107,1.0
+0393-0004,vector,elevator,53,1.0
+0393-0004,vector,escalator,35,1.0
+0393-0004,vector,single door,81,1.0
+0393-0004,vector,blind window,19,1.0
+0393-0004,vector,sliding door,34,1.0
+0393-0004,vector,revolving door,4,1.0
+0393-0004,vector,urinal,24,1.0
+0393-0004,raster-150,unlabelled,363,0.9622
+0393-0004,raster-150,refrigerator,27,0.9827
+0393-0004,raster-150,squat toilet,30,0.9762
+0393-0004,raster-150,bath,30,0.793
+0393-0004,raster-150,bath tub,107,0.8477
+0393-0004,raster-150,elevator,53,0.7813
+0393-0004,raster-150,escalator,35,0.9582
+0393-0004,raster-150,single door,81,0.9937
+0393-0004,raster-150,blind window,19,0.9957
+0393-0004,raster-150,sliding door,34,0.6964
+0393-0004,raster-150,revolving door,4,1.0
+0393-0004,raster-150,urinal,24,0.9357
+0393-0004,raster-300,unlabelled,363,0.9716
+0393-0004,raster-300,refrigerator,27,1.0
+0393-0004,raster-300,squat toilet,30,0.9832
+0393-0004,raster-300,bath,30,0.9014
+0393-0004,raster-300,bath tub,107,0.9139
+0393-0004,raster-300,elevator,53,0.8972
+0393-0004,raster-300,escalator,35,0.9966
+0393-0004,raster-300,single door,81,1.0
+0393-0004,raster-300,blind window,19,1.0
+0393-0004,raster-300,sliding door,34,0.813
+0393-0004,raster-300,revolving door,4,1.0
+0393-0004,raster-300,urinal,24,0.9694
+0393-0004,raster-600,unlabelled,363,0.9811
+0393-0004,raster-600,refrigerator,27,1.0
+0393-0004,raster-600,squat toilet,30,0.9916
+0393-0004,raster-600,bath,30,0.9524
+0393-0004,raster-600,bath tub,107,0.9106
+0393-0004,raster-600,elevator,53,0.9568
+0393-0004,raster-600,escalator,35,0.994
+0393-0004,raster-600,single door,81,1.0
+0393-0004,raster-600,blind window,19,1.0
+0393-0004,raster-600,sliding door,34,0.8261
+0393-0004,raster-600,revolving door,4,1.0
+0393-0004,raster-600,urinal,24,0.9715

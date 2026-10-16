@@ -1,0 +1,55 @@
+{
+ "vector": {
+  "vs_drawing_without_text": {
+   "precision": 0.9625,
+   "recall": 1.0,
+   "f1": 0.9809,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 3.8971,
+   "gt_length": 7744.0,
+   "pred_length": 8045.789
+  }
+ },
+ "raster-150": {
+  "vs_drawing_without_text": {
+   "precision": 0.9722,
+   "recall": 1.0,
+   "f1": 0.9859,
+   "endpoint_err_mean": 0.4034,
+   "endpoint_err_median": 0.3213,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 2.7573,
+   "gt_length": 7744.0,
+   "pred_length": 7957.5247
+  }
+ },
+ "raster-300": {
+  "vs_drawing_without_text": {
+   "precision": 0.9636,
+   "recall": 1.0,
+   "f1": 0.9815,
+   "endpoint_err_mean": 0.3698,
+   "endpoint_err_median": 0.3818,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 3.7096,
+   "gt_length": 7744.0,
+   "pred_length": 8031.275
+  }
+ },
+ "raster-600": {
+  "vs_drawing_without_text": {
+   "precision": 0.966,
+   "recall": 1.0,
+   "f1": 0.9827,
+   "endpoint_err_mean": 0.2248,
+   "endpoint_err_median": 0.2317,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 3.5056,
+   "gt_length": 7744.0,
+   "pred_length": 8015.4756
+  }
+ },
+ "glyph_stroke_length_pt": 301.79
+}
