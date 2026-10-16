@@ -157,7 +157,7 @@ def main() -> None:
         and abs(e.geometry[0][0] - e.geometry[-1][0]) > 0.01
         and abs(e.geometry[0][1] - e.geometry[-1][1]) > 0.01
     ]
-    s = 9.0
+    s = 5.0
     xs = [x for e in pieces for x, _ in e.geometry]
     ys = [y for e in pieces for _, y in e.geometry]
     x0, y0 = min(xs) - 3, min(ys) - 3
@@ -165,13 +165,13 @@ def main() -> None:
     dr = ImageDraw.Draw(im)
     for i, e in enumerate(pieces):
         pts = [((x - x0) * s, (y - y0) * s) for x, y in e.geometry]
-        dr.line(pts, fill=BLUE if i % 2 else ORANGE, width=9)
-    w = Image.new("RGB", (im.width + 48, im.height + 150), BG)
+        dr.line(pts, fill=BLUE if i % 2 else ORANGE, width=7)
+    w = Image.new("RGB", (1200, im.height + 48), BG)
     dr = ImageDraw.Draw(w)
-    dr.text((24, 14), t["recreation"], fill=MUTED, font=font(20))
-    dr.text((24, 46), t["pieces"].format(len(pieces)), fill=INK, font=font(26, bold=True))
-    dr.text((24, 82), t["pieces_gt"], fill=MUTED, font=font(22))
-    w.paste(im, (24, 126))
+    dr.text((24, 40), t["recreation"], fill=MUTED, font=font(20))
+    dr.text((24, 76), t["pieces"].format(len(pieces)), fill=INK, font=font(28, bold=True))
+    dr.text((24, 116), t["pieces_gt"], fill=MUTED, font=font(24))
+    w.paste(im, (1200 - im.width - 48, 24))
     w.save(out / f"floorplan-parser-recreate-pieces{sfx}.png")
 
     # 6. Text drawn as lines
