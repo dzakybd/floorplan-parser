@@ -24,13 +24,15 @@ def draw_overlay(
         pix = pg.get_pixmap(matrix=pymupdf.Matrix(scale, scale), colorspace=pymupdf.csGRAY, alpha=False)
         sx = pix.width / pg.rect.width
         sy = pix.height / pg.rect.height
+        rotate = pg.rotation_matrix  # unrotated page space -> the displayed page that was rendered
     gray = np.frombuffer(pix.samples, np.uint8).reshape(pix.height, pix.width)
     faded = (255 - (255 - gray.astype(np.float32)) * 0.3).astype(np.uint8)
     img = cv2.cvtColor(faded, cv2.COLOR_GRAY2BGR)
     thick = max(1, round(scale))
 
     def px(pts):
-        return np.round(np.asarray(pts) * [sx, sy]).astype(np.int32)
+        shown = [tuple(pymupdf.Point(x, y) * rotate) for x, y in pts]
+        return np.round(np.asarray(shown).reshape(-1, 2) * [sx, sy]).astype(np.int32)
 
     for e in extraction.elements:
         cv2.polylines(img, [px(e.geometry)], False, EXTRACTED, thick, cv2.LINE_AA)

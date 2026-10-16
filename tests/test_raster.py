@@ -83,3 +83,36 @@ def test_embedded_image_used_at_its_own_resolution(tmp_path):
         img, rect = _page_image(doc[0], dpi=600)
     assert img.shape == (round(800 / 72 * 150), round(800 / 72 * 150))
     assert rect == pymupdf.Rect(0, 0, 800, 800)
+
+
+def test_rotated_page_coordinates_match_vector(tmp_path):
+    from floorplan_parser.vector import extract_vector
+
+    doc = pymupdf.open()
+    page = doc.new_page(width=600, height=800)
+    page.draw_line((100, 200), (500, 200), width=1.0)
+    page.set_rotation(90)
+    path = tmp_path / "rot.pdf"
+    doc.save(path)
+    ras, vec = extract_raster(path, dpi=300), extract_vector(path)
+    assert ras.page_size == vec.page_size == (600.0, 800.0)
+    assert score(ras.lines(), vec.lines()).f1 >= 0.95
+
+
+def test_robust_to_two_degree_rotation(tmp_path):
+    import cv2
+
+    from floorplan_parser.geometry import affine
+    from floorplan_parser.prep import degrade_rotate
+
+    ras = rasterize_pdf(_vector_pdf(tmp_path, AXIS), 300, tmp_path / "r.pdf", transform=degrade_rotate(2.0))
+    m = cv2.getRotationMatrix2D((400, 400), 2.0, 1.0)
+    gt = affine([LineString(s) for s in AXIS], (m[0, 0], m[1, 0], m[0, 1], m[1, 1], m[0, 2], m[1, 2]))
+    assert score(extract_raster(ras).lines(), gt).f1 >= 0.9
+
+
+def test_robust_to_scan_noise(tmp_path):
+    from floorplan_parser.prep import degrade_scan
+
+    ras = rasterize_pdf(_vector_pdf(tmp_path, AXIS), 300, tmp_path / "r.pdf", transform=degrade_scan())
+    assert _score(extract_raster(ras), AXIS).f1 >= 0.95

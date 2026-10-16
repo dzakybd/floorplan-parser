@@ -84,6 +84,7 @@ uv run pytest -q
 
 - Three real drawings. The numbers show how the two routes behave, not how well they do across all drawings.
 - The vector PDF is made from the same SVG the score uses, so near-perfect vector numbers are expected by construction. Real CAD-exported PDFs add hatching, text drawn as lines, and clipping.
+- Matching is many-to-one within 2 pt. An extractor that merges two true lines closer than 2 pt into one still scores F1 1.0; only the length error shows it (50% for one pair). On the near-parallel synthetic drawing the raster length error is at most 0.21%, so no such merge happened there (`tests/test_metrics.py::test_collapsed_pair_shows_in_length_error_not_f1` pins this behaviour).
 - Straight lines only on the raster side. Curves come back as short straight pieces.
 - Geometry only. Walls, doors and rooms need a separate recognition step.
 

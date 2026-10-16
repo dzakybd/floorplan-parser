@@ -37,10 +37,11 @@ class RasterParams:
 
 def _page_image(page: pymupdf.Page, dpi: int) -> tuple[np.ndarray, pymupdf.Rect]:
     """The page as a grayscale array plus the page rect it covers. A page that is one full-page image is decoded at
-    its own resolution; anything else is rendered at `dpi`."""
+    its own resolution; anything else is rendered at `dpi`. A rotated page is always rendered, so the image and the rect
+    are both in displayed (rotated) page space."""
     rect = page.rect
     images = page.get_images(full=True)
-    if len(images) == 1 and not page.get_drawings():
+    if page.rotation == 0 and len(images) == 1 and not page.get_drawings():
         xref = images[0][0]
         rects = page.get_image_rects(xref)
         if len(rects) == 1 and abs(rects[0] & rect) >= 0.99 * abs(rect):
@@ -77,12 +78,17 @@ def extract_raster(
     doc, pg = open_page(pdf, page)
     with doc:
         img, rect = _page_image(pg, dpi)
-        size = (float(pg.rect.width), float(pg.rect.height))
+        shown = (float(pg.rect.width), float(pg.rect.height))
+        size = (float(pg.cropbox.width), float(pg.cropbox.height))
+        derotate = tuple(pg.derotation_matrix) if pg.rotation else None
     t0 = time.perf_counter()
     sx, sy = rect.width / img.shape[1], rect.height / img.shape[0]
     segs = detect_lines(img, 1 / sx, params)
-    xs = np.clip(rect.x0 + (segs[:, [0, 2]] + 0.5) * sx, 0, size[0])
-    ys = np.clip(rect.y0 + (segs[:, [1, 3]] + 0.5) * sy, 0, size[1])
+    xs = np.clip(rect.x0 + (segs[:, [0, 2]] + 0.5) * sx, 0, shown[0])
+    ys = np.clip(rect.y0 + (segs[:, [1, 3]] + 0.5) * sy, 0, shown[1])
+    if derotate is not None:  # back to unrotated page space, the space the vector route and the ground truth use
+        a, b, c, d, e, f = derotate
+        xs, ys = a * xs + c * ys + e, b * xs + d * ys + f
     lines = [LineString([(x[0], y[0]), (x[1], y[1])]) for x, y in zip(xs, ys)]
     lines = dedupe(lines, tol=max(0.5, 1.5 * sx))
     lines = merge_collinear(lines, dist_tol=max(0.75, 2 * sx), angle_tol_deg=2.0, gap=params.merge_gap_pt)

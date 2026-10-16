@@ -67,3 +67,25 @@ def test_overlay_with_ground_truth(tmp_path, vector_pdf):
     out = draw_overlay(vector_pdf, 1, ex, tmp_path / "o.png", gt=gt, scale=1.0)
     pix = pymupdf.Pixmap(str(out))
     assert (pix.width, pix.height) == (800, 800)
+
+
+def test_overlay_aligned_on_rotated_page(tmp_path):
+    import numpy as np
+
+    doc = pymupdf.open()
+    page = doc.new_page(width=600, height=800)
+    page.set_rotation(90)
+    path = tmp_path / "rot.pdf"
+    doc.save(path)
+    from floorplan_parser.model import Element
+
+    ex = Extraction(
+        "r", 1, "vector", [Element("ln_1", "line", [(100.0, 200.0), (500.0, 200.0)], "vector", (100, 200, 500, 200))]
+    )
+    out = draw_overlay(path, 1, ex, tmp_path / "o.png", scale=1.0)
+    pix = pymupdf.Pixmap(str(out))
+    img = np.frombuffer(pix.samples, np.uint8).reshape(pix.height, pix.width, pix.n)
+    # unrotated (300, 200) shows at (displayed) point (600 - 200, 300) = (600, 300) on the 800 x 600 render
+    p = pymupdf.Point(300, 200) * doc[0].rotation_matrix
+    x, y = round(p.x), round(p.y)
+    assert img[y, min(x, pix.width - 1) - 1].tolist()[:3] != [255, 255, 255]
