@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg style="background-color: #000;" version="1.1" viewBox="0 0 100.0 100.0" xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape">
+ <g id="layer0-WALL" inkscape:groupmode="layer" inkscape:label="WALL">
+  <path d="M 10.0,20.0 L 90.0,20.0" fill="none" instance-id="-1" semantic-id="33" stroke="rgb(255,0,0)" stroke-width="0.1"/>
+  <path d="M 50.0,20.0 L 50.0,80.0" fill="none" stroke="rgb(0,255,0)" stroke-width="0.1"/>
+  <path d="M 10.0,60.0 A 10.0,10.0 0.0 0,1 20.0,70.0" fill="none" instance-id="4" semantic-id="1" stroke="rgb(0,107,142)" stroke-width="0.1"/>
+  <circle cx="75.0" cy="70.0" fill="none" r="8" stroke="rgb(0,178,0)" stroke-width="0.1"/>
+  <text x="20" y="90" fill="rgb(255,255,0)" font-size="4">1200</text>
+ </g>
+</svg>
