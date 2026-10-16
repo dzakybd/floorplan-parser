@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.superpowers/
+.hypothesis/
+.pytest_cache/
+samples/
+runs/inputs/
+runs/**/*.png
+runs/**/*.pdf
+runs/**/*.svg
+space/data/
