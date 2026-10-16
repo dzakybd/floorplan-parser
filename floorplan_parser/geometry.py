@@ -13,23 +13,30 @@ Point = tuple[float, float]
 
 def dedupe(lines: list[LineString], tol: float = 0.5) -> list[LineString]:
     """Drop zero-length lines and lines lying within `tol` of a longer kept line. Longest lines win."""
-    lines = [ln for ln in lines if ln.length > 1e-9]
-    order = sorted(range(len(lines)), key=lambda i: -lines[i].length)
-    tree = STRtree(lines)
+    return [lines[i] for i in dedupe_indices(lines, tol)]
+
+
+def dedupe_indices(lines: list[LineString], tol: float = 0.5) -> list[int]:
+    """Indices (ascending) of the lines `dedupe` keeps, so callers can keep per-line data aligned."""
+    valid = [i for i, ln in enumerate(lines) if ln.length > 1e-9]
+    if not valid:
+        return []
+    tree = STRtree([lines[i] for i in valid])
     kept: set[int] = set()
     buffers: dict[int, object] = {}
-    for i in order:
+    for k in sorted(range(len(valid)), key=lambda k: -lines[valid[k]].length):
+        line = lines[valid[k]]
         covered = False
-        for j in tree.query(lines[i], predicate="dwithin", distance=tol):
+        for j in tree.query(line, predicate="dwithin", distance=tol):
             if j in kept:
                 if j not in buffers:
-                    buffers[j] = lines[j].buffer(tol, cap_style="flat")
-                if buffers[j].covers(lines[i]):
+                    buffers[j] = lines[valid[j]].buffer(tol, cap_style="flat")
+                if buffers[j].covers(line):
                     covered = True
                     break
         if not covered:
-            kept.add(i)
-    return [lines[i] for i in sorted(kept)]
+            kept.add(k)
+    return sorted(valid[k] for k in kept)
 
 
 def merge_collinear(lines: list[LineString], dist_tol: float, angle_tol_deg: float, gap: float) -> list[LineString]:
