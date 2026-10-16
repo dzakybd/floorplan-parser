@@ -17,6 +17,7 @@ DIST_TOL = 2.0  # pt, a sample matches a line within this distance
 ANGLE_TOL_DEG = 5.0  # and within this direction difference
 SAMPLE_STEP = 1.0  # pt between samples along a line
 ENDPOINT_RADIUS = 5.0  # pt, farthest an endpoint may be from its match
+SHORT_SEGMENT = 2 * DIST_TOL  # pt, pieces shorter than this are curve flattening; matched by distance only
 
 CONSTANTS = {
     "tessellation_tol_pt": TESSELLATION_TOL,
@@ -24,6 +25,7 @@ CONSTANTS = {
     "angle_tol_deg": ANGLE_TOL_DEG,
     "sample_step_pt": SAMPLE_STEP,
     "endpoint_radius_pt": ENDPOINT_RADIUS,
+    "short_segment_pt": SHORT_SEGMENT,
 }
 
 
@@ -67,27 +69,36 @@ def _samples(a: np.ndarray, b: np.ndarray):
     return pts, seg, (lengths / counts)[seg]
 
 
-def _matched(src: list[LineString], dst: list[LineString]) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
-    """Per sample of `src`: whether it lies on `dst` (distance and direction), its weight, and its segment index."""
+def _matched(src: list[LineString], dst: list[LineString]) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Per sample of `src`: whether it lies on `dst` (distance and direction), its weight, segment index and point."""
     sa, sb = _segments(src)
     pts, seg, w = _samples(sa, sb)
     hit = np.zeros(len(pts), bool)
     da, db = _segments(dst)
     if len(pts) == 0 or len(da) == 0:
-        return hit, w, seg
+        return hit, w, seg, pts
     tree = STRtree([LineString([tuple(x), tuple(y)]) for x, y in zip(da, db)])
     pi, di = tree.query(points(pts), predicate="dwithin", distance=DIST_TOL)
     sdir = sb[seg[pi]] - sa[seg[pi]]
     ddir = db[di] - da[di]
-    cos = np.abs(np.sum(sdir * ddir, axis=1)) / (np.hypot(*sdir.T) * np.hypot(*ddir.T))
-    ok = cos >= math.cos(math.radians(ANGLE_TOL_DEG))
+    slen, dlen = np.hypot(*sdir.T), np.hypot(*ddir.T)
+    cos = np.abs(np.sum(sdir * ddir, axis=1)) / (slen * dlen)
+    # Two flattenings of a tight curve disagree on direction piece by piece; only long pieces get the angle check.
+    ok = (cos >= math.cos(math.radians(ANGLE_TOL_DEG))) | (slen < SHORT_SEGMENT) | (dlen < SHORT_SEGMENT)
     hit[pi[ok]] = True
-    return hit, w, seg
+    return hit, w, seg, pts
 
 
 def _coverage(src: list[LineString], dst: list[LineString]) -> float:
-    hit, w, _ = _matched(src, dst)
+    hit, w, _, _ = _matched(src, dst)
     return float(w[hit].sum() / w.sum()) if w.sum() > 0 else 0.0
+
+
+def unmatched_points(src: list[LineString], dst: list[LineString]) -> np.ndarray:
+    """Sample points of `src` (every SAMPLE_STEP pt) that do not lie on `dst`: missed lines when `src` is the ground
+    truth, extra lines when `src` is the prediction."""
+    hit, _, _, pts = _matched(src, dst)
+    return pts[~hit]
 
 
 def _endpoints(lines: list[LineString]) -> np.ndarray:

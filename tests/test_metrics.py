@@ -61,3 +61,16 @@ def test_translation_preserves_scores(tx, ty):
     m = (1, 0, 0, 1, tx, ty)
     moved = score(affine(pred, m), affine(GT, m))
     assert math.isclose(base.f1, moved.f1, abs_tol=1e-6)
+
+
+def _circle(r, n, phase=0.0):
+    pts = [
+        (400 + r * math.cos(phase + 2 * math.pi * i / n), 400 + r * math.sin(phase + 2 * math.pi * i / n))
+        for i in range(n)
+    ]
+    return LineString(pts + [pts[0]])
+
+
+def test_small_circle_flattened_differently_scores_perfect():
+    s = score([_circle(4.0, 40, phase=0.05)], [_circle(4.0, 14)])
+    assert s.precision >= 0.99 and s.recall >= 0.99
