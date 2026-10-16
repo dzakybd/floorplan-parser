@@ -1,6 +1,5 @@
 """Line clean-up shared by both extractors and the ground truth: dedupe, merge fragments, flatten curves."""
 
-import itertools
 import math
 
 import numpy as np
@@ -41,48 +40,44 @@ def dedupe_indices(lines: list[LineString], tol: float = 0.5) -> list[int]:
 
 def merge_collinear(lines: list[LineString], dist_tol: float, angle_tol_deg: float, gap: float) -> list[LineString]:
     """Join straight fragments that share a direction (within `angle_tol_deg`), sit on the same line (within
-    `dist_tol`) and are at most `gap` apart along it. Polylines pass through unchanged."""
+    `dist_tol`) and are at most `gap` apart along it. Polylines pass through unchanged.
+
+    Each merge grows from the longest unused fragment and keeps that fragment's direction, so nearby short pieces at
+    other angles (curves, circles) can never tilt a long line."""
     straight = [ln for ln in lines if len(ln.coords) == 2 and ln.length > 1e-9]
     out = [ln for ln in lines if len(ln.coords) != 2]
     if not straight:
         return out
     p = np.array([ln.coords[0] for ln in straight])
     q = np.array([ln.coords[1] for ln in straight])
-    ang = np.degrees(np.arctan2(q[:, 1] - p[:, 1], q[:, 0] - p[:, 0])) % 180.0
-    ang = np.where(ang >= 180.0 - angle_tol_deg, ang - 180.0, ang)
-    for group in _chain_clusters(ang, angle_tol_deg):
-        theta = math.radians(float(np.mean(ang[group])))
-        u = np.array([math.cos(theta), math.sin(theta)])
+    d = (q - p) / np.hypot(*(q - p).T)[:, None]
+    tree = STRtree(straight)
+    cos_tol = math.cos(math.radians(angle_tol_deg))
+    used = np.zeros(len(straight), bool)
+    for i in np.argsort([-ln.length for ln in straight]):
+        if used[i]:
+            continue
+        used[i] = True
+        u = d[i]
         n = np.array([-u[1], u[0]])
-        offs = (p[group] @ n + q[group] @ n) / 2
-        for sub in _chain_clusters(offs, dist_tol):
-            idx = np.asarray(group)[sub]
-            t = np.sort(np.stack([p[idx] @ u, q[idx] @ u], axis=1), axis=1)
-            c = offs[sub]
-            order = np.argsort(t[:, 0])
-            run_t0, run_t1, run_c = t[order[0], 0], t[order[0], 1], [c[order[0]]]
-            for k in order[1:]:
-                if t[k, 0] <= run_t1 + gap:
-                    run_t1 = max(run_t1, t[k, 1])
-                    run_c.append(c[k])
-                else:
-                    out.append(_segment(u, n, float(np.mean(run_c)), run_t0, run_t1))
-                    run_t0, run_t1, run_c = t[k, 0], t[k, 1], [c[k]]
-            out.append(_segment(u, n, float(np.mean(run_c)), run_t0, run_t1))
+        c = float(p[i] @ n)
+        t0, t1 = sorted((float(p[i] @ u), float(q[i] @ u)))
+        grown = True
+        while grown:
+            grown = False
+            reach = _segment(u, n, c, t0 - gap, t1 + gap)
+            for j in tree.query(reach, predicate="dwithin", distance=dist_tol):
+                if used[j] or abs(float(d[j] @ u)) < cos_tol:
+                    continue
+                if abs(float(p[j] @ n) - c) > dist_tol or abs(float(q[j] @ n) - c) > dist_tol:
+                    continue
+                ta, tb = sorted((float(p[j] @ u), float(q[j] @ u)))
+                if ta > t1 + gap or tb < t0 - gap:
+                    continue
+                t0, t1 = min(t0, ta), max(t1, tb)
+                used[j] = grown = True
+        out.append(_segment(u, n, c, t0, t1))
     return out
-
-
-def _chain_clusters(values: np.ndarray, tol: float) -> list[list[int]]:
-    order = np.argsort(values)
-    groups, cur = [], [int(order[0])]
-    for a, b in itertools.pairwise(order):
-        if values[b] - values[a] <= tol:
-            cur.append(int(b))
-        else:
-            groups.append(cur)
-            cur = [int(b)]
-    groups.append(cur)
-    return groups
 
 
 def _segment(u, n, c, t0, t1) -> LineString:

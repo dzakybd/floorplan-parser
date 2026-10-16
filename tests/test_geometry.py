@@ -63,3 +63,22 @@ def test_rotation_preserves_lengths(s, deg, tx, ty):
 def test_uniform_scale_multiplies_length(segs, s):
     lines = [LineString([g[:2], g[2:]]) for g in segs]
     assert math.isclose(_total(affine(lines, (s, 0, 0, s, 0, 0))), _total(lines) * s, rel_tol=1e-6)
+
+
+def test_merge_collinear_keeps_direction_with_circle_pieces_nearby():
+    wall = [LineString([(0, 100), (300, 100)]), LineString([(301, 100), (600, 100)])]
+    # short pieces at angles less than 2 degrees apart around a circle, as Hough returns at high DPI
+    circle = [
+        LineString(
+            [
+                (450 + 40 * math.cos(t), 300 + 40 * math.sin(t)),
+                (450 + 40 * math.cos(t + 0.08), 300 + 40 * math.sin(t + 0.08)),
+            ]
+        )
+        for t in [i * 0.03 for i in range(105)]
+    ]
+    out = merge_collinear(wall + circle, dist_tol=0.75, angle_tol_deg=2.0, gap=2.0)
+    merged = [ln for ln in out if ln.length > 500]
+    assert len(merged) == 1
+    ys = [y for _, y in merged[0].coords]
+    assert max(abs(y - 100) for y in ys) < 0.05
