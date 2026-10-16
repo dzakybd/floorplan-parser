@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>floorplan-parser showcase</title>
+<meta name="description" content="Line geometry from construction drawing PDFs, two ways: read the vector paths, or render to pixels and use classic computer vision. Measured against the drawing's own geometry.">
+<style>
+:root {
+  --bg: #f7f7f5; --panel: #ffffff; --fg: #1d1d1b; --muted: #6b6b66; --line: #e2e2dc;
+  --accent: #1f5f9e; --found: #1f77b4; --missed: #d62728; --extra: #ff7f0e;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #141413; --panel: #1d1d1b; --fg: #ecece6; --muted: #a3a39b; --line: #33332f; --accent: #8bb8e8; }
+}
+:root[data-theme="dark"] { --bg: #141413; --panel: #1d1d1b; --fg: #ecece6; --muted: #a3a39b; --line: #33332f; --accent: #8bb8e8; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+h1 { font-size: 26px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 0 0 10px; }
+p { margin: 0 0 8px; }
+a { color: var(--accent); }
+.muted { color: var(--muted); }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+pre { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; overflow-x: auto; margin: 8px 0 0; }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px; min-width: 0; }
+.row { display: grid; grid-template-columns: 3fr 2fr; gap: 16px; margin-top: 16px; }
+@media (max-width: 860px) { .row { grid-template-columns: 1fr; } }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.pills button { border: 1px solid var(--line); background: var(--panel); color: var(--fg); border-radius: 999px; padding: 6px 14px; font: inherit; font-size: 14px; cursor: pointer; }
+.pills button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.label { font-size: 12px; color: var(--muted); margin-top: 16px; text-transform: uppercase; letter-spacing: .04em; }
+.stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.stat { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.stat b { display: block; font-size: 22px; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12px; color: var(--muted); }
+#overlay { width: 100%; height: auto; display: block; background: #fff; border-radius: 6px; }
+.legend { font-size: 12px; color: var(--muted); margin-top: 8px; display: flex; gap: 14px; flex-wrap: wrap; }
+.legend i { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin-right: 4px; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { text-align: right; padding: 5px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--muted); font-weight: 600; }
+main > section.panel + section.panel { margin-top: 16px; }
+footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Do you need computer vision to read construction drawings?</h1>
+  <p class="muted">floorplan-parser pulls line geometry out of a drawing PDF two ways: it reads the vector paths the PDF already stores, or it renders the page to pixels and finds the lines with classic computer vision (threshold and Hough lines, no neural network). Both are scored against the drawing's own geometry. This recovers lines, not meaning: it does not know a wall from a door.</p>
+  <pre>uv run python -m floorplan_parser --input plan.pdf --method vector --output out/plan</pre>
+  <p class="muted" style="margin-top:8px">Code (MIT): <a href="https://github.com/dzakybd/floorplan-parser">github.com/dzakybd/floorplan-parser</a>. Write-up: <a href="https://dzaky.ai.id/en/blog/floorplan-parser-vector-vs-raster">dzaky.ai.id</a>. Results were computed ahead of time; this page runs no model.</p>
+
+  <div class="row">
+    <section class="panel">
+      <h2>Synthetic drawing</h2>
+      <div class="pills" id="drawings" role="group" aria-label="Drawing"></div>
+      <div class="pills" id="settings" role="group" aria-label="Method"></div>
+      <img id="overlay" alt="" style="margin-top:12px">
+      <div class="legend"><span><i style="background:var(--found)"></i>extracted</span><span><i style="background:var(--missed)"></i>missed</span><span><i style="background:var(--extra)"></i>extra (not in the drawing's geometry)</span></div>
+    </section>
+    <section class="panel">
+      <h2 id="scoreTitle">Score</h2>
+      <div class="stats" id="stats"></div>
+      <p class="muted" style="font-size:12px;margin-top:10px">Precision and recall are measured by length: how much of the extracted linework lies on the true lines (within 2 pt and 5°), and how much of the true linework was found. Time is the extraction call on an Apple M3 Pro, median of 3 runs.</p>
+    </section>
+  </div>
+
+  <section class="panel" style="margin-top:16px">
+    <h2>Held-out FloorPlanCAD drawings (numbers only)</h2>
+    <p class="muted" style="font-size:13px">Three real CAD drawings from the FloorPlanCAD test set, picked simple / medium / dense by file size. The raster settings were tuned on the synthetic drawings only, then frozen and run once on these. F1 by length, with the number of extracted pieces in brackets.</p>
+    <div class="scroll"><table id="heldout"></table></div>
+  </section>
+  <section class="panel">
+    <h2>Raster under a skewed or noisy scan (synthetic, 300 DPI)</h2>
+    <div class="scroll"><table id="robust"></table></div>
+  </section>
+
+  <footer>FloorPlanCAD: Fan et al., ICCV 2021, <a href="https://floorplancad.github.io/">floorplancad.github.io</a> (annotations CC BY-NC 4.0). No FloorPlanCAD drawing is shown or included here; every picture is a synthetic drawing made for this project.</footer>
+</main>
+<script>
+const SETTINGS = { "vector": "Vector paths", "raster-150": "Pixels 150 DPI", "raster-300": "Pixels 300 DPI", "raster-600": "Pixels 600 DPI" };
+const LABELS = { "0674-0822": "Simple: structural grid", "1010-0022": "Medium: doors, stair, double lines", "0393-0004": "Dense: apartment plan" };
+let data, cur = { d: 0, s: "vector" };
+const pct = v => (v * 100).toFixed(1) + "%";
+function pills(el, items, isOn, onClick) {
+  el.innerHTML = "";
+  items.forEach(([key, text]) => {
+    const b = document.createElement("button");
+    b.textContent = text; b.setAttribute("aria-pressed", isOn(key)); b.onclick = () => onClick(key);
+    el.appendChild(b);
+  });
+}
+function render() {
+  const d = data.drawings[cur.d], sc = d.scores[cur.s];
+  pills(document.getElementById("drawings"), data.drawings.map((x, i) => [i, x.title]), i => i === cur.d, i => { cur.d = i; render(); });
+  pills(document.getElementById("settings"), Object.entries(SETTINGS), k => k === cur.s, k => { cur.s = k; render(); });
+  const img = document.getElementById("overlay");
+  img.src = `data/${d.id}/${cur.s}.png`;
+  img.alt = `${d.title}, ${SETTINGS[cur.s]}: extracted lines in blue, missed in red, extra in orange`;
+  document.getElementById("scoreTitle").textContent = `${d.title} · ${SETTINGS[cur.s]}`;
+  document.getElementById("stats").innerHTML = [
+    [pct(sc.recall), "recall (true lines found)"], [pct(sc.precision), "precision (found lines that are real)"],
+    [sc.elements, "pieces extracted"], [(sc.seconds * 1000).toFixed(0) + " ms", "time"],
+  ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+}
+function tables() {
+  const head = "<tr><th>Drawing</th><th>Lines</th>" + Object.values(SETTINGS).map(s => `<th>${s}</th>`).join("") + "</tr>";
+  document.getElementById("heldout").innerHTML = head + data.held_out.map(r =>
+    `<tr><td>${LABELS[r.drawing] || r.drawing}</td><td>${r.gt_lines}</td>` +
+    Object.keys(SETTINGS).map(s => `<td>${r[s].f1.toFixed(3)} <span class="muted">(${r[s].elements})</span></td>`).join("") + "</tr>").join("");
+  const titles = Object.fromEntries(data.drawings.map(x => [x.id, x.title]));
+  const names = { "raster-300": "clean", "raster-300-rot2": "rotated 2°", "raster-300-scan": "noise + blur" };
+  const by = {};
+  data.robustness.forEach(r => { (by[r.drawing] ||= {})[r.setting] = +r.f1; });
+  document.getElementById("robust").innerHTML = "<tr><th>Drawing</th>" + Object.values(names).map(n => `<th>F1, ${n}</th>`).join("") + "</tr>" +
+    Object.entries(by).map(([d, v]) => `<tr><td>${titles[d]}</td>` + Object.keys(names).map(k => `<td>${v[k].toFixed(3)}</td>`).join("") + "</tr>").join("");
+}
+fetch("data/results.json").then(r => r.json()).then(j => { data = j; render(); tables(); });
+</script>
+</body>
+</html>
