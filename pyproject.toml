@@ -35,4 +35,5 @@ line-length = 120
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["."]
 filterwarnings = ["ignore:builtin type .* has no __module__ attribute:DeprecationWarning"]
