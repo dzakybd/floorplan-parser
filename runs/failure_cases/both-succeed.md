@@ -1,20 +1,20 @@
-# both-succeed: 0674-0822 (raster-300)
+# both-succeed: 1261-0083 (raster-300)
 
-Ground-truth lines: 114
+Ground-truth lines: 91
 Vector elements per ground-truth line: 1.0
 
 | setting | precision | recall | f1 | endpoint_err_median | length_error_pct | elements | seconds |
 |---|---|---|---|---|---|---|---|
-| vector | 1.0 | 1.0 | 1.0 | 0.0 | 0.0 | 114 | 0.0051 |
-| raster-150 | 0.9997 | 0.9972 | 0.9985 | 0.2426 | 1.3194 | 110 | 0.0568 |
-| raster-300 | 0.9999 | 0.9996 | 0.9998 | 0.235 | 0.5922 | 102 | 0.2468 |
-| raster-600 | 0.9995 | 0.9996 | 0.9996 | 0.331 | 0.0006 | 104 | 1.2957 |
+| vector | 1.0 | 1.0 | 1.0 | 0.0 | 0.0 | 91 | 0.0046 |
+| raster-150 | 0.9998 | 0.9982 | 0.999 | 0.4649 | 0.5175 | 76 | 0.0804 |
+| raster-300 | 1.0 | 1.0 | 1.0 | 0.3694 | 0.2463 | 66 | 0.304 |
+| raster-600 | 1.0 | 1.0 | 1.0 | 0.3924 | 2.5974 | 68 | 1.9739 |
 
 Recall by class (raster-300), lowest first:
 
 | class | gt lines | recall |
 |---|---|---|
-| unlabelled | 84 | 0.9992 |
-| railing | 30 | 1.0 |
+| unlabelled | 31 | 1.0 |
+| single door | 60 | 1.0 |
 
-Overlay (local only): runs/overlays/0674-0822/raster-300.png. Blue: extracted. Red: missed ground truth. Orange: extracted but not in ground truth.
+Overlay (local only): runs/overlays/1261-0083/raster-300.png. Blue: extracted. Red: missed ground truth. Orange: extracted but not in ground truth.

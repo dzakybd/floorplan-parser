@@ -46,18 +46,20 @@ def _item_lines(item: tuple) -> list[list[tuple[float, float]]]:
 
 
 def extract_vector(pdf: Path, page: int = 1, drawing_id: str | None = None) -> Extraction:
+    t0 = time.perf_counter()
     doc, pg = open_page(pdf, page)
     with doc:
+        paths = pg.get_drawings()
+        read_s = time.perf_counter() - t0
         t0 = time.perf_counter()
         lines = [
-            LineString(pts)
-            for path in pg.get_drawings()
-            for item in path["items"]
-            for pts in _item_lines(item)
-            if len(pts) > 1
+            LineString(pts) for path in paths for item in path["items"] for pts in _item_lines(item) if len(pts) > 1
         ]
+        extract_s = time.perf_counter() - t0
+        t0 = time.perf_counter()
         lines = dedupe(lines)
-        seconds = time.perf_counter() - t0
+        normalize_s = time.perf_counter() - t0
+        seconds = read_s + extract_s + normalize_s
         size = (float(pg.cropbox.width), float(pg.cropbox.height))
     warnings = []
     if not lines:
@@ -71,4 +73,5 @@ def extract_vector(pdf: Path, page: int = 1, drawing_id: str | None = None) -> E
         page_size=size,
         seconds=seconds,
         warnings=warnings,
+        timing_s={"read_s": read_s, "extract_s": extract_s, "normalize_s": normalize_s},
     )

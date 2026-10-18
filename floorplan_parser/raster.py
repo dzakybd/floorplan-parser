@@ -11,7 +11,7 @@ from pathlib import Path
 import cv2
 import numpy as np
 import pymupdf
-from shapely.geometry import LineString
+from shapely.geometry import LineString, box
 
 from floorplan_parser.geometry import dedupe, merge_collinear
 from floorplan_parser.model import Extraction, elements_from_lines
@@ -75,15 +75,19 @@ def extract_raster(
     pdf: Path, page: int = 1, dpi: int = 300, params: RasterParams | None = None, drawing_id: str | None = None
 ) -> Extraction:
     params = params or RasterParams()
+    t_read = time.perf_counter()
     doc, pg = open_page(pdf, page)
     with doc:
         img, rect = _page_image(pg, dpi)
         shown = (float(pg.rect.width), float(pg.rect.height))
         size = (float(pg.cropbox.width), float(pg.cropbox.height))
         derotate = tuple(pg.derotation_matrix) if pg.rotation else None
+    read_s = time.perf_counter() - t_read
     t0 = time.perf_counter()
     sx, sy = rect.width / img.shape[1], rect.height / img.shape[0]
     segs = detect_lines(img, 1 / sx, params)
+    extract_s = time.perf_counter() - t0
+    t0 = time.perf_counter()
     xs = np.clip(rect.x0 + (segs[:, [0, 2]] + 0.5) * sx, 0, shown[0])
     ys = np.clip(rect.y0 + (segs[:, [1, 3]] + 0.5) * sy, 0, shown[1])
     if derotate is not None:  # back to unrotated page space, the space the vector route and the ground truth use
@@ -92,8 +96,10 @@ def extract_raster(
     lines = [LineString([(x[0], y[0]), (x[1], y[1])]) for x, y in zip(xs, ys)]
     lines = dedupe(lines, tol=max(0.5, 1.5 * sx))
     lines = merge_collinear(lines, dist_tol=max(0.75, 2 * sx), angle_tol_deg=2.0, gap=params.merge_gap_pt)
-    lines = dedupe(lines, tol=max(0.5, 1.5 * sx))
-    seconds = time.perf_counter() - t0
+    bounds = box(0, 0, *size)
+    lines = dedupe([line.intersection(bounds) for line in lines], tol=max(0.5, 1.5 * sx))
+    normalize_s = time.perf_counter() - t0
+    seconds = read_s + extract_s + normalize_s
     return Extraction(
         drawing_id=drawing_id or pdf.stem,
         page=page,
@@ -101,4 +107,5 @@ def extract_raster(
         elements=elements_from_lines(lines, "raster"),
         page_size=size,
         seconds=seconds,
+        timing_s={"read_s": read_s, "extract_s": extract_s, "normalize_s": normalize_s},
     )

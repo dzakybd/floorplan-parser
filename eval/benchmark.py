@@ -7,6 +7,7 @@ Usage: uv run python -m eval.benchmark
 """
 
 import csv
+import hashlib
 import json
 import os
 import platform
@@ -30,11 +31,13 @@ REPEATS = 3
 
 def timed(fn, *args, **kw):
     """Run an extraction REPEATS times; return the last result and the median wall time in seconds."""
-    times = []
+    times, stages = [], []
     for _ in range(REPEATS):
         t0 = time.perf_counter()
         ex = fn(*args, **kw)
         times.append(time.perf_counter() - t0)
+        stages.append(ex.timing_s)
+    ex.timing_s = {k: statistics.median(t[k] for t in stages) for k in stages[0]}
     return ex, statistics.median(times)
 
 
@@ -72,7 +75,21 @@ def main() -> None:
                 kw = {**kw, "params": params}
             ex, seconds = timed(fn, pdf, drawing_id=d, **kw)
             s = score(ex.lines(), gt.lines).to_dict()
-            metrics[d][name] = {**s, "elements": len(ex.elements), "seconds": round(seconds, 4)}
+            assert all(
+                -1e-4 <= x <= PAGE_PT + 1e-4 and -1e-4 <= y <= PAGE_PT + 1e-4
+                for e in ex.elements
+                for x, y in e.geometry
+            ), (d, name)
+            out = RUNS / "outputs" / d / name
+            out.mkdir(parents=True, exist_ok=True)
+            ex.to_json(out / "elements.json")
+            ex.to_csv(out / "elements.csv")
+            metrics[d][name] = {
+                **s,
+                "elements": len(ex.elements),
+                "seconds": round(seconds, 4),
+                "timing_s": {k: round(v, 6) for k, v in ex.timing_s.items()},
+            }
             rows.append(
                 {
                     "drawing": d,
@@ -119,9 +136,12 @@ def main() -> None:
     _csv(RUNS / "per_drawing.csv", rows)
     _csv(RUNS / "per_class.csv", per_class)
     _csv(RUNS / "robustness.csv", robustness)
-    (RUNS / "metrics.json").write_text(json.dumps(metrics, indent=1))
+    (RUNS / "metrics.json").write_text(json.dumps(metrics, indent=1, allow_nan=False))
     (RUNS / "text_paths.json").write_text(json.dumps(text, indent=1))
     config = {
+        "params_sha256": hashlib.sha256((RUNS / "params.json").read_bytes()).hexdigest(),
+        "source_sha256": {d: hashlib.sha256(source_svg(d).read_bytes()).hexdigest() for d in REAL},
+        "sample_manifest": json.loads((RUNS / "sample_manifest.json").read_text()),
         "page_pt": PAGE_PT,
         "dpis": list(DPIS),
         "held_out": REAL,
@@ -132,7 +152,7 @@ def main() -> None:
         "scoring": CONSTANTS,
         "raster_params": params.to_dict(),
         "timing": f"median of {REPEATS} runs of the extract call (open + read/decode + detect + clean-up); "
-        "PDF preparation is not timed",
+        "PDF preparation and scoring are excluded; read/extract/normalize stage medians are also recorded",
         "packages": {p: version(p) for p in ("pymupdf", "opencv-python-headless", "shapely", "svgelements", "numpy")},
         "python": platform.python_version(),
         "hardware": hardware(),

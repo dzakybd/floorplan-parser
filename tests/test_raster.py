@@ -116,3 +116,9 @@ def test_robust_to_scan_noise(tmp_path):
 
     ras = rasterize_pdf(_vector_pdf(tmp_path, AXIS), 300, tmp_path / "r.pdf", transform=degrade_scan())
     assert _score(extract_raster(ras), AXIS).f1 >= 0.95
+
+
+def test_merging_oblique_border_fragments_stays_inside_page(tmp_path):
+    segs = [((0, 414), (125, 706)), ((0, 415), (124, 705))]
+    ras = rasterize_pdf(_vector_pdf(tmp_path, segs, width=1.6), 300, tmp_path / "border.pdf")
+    _assert_in_bounds(extract_raster(ras))

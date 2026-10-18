@@ -7,7 +7,7 @@ import math
 from dataclasses import asdict, dataclass
 
 import numpy as np
-from shapely import STRtree, points
+from shapely import STRtree, points, union_all
 from shapely.geometry import LineString
 
 from floorplan_parser.geometry import dedupe
@@ -34,8 +34,8 @@ class Scores:
     precision: float
     recall: float
     f1: float
-    endpoint_err_mean: float
-    endpoint_err_median: float
+    endpoint_err_mean: float | None
+    endpoint_err_median: float | None
     endpoint_match_rate: float
     length_error_pct: float
     gt_length: float
@@ -115,14 +115,14 @@ def score(pred: list[LineString], gt: list[LineString]) -> Scores:
         tree = STRtree(points(pe))
         _, d = tree.query_nearest(points(gte), max_distance=ENDPOINT_RADIUS, return_distance=True, all_matches=False)
         errs = d
-    gt_len = sum(ln.length for ln in gt)
-    pred_len = sum(ln.length for ln in dedupe(pred)) if pred else 0.0
+    gt_len = float(union_all(gt).length)
+    pred_len = float(union_all(dedupe(pred)).length) if pred else 0.0
     return Scores(
         precision=precision,
         recall=recall,
         f1=f1,
-        endpoint_err_mean=float(errs.mean()) if len(errs) else float("nan"),
-        endpoint_err_median=float(np.median(errs)) if len(errs) else float("nan"),
+        endpoint_err_mean=float(errs.mean()) if len(errs) else None,
+        endpoint_err_median=float(np.median(errs)) if len(errs) else None,
         endpoint_match_rate=len(errs) / len(gte) if len(gte) else 0.0,
         length_error_pct=abs(pred_len - gt_len) / gt_len * 100 if gt_len else 0.0,
         gt_length=gt_len,

@@ -82,3 +82,12 @@ def test_merge_collinear_keeps_direction_with_circle_pieces_nearby():
     assert len(merged) == 1
     ys = [y for _, y in merged[0].coords]
     assert max(abs(y - 100) for y in ys) < 0.05
+
+
+@settings(max_examples=30)
+@given(segment, st.floats(0.1, 10), coord, coord)
+def test_coordinate_roundtrip(s, scale, tx, ty):
+    line = LineString([s[:2], s[2:]])
+    moved = affine([line], (scale, 0, 0, scale, tx, ty))
+    back = affine(moved, (1 / scale, 0, 0, 1 / scale, -tx / scale, -ty / scale))[0]
+    assert line.hausdorff_distance(back) < 1e-8

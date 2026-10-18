@@ -1,0 +1,59 @@
+{
+  "source": "https://floorplancad.github.io/ (original test-00.tar.xz)",
+  "selection_seed": 20261019,
+  "retained": [
+    "0674-0822",
+    "1010-0022",
+    "0393-0004"
+  ],
+  "additional": [
+    {
+      "drawing": "0721-0004",
+      "svg_bytes": 28199,
+      "stratum": "simple"
+    },
+    {
+      "drawing": "1261-0083",
+      "svg_bytes": 18564,
+      "stratum": "simple"
+    },
+    {
+      "drawing": "0175-0005",
+      "svg_bytes": 32543,
+      "stratum": "simple"
+    },
+    {
+      "drawing": "0515-0016",
+      "svg_bytes": 42605,
+      "stratum": "medium"
+    },
+    {
+      "drawing": "1083-0018",
+      "svg_bytes": 46447,
+      "stratum": "medium"
+    },
+    {
+      "drawing": "0298-0026",
+      "svg_bytes": 160613,
+      "stratum": "dense"
+    },
+    {
+      "drawing": "0672-0021",
+      "svg_bytes": 178608,
+      "stratum": "dense"
+    }
+  ],
+  "selection": "Retain three previously inspected examples; seven additional test drawings randomly sampled within SVG-byte-size terciles (3/2/2), before scoring",
+  "held_out": [
+    "0674-0822",
+    "1010-0022",
+    "0393-0004",
+    "0721-0004",
+    "1261-0083",
+    "0175-0005",
+    "0515-0016",
+    "1083-0018",
+    "0298-0026",
+    "0672-0021"
+  ]
+}

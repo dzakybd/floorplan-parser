@@ -31,7 +31,7 @@ Output (`elements.json`):
 ## How it is measured
 
 - **Data:**
-  - Three FloorPlanCAD drawings from the original test archive, picked by SVG file size: `0674-0822` (simple structural grid), `1010-0022` (medium: doors, stair, close double lines) and `0393-0004` (dense apartment plan).
+  - Ten FloorPlanCAD drawings from the original test archive (`runs/sample_manifest.json`): the first three examples (`0674-0822` simple, `1010-0022` medium, `0393-0004` dense) plus seven drawn with seed 20261019 within SVG-file-size terciles, before any of them were scored.
   - Six synthetic drawings in the same SVG style (`eval/synth.py`).
 - **One source, two inputs:**
   - Each SVG is stripped of its labels (`semantic-id`, `instance-id`) and its text, drawn black on white, and scaled to an 800 × 800 pt page.
@@ -43,10 +43,10 @@ Output (`elements.json`):
 - **Score, by length:**
   - Recall is the share of true linework that lies within 2 pt and 5° of an extracted line; precision is the reverse. A line split into 50 pieces scores the same as the whole line.
   - Pieces under 4 pt, i.e. flattened curves, are matched by distance only.
-  - Also reported: median endpoint error, total-length error, piece count, and time. Time is the median of 3 runs of the extract call, Apple M3 Pro; PDF preparation is not timed.
+  - Also reported: median endpoint error, total-length error, piece count, and time. Endpoint error is reported with its match rate. Time is the median of 3 runs of the extract call, Apple M1 Pro; PDF preparation is not timed.
 - **No tuning on the test drawings:**
   - Raster parameters were picked by grid search on the five synthetic drawings at 300 DPI and frozen in `runs/params.json`.
-  - The FloorPlanCAD drawings were then run once with them.
+  - The FloorPlanCAD drawings were run with them unchanged; the expansion to ten drawings kept the same frozen file.
   - The synthetic set turned out easy: tuned settings score a mean F1 of 0.995 against 0.993 for the defaults.
 
 ## Results (held-out FloorPlanCAD drawings)
@@ -55,18 +55,25 @@ F1 by length, with the number of extracted pieces in brackets (from `runs/metric
 
 | Drawing | True lines | Vector | Raster 150 DPI | Raster 300 DPI | Raster 600 DPI |
 |---|---|---|---|---|---|
-| 0674-0822 simple | 114 | 1.000 (114) | 0.999 (110) | 1.000 (102) | 1.000 (104) |
-| 1010-0022 medium | 229 | 1.000 (667) | 0.878 (1217) | 0.890 (1371) | 0.880 (1675) |
-| 0393-0004 dense | 807 | 1.000 (7967) | 0.976 (439) | 0.984 (515) | 0.985 (641) |
+| 0674-0822 | 114 | 1.000 (114) | 0.999 (110) | 1.000 (102) | 1.000 (104) |
+| 1010-0022 | 229 | 1.000 (667) | 0.878 (1217) | 0.890 (1371) | 0.880 (1675) |
+| 0393-0004 | 807 | 1.000 (7967) | 0.976 (439) | 0.984 (515) | 0.985 (641) |
+| 0721-0004 | 123 | 1.000 (1759) | 0.990 (135) | 0.987 (133) | 0.988 (145) |
+| 1261-0083 | 91 | 1.000 (91) | 0.999 (76) | 1.000 (66) | 1.000 (68) |
+| 0175-0005 | 155 | 1.000 (240) | 0.994 (111) | 0.994 (116) | 0.994 (121) |
+| 0515-0016 | 195 | 1.000 (831) | 0.998 (155) | 0.999 (143) | 1.000 (145) |
+| 1083-0018 | 135 | 1.000 (135) | 0.999 (80) | 1.000 (75) | 1.000 (74) |
+| 0298-0026 | 751 | 1.000 (5859) | 0.973 (459) | 0.977 (499) | 0.982 (668) |
+| 0672-0021 | 732 | 1.000 (7066) | 0.978 (522) | 0.983 (568) | 0.985 (647) |
 
 What the numbers say:
-- **Vector recovers all of the linework, but in pieces.** Every arc comes back as many short straight segments, so 807 true lines become 7,967 pieces on the dense drawing (9.9 per line). Counting "lines" from a vector PDF needs merging first.
-- **Raster is close on clean, sparse drawings and weakest on close double lines.** On the medium drawing it adds lines along closely spaced double lines (precision 0.84 at 300 DPI), and more pixels make that worse (length error 2.8% at 150 DPI, 25% at 600 DPI). It also drops small circles and the ends of arcs.
-- **Time:** vector takes 5–21 ms on the two simpler drawings against 0.25–0.39 s for raster at 300 DPI. On the dense drawing the two are about even (0.38 s vs 0.40 s), because the vector route has to dedupe 7,967 pieces.
+- **Vector recovers all of the linework on all ten drawings, but in pieces.** Every arc comes back as many short straight segments: up to 14.3 pieces per true line (`0721-0004`, 1,759 pieces for 123 lines). Counting "lines" from a vector PDF needs merging first.
+- **Raster at 300 DPI averages F1 0.981 (0.890–1.000).** It is close on clean drawings and weakest on close double lines. On the medium drawing it adds lines along closely spaced double lines (precision 0.84 at 300 DPI), and more pixels make that worse (length error 2.4% at 150 DPI, 25.7% at 600 DPI). It also drops small circles and the ends of arcs.
+- **Time (median across ten drawings):** vector 31 ms (5 ms–0.69 s), raster at 300 DPI 0.37 s (0.18–0.58 s). Vector slows on dense drawings because it has to dedupe thousands of pieces. Stage timings are in `runs/summary.json`.
 - **Scan robustness (synthetic, 300 DPI, `runs/robustness.csv`):** noise plus blur moves F1 by at most 0.6 points, and a 2° rotation costs 0.3–2.4 points.
 - **Text drawn as lines (`runs/text_paths.json`):** both routes pick up a dimension label drawn as line strokes as if it were geometry. Vector precision drops to 0.96.
 
-Case notes: `runs/failure_cases/`. Per-class recall: `runs/per_class.csv`.
+Full distributions (mean, median, min, max) for precision, recall, F1, endpoint error and match rate, length error and stage timings: `runs/summary.json`. Case notes: `runs/failure_cases/`. Per-class recall: `runs/per_class.csv`. Verification of every export and an independent rescoring of all 40 held-out settings: `runs/verification.json`.
 
 ## Reproduce
 
@@ -76,13 +83,15 @@ uv run python -m eval.prepare
 uv run python -m eval.tune
 uv run python -m eval.benchmark
 uv run python -m eval.failures
+uv run python -m eval.report
+uv run python -m eval.verify
 uv run python space/build.py
 uv run pytest -q
 ```
 
 ## Limitations
 
-- Three real drawings. The numbers show how the two routes behave, not how well they do across all drawings.
+- Ten real drawings, three of which were inspected before the set was expanded. The numbers show how the two routes behave, not how well they do across all drawings.
 - The vector PDF is made from the same SVG the score uses, so near-perfect vector numbers are expected by construction. Real CAD-exported PDFs add hatching, text drawn as lines, and clipping.
 - Matching is many-to-one within 2 pt. An extractor that merges two true lines closer than 2 pt into one still scores F1 1.0; only the length error shows it (50% for one pair). On the near-parallel synthetic drawing the raster length error is at most 0.21%, so no such merge happened there (`tests/test_metrics.py::test_collapsed_pair_shows_in_length_error_not_f1` pins this behaviour).
 - Straight lines only on the raster side. Curves come back as short straight pieces.

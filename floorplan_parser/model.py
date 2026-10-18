@@ -39,6 +39,7 @@ class Extraction:
     page_size: tuple[float, float] = (0.0, 0.0)
     seconds: float = 0.0
     warnings: list[str] = field(default_factory=list)
+    timing_s: dict[str, float] = field(default_factory=dict)
 
     def lines(self) -> list[LineString]:
         return [LineString(e.geometry) for e in self.elements]
@@ -65,10 +66,40 @@ class Extraction:
     def to_csv(self, path: Path) -> None:
         with path.open("w", newline="") as f:
             w = csv.writer(f)
-            w.writerow(["id", "kind", "extractor", "x0", "y0", "x1", "y1", "n_points", "length"])
+            w.writerow(
+                [
+                    "drawing_id",
+                    "page",
+                    "coordinate_system",
+                    "id",
+                    "kind",
+                    "extractor",
+                    "x0",
+                    "y0",
+                    "x1",
+                    "y1",
+                    "n_points",
+                    "length",
+                ]
+            )
             for e in self.elements:
                 (x0, y0), (x1, y1) = e.geometry[0], e.geometry[-1]
-                w.writerow([e.id, e.kind, e.extractor, x0, y0, x1, y1, len(e.geometry), round(e.length, 4)])
+                w.writerow(
+                    [
+                        self.drawing_id,
+                        self.page,
+                        self.coordinate_system,
+                        e.id,
+                        e.kind,
+                        e.extractor,
+                        x0,
+                        y0,
+                        x1,
+                        y1,
+                        len(e.geometry),
+                        round(e.length, 4),
+                    ]
+                )
 
 
 def elements_from_lines(lines: list[LineString], extractor: str) -> list[Element]:

@@ -1,4 +1,76 @@
 {
+ "params_sha256": "226a175ff6878dc81b5d2fcfe7e579fc445c7e2a6af9e40193134a34ed3a8f59",
+ "source_sha256": {
+  "0674-0822": "9a4db8df1c2de4e7cadda2fc16d25d7e7177bdf875d3b4d8170cb8e8d9238d82",
+  "1010-0022": "428b947783d3f4d80a209a989ada6b45f6f3ae3148ffebce61494e2c2dea756b",
+  "0393-0004": "0d3dc463b62a626954944aca1930cd2bb17c2822c756af6a13a9750b16473776",
+  "0721-0004": "0af0cab11fa0258747074fe307f970674bc1b277d9dc09429dfdc75bad9424f7",
+  "1261-0083": "122529d9f288ca9773b4bd26b6a33c75d24941dd7abd2250eae5634ff1ae5577",
+  "0175-0005": "20b666d031d8e522e1b9db7a284b0df00b3d6e0a08bdec39acfb7adbf4b80bc5",
+  "0515-0016": "c47dd2d1b89d6669825e6fa1fd7f43826774137692a01ccda4578829b0dda12a",
+  "1083-0018": "5b2255107eaa81caaae08d4b593669d4562eb2af8eff05b6717f8541fef15b27",
+  "0298-0026": "61cbed163985a51d4992b79233203c42cf93a08686d01e4a0e92cf75f99b8060",
+  "0672-0021": "4d5d93ff915c32fdab725db28d080ad7ddcf75e75b9726db09dbca1d9d85823d"
+ },
+ "sample_manifest": {
+  "source": "https://floorplancad.github.io/ (original test-00.tar.xz)",
+  "selection_seed": 20261019,
+  "retained": [
+   "0674-0822",
+   "1010-0022",
+   "0393-0004"
+  ],
+  "additional": [
+   {
+    "drawing": "0721-0004",
+    "svg_bytes": 28199,
+    "stratum": "simple"
+   },
+   {
+    "drawing": "1261-0083",
+    "svg_bytes": 18564,
+    "stratum": "simple"
+   },
+   {
+    "drawing": "0175-0005",
+    "svg_bytes": 32543,
+    "stratum": "simple"
+   },
+   {
+    "drawing": "0515-0016",
+    "svg_bytes": 42605,
+    "stratum": "medium"
+   },
+   {
+    "drawing": "1083-0018",
+    "svg_bytes": 46447,
+    "stratum": "medium"
+   },
+   {
+    "drawing": "0298-0026",
+    "svg_bytes": 160613,
+    "stratum": "dense"
+   },
+   {
+    "drawing": "0672-0021",
+    "svg_bytes": 178608,
+    "stratum": "dense"
+   }
+  ],
+  "selection": "Retain three previously inspected examples; seven additional test drawings randomly sampled within SVG-byte-size terciles (3/2/2), before scoring",
+  "held_out": [
+   "0674-0822",
+   "1010-0022",
+   "0393-0004",
+   "0721-0004",
+   "1261-0083",
+   "0175-0005",
+   "0515-0016",
+   "1083-0018",
+   "0298-0026",
+   "0672-0021"
+  ]
+ },
  "page_pt": 800.0,
  "dpis": [
   150,
@@ -8,7 +80,14 @@
  "held_out": [
   "0674-0822",
   "1010-0022",
-  "0393-0004"
+  "0393-0004",
+  "0721-0004",
+  "1261-0083",
+  "0175-0005",
+  "0515-0016",
+  "1083-0018",
+  "0298-0026",
+  "0672-0021"
  ],
  "synthetic_tuning": [
   "synth-1-walls",
@@ -40,7 +119,7 @@
   "max_gap_pt": 1.0,
   "merge_gap_pt": 2.0
  },
- "timing": "median of 3 runs of the extract call (open + read/decode + detect + clean-up); PDF preparation is not timed",
+ "timing": "median of 3 runs of the extract call (open + read/decode + detect + clean-up); PDF preparation and scoring are excluded; read/extract/normalize stage medians are also recorded",
  "packages": {
   "pymupdf": "1.28.2",
   "opencv-python-headless": "5.0.0.93",
@@ -48,11 +127,11 @@
   "svgelements": "1.9.6",
   "numpy": "2.5.4"
  },
- "python": "3.12.12",
+ "python": "3.12.15",
  "hardware": {
-  "platform": "macOS-26.7.1-arm64-arm-64bit",
-  "cpu": "Apple M3 Pro",
-  "cpu_count": 12,
-  "ram_gb": 36
+  "platform": "macOS-27.0.1-arm64-arm-64bit",
+  "cpu": "Apple M1 Pro",
+  "cpu_count": 10,
+  "ram_gb": 32
  }
 }

@@ -10,10 +10,15 @@
    "endpoint_err_median": 0.0,
    "endpoint_match_rate": 1.0,
    "length_error_pct": 0.0,
-   "gt_length": 19279.7168,
-   "pred_length": 19279.7165,
+   "gt_length": 19182.1968,
+   "pred_length": 19182.1965,
    "elements": 114,
-   "seconds": 0.0051
+   "seconds": 0.0073,
+   "timing_s": {
+    "read_s": 0.001903,
+    "extract_s": 0.00057,
+    "normalize_s": 0.003924
+   }
   },
   "raster-150": {
    "precision": 0.9997,
@@ -22,37 +27,52 @@
    "endpoint_err_mean": 0.3278,
    "endpoint_err_median": 0.2426,
    "endpoint_match_rate": 0.9649,
-   "length_error_pct": 1.3194,
-   "gt_length": 19279.7168,
+   "length_error_pct": 0.8178,
+   "gt_length": 19182.1968,
    "pred_length": 19025.3308,
    "elements": 110,
-   "seconds": 0.0568
+   "seconds": 0.0945,
+   "timing_s": {
+    "read_s": 0.016178,
+    "extract_s": 0.066668,
+    "normalize_s": 0.012846
+   }
   },
   "raster-300": {
    "precision": 0.9999,
    "recall": 0.9996,
    "f1": 0.9998,
-   "endpoint_err_mean": 0.2776,
-   "endpoint_err_median": 0.235,
+   "endpoint_err_mean": 0.2792,
+   "endpoint_err_median": 0.2357,
    "endpoint_match_rate": 0.9386,
-   "length_error_pct": 0.5922,
-   "gt_length": 19279.7168,
-   "pred_length": 19165.5487,
+   "length_error_pct": 0.0898,
+   "gt_length": 19182.1968,
+   "pred_length": 19164.971,
    "elements": 102,
-   "seconds": 0.2468
+   "seconds": 0.3893,
+   "timing_s": {
+    "read_s": 0.050456,
+    "extract_s": 0.318935,
+    "normalize_s": 0.019066
+   }
   },
   "raster-600": {
    "precision": 0.9995,
    "recall": 0.9996,
    "f1": 0.9996,
-   "endpoint_err_mean": 0.3271,
-   "endpoint_err_median": 0.331,
+   "endpoint_err_mean": 0.3302,
+   "endpoint_err_median": 0.3325,
    "endpoint_match_rate": 0.9123,
-   "length_error_pct": 0.0006,
-   "gt_length": 19279.7168,
-   "pred_length": 19279.837,
+   "length_error_pct": 0.504,
+   "gt_length": 19182.1968,
+   "pred_length": 19278.8834,
    "elements": 104,
-   "seconds": 1.2957
+   "seconds": 1.7436,
+   "timing_s": {
+    "read_s": 0.187172,
+    "extract_s": 1.517919,
+    "normalize_s": 0.038175
+   }
   }
  },
  "1010-0022": {
@@ -65,11 +85,16 @@
    "endpoint_err_mean": 0.0,
    "endpoint_err_median": 0.0,
    "endpoint_match_rate": 1.0,
-   "length_error_pct": 0.0798,
-   "gt_length": 15796.2999,
-   "pred_length": 15783.6873,
+   "length_error_pct": 0.0802,
+   "gt_length": 15720.2999,
+   "pred_length": 15707.6873,
    "elements": 667,
-   "seconds": 0.0207
+   "seconds": 0.0247,
+   "timing_s": {
+    "read_s": 0.003582,
+    "extract_s": 0.003355,
+    "normalize_s": 0.014316
+   }
   },
   "raster-150": {
    "precision": 0.8418,
@@ -78,11 +103,16 @@
    "endpoint_err_mean": 0.677,
    "endpoint_err_median": 0.5329,
    "endpoint_match_rate": 0.9105,
-   "length_error_pct": 2.8209,
-   "gt_length": 15796.2999,
+   "length_error_pct": 2.3511,
+   "gt_length": 15720.2999,
    "pred_length": 15350.6952,
    "elements": 1217,
-   "seconds": 0.1521
+   "seconds": 0.1827,
+   "timing_s": {
+    "read_s": 0.013334,
+    "extract_s": 0.046513,
+    "normalize_s": 0.116724
+   }
   },
   "raster-300": {
    "precision": 0.8382,
@@ -91,11 +121,16 @@
    "endpoint_err_mean": 0.6401,
    "endpoint_err_median": 0.4498,
    "endpoint_match_rate": 0.9192,
-   "length_error_pct": 11.3764,
-   "gt_length": 15796.2999,
+   "length_error_pct": 11.9148,
+   "gt_length": 15720.2999,
    "pred_length": 17593.3446,
    "elements": 1371,
-   "seconds": 0.3888
+   "seconds": 0.4698,
+   "timing_s": {
+    "read_s": 0.04886,
+    "extract_s": 0.210396,
+    "normalize_s": 0.205927
+   }
   },
   "raster-600": {
    "precision": 0.8174,
@@ -104,11 +139,16 @@
    "endpoint_err_mean": 0.6173,
    "endpoint_err_median": 0.4727,
    "endpoint_match_rate": 0.9148,
-   "length_error_pct": 25.142,
-   "gt_length": 15796.2999,
+   "length_error_pct": 25.747,
+   "gt_length": 15720.2999,
    "pred_length": 19767.8109,
    "elements": 1675,
-   "seconds": 1.4362
+   "seconds": 1.7398,
+   "timing_s": {
+    "read_s": 0.180955,
+    "extract_s": 1.166131,
+    "normalize_s": 0.381691
+   }
   }
  },
  "0393-0004": {
@@ -121,11 +161,16 @@
    "endpoint_err_mean": 0.0156,
    "endpoint_err_median": 0.0,
    "endpoint_match_rate": 0.9994,
-   "length_error_pct": 0.1407,
-   "gt_length": 28516.7645,
-   "pred_length": 28476.6349,
+   "length_error_pct": 0.1432,
+   "gt_length": 28020.7197,
+   "pred_length": 27980.59,
    "elements": 7967,
-   "seconds": 0.3848
+   "seconds": 0.4255,
+   "timing_s": {
+    "read_s": 0.01796,
+    "extract_s": 0.041402,
+    "normalize_s": 0.321934
+   }
   },
   "raster-150": {
    "precision": 0.9983,
@@ -134,11 +179,16 @@
    "endpoint_err_mean": 1.3126,
    "endpoint_err_median": 0.7283,
    "endpoint_match_rate": 0.7807,
-   "length_error_pct": 9.0432,
-   "gt_length": 28516.7645,
+   "length_error_pct": 7.433,
+   "gt_length": 28020.7197,
    "pred_length": 25937.9321,
    "elements": 439,
-   "seconds": 0.1111
+   "seconds": 0.1195,
+   "timing_s": {
+    "read_s": 0.013417,
+    "extract_s": 0.069094,
+    "normalize_s": 0.035184
+   }
   },
   "raster-300": {
    "precision": 0.9949,
@@ -147,11 +197,16 @@
    "endpoint_err_mean": 1.2637,
    "endpoint_err_median": 0.6476,
    "endpoint_match_rate": 0.8383,
-   "length_error_pct": 4.1195,
-   "gt_length": 28516.7645,
+   "length_error_pct": 2.4221,
+   "gt_length": 28020.7197,
    "pred_length": 27342.0243,
    "elements": 515,
-   "seconds": 0.4006
+   "seconds": 0.4411,
+   "timing_s": {
+    "read_s": 0.048976,
+    "extract_s": 0.321482,
+    "normalize_s": 0.063975
+   }
   },
   "raster-600": {
    "precision": 0.989,
@@ -160,11 +215,548 @@
    "endpoint_err_mean": 1.1791,
    "endpoint_err_median": 0.6151,
    "endpoint_match_rate": 0.9182,
-   "length_error_pct": 0.8456,
-   "gt_length": 28516.7645,
+   "length_error_pct": 0.9097,
+   "gt_length": 28020.7197,
    "pred_length": 28275.6325,
    "elements": 641,
-   "seconds": 1.9175
+   "seconds": 2.4884,
+   "timing_s": {
+    "read_s": 0.184361,
+    "extract_s": 2.173004,
+    "normalize_s": 0.124309
+   }
+  }
+ },
+ "0721-0004": {
+  "split": "held-out",
+  "gt_lines": 123,
+  "vector": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0405,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0971,
+   "gt_length": 13210.4513,
+   "pred_length": 13197.6255,
+   "elements": 1759,
+   "seconds": 0.0992,
+   "timing_s": {
+    "read_s": 0.004689,
+    "extract_s": 0.009165,
+    "normalize_s": 0.073526
+   }
+  },
+  "raster-150": {
+   "precision": 0.996,
+   "recall": 0.9849,
+   "f1": 0.9904,
+   "endpoint_err_mean": 0.8249,
+   "endpoint_err_median": 0.3949,
+   "endpoint_match_rate": 0.8333,
+   "length_error_pct": 2.111,
+   "gt_length": 13210.4513,
+   "pred_length": 12931.5733,
+   "elements": 135,
+   "seconds": 0.0579,
+   "timing_s": {
+    "read_s": 0.013303,
+    "extract_s": 0.031552,
+    "normalize_s": 0.011436
+   }
+  },
+  "raster-300": {
+   "precision": 0.9886,
+   "recall": 0.986,
+   "f1": 0.9873,
+   "endpoint_err_mean": 0.853,
+   "endpoint_err_median": 0.4261,
+   "endpoint_match_rate": 0.8415,
+   "length_error_pct": 0.8407,
+   "gt_length": 13210.4513,
+   "pred_length": 13321.5079,
+   "elements": 133,
+   "seconds": 0.2253,
+   "timing_s": {
+    "read_s": 0.047504,
+    "extract_s": 0.161347,
+    "normalize_s": 0.016394
+   }
+  },
+  "raster-600": {
+   "precision": 0.9862,
+   "recall": 0.9899,
+   "f1": 0.988,
+   "endpoint_err_mean": 0.7642,
+   "endpoint_err_median": 0.3709,
+   "endpoint_match_rate": 0.8374,
+   "length_error_pct": 2.0108,
+   "gt_length": 13210.4513,
+   "pred_length": 13476.0901,
+   "elements": 145,
+   "seconds": 1.0739,
+   "timing_s": {
+    "read_s": 0.183533,
+    "extract_s": 0.857299,
+    "normalize_s": 0.03249
+   }
+  }
+ },
+ "1261-0083": {
+  "split": "held-out",
+  "gt_lines": 91,
+  "vector": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0,
+   "gt_length": 21145.909,
+   "pred_length": 21145.909,
+   "elements": 91,
+   "seconds": 0.0046,
+   "timing_s": {
+    "read_s": 0.001421,
+    "extract_s": 0.000391,
+    "normalize_s": 0.002309
+   }
+  },
+  "raster-150": {
+   "precision": 0.9998,
+   "recall": 0.9982,
+   "f1": 0.999,
+   "endpoint_err_mean": 0.5322,
+   "endpoint_err_median": 0.4649,
+   "endpoint_match_rate": 0.8681,
+   "length_error_pct": 0.5175,
+   "gt_length": 21145.909,
+   "pred_length": 21036.4876,
+   "elements": 76,
+   "seconds": 0.0733,
+   "timing_s": {
+    "read_s": 0.013011,
+    "extract_s": 0.049236,
+    "normalize_s": 0.010714
+   }
+  },
+  "raster-300": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.3935,
+   "endpoint_err_median": 0.3694,
+   "endpoint_match_rate": 0.8791,
+   "length_error_pct": 0.2463,
+   "gt_length": 21145.909,
+   "pred_length": 21197.9843,
+   "elements": 66,
+   "seconds": 0.291,
+   "timing_s": {
+    "read_s": 0.04729,
+    "extract_s": 0.226313,
+    "normalize_s": 0.017105
+   }
+  },
+  "raster-600": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.3908,
+   "endpoint_err_median": 0.3924,
+   "endpoint_match_rate": 0.8791,
+   "length_error_pct": 2.5974,
+   "gt_length": 21145.909,
+   "pred_length": 21695.146,
+   "elements": 68,
+   "seconds": 1.6159,
+   "timing_s": {
+    "read_s": 0.182566,
+    "extract_s": 1.394806,
+    "normalize_s": 0.038777
+   }
+  }
+ },
+ "0175-0005": {
+  "split": "held-out",
+  "gt_lines": 155,
+  "vector": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0665,
+   "gt_length": 10834.5574,
+   "pred_length": 10827.3502,
+   "elements": 240,
+   "seconds": 0.0087,
+   "timing_s": {
+    "read_s": 0.002181,
+    "extract_s": 0.001058,
+    "normalize_s": 0.00433
+   }
+  },
+  "raster-150": {
+   "precision": 0.9959,
+   "recall": 0.9912,
+   "f1": 0.9935,
+   "endpoint_err_mean": 0.6395,
+   "endpoint_err_median": 0.3344,
+   "endpoint_match_rate": 0.7903,
+   "length_error_pct": 1.1159,
+   "gt_length": 10834.5574,
+   "pred_length": 10713.6521,
+   "elements": 111,
+   "seconds": 0.0473,
+   "timing_s": {
+    "read_s": 0.013024,
+    "extract_s": 0.023817,
+    "normalize_s": 0.009811
+   }
+  },
+  "raster-300": {
+   "precision": 0.9942,
+   "recall": 0.9938,
+   "f1": 0.994,
+   "endpoint_err_mean": 0.6269,
+   "endpoint_err_median": 0.3647,
+   "endpoint_match_rate": 0.8387,
+   "length_error_pct": 0.9299,
+   "gt_length": 10834.5574,
+   "pred_length": 10935.3116,
+   "elements": 116,
+   "seconds": 0.1784,
+   "timing_s": {
+    "read_s": 0.047239,
+    "extract_s": 0.111582,
+    "normalize_s": 0.016795
+   }
+  },
+  "raster-600": {
+   "precision": 0.992,
+   "recall": 0.9963,
+   "f1": 0.9942,
+   "endpoint_err_mean": 0.6737,
+   "endpoint_err_median": 0.3686,
+   "endpoint_match_rate": 0.8774,
+   "length_error_pct": 2.5788,
+   "gt_length": 10834.5574,
+   "pred_length": 11113.9612,
+   "elements": 121,
+   "seconds": 0.8939,
+   "timing_s": {
+    "read_s": 0.182406,
+    "extract_s": 0.675746,
+    "normalize_s": 0.031473
+   }
+  }
+ },
+ "0515-0016": {
+  "split": "held-out",
+  "gt_lines": 195,
+  "vector": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0147,
+   "gt_length": 24658.5146,
+   "pred_length": 24654.9,
+   "elements": 831,
+   "seconds": 0.037,
+   "timing_s": {
+    "read_s": 0.003384,
+    "extract_s": 0.003415,
+    "normalize_s": 0.026765
+   }
+  },
+  "raster-150": {
+   "precision": 1.0,
+   "recall": 0.9949,
+   "f1": 0.9975,
+   "endpoint_err_mean": 0.6014,
+   "endpoint_err_median": 0.4132,
+   "endpoint_match_rate": 0.7795,
+   "length_error_pct": 1.1557,
+   "gt_length": 24658.5146,
+   "pred_length": 24373.5305,
+   "elements": 155,
+   "seconds": 0.084,
+   "timing_s": {
+    "read_s": 0.013233,
+    "extract_s": 0.054886,
+    "normalize_s": 0.015345
+   }
+  },
+  "raster-300": {
+   "precision": 1.0,
+   "recall": 0.9982,
+   "f1": 0.9991,
+   "endpoint_err_mean": 0.584,
+   "endpoint_err_median": 0.4037,
+   "endpoint_match_rate": 0.8026,
+   "length_error_pct": 0.3836,
+   "gt_length": 24658.5146,
+   "pred_length": 24563.9124,
+   "elements": 143,
+   "seconds": 0.3545,
+   "timing_s": {
+    "read_s": 0.050378,
+    "extract_s": 0.270853,
+    "normalize_s": 0.020647
+   }
+  },
+  "raster-600": {
+   "precision": 1.0,
+   "recall": 0.999,
+   "f1": 0.9995,
+   "endpoint_err_mean": 0.5454,
+   "endpoint_err_median": 0.3608,
+   "endpoint_match_rate": 0.8026,
+   "length_error_pct": 0.48,
+   "gt_length": 24658.5146,
+   "pred_length": 24776.8753,
+   "elements": 145,
+   "seconds": 1.798,
+   "timing_s": {
+    "read_s": 0.183242,
+    "extract_s": 1.571427,
+    "normalize_s": 0.043023
+   }
+  }
+ },
+ "1083-0018": {
+  "split": "held-out",
+  "gt_lines": 135,
+  "vector": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0,
+   "gt_length": 17130.0009,
+   "pred_length": 17130.0007,
+   "elements": 135,
+   "seconds": 0.0085,
+   "timing_s": {
+    "read_s": 0.00234,
+    "extract_s": 0.000993,
+    "normalize_s": 0.004536
+   }
+  },
+  "raster-150": {
+   "precision": 1.0,
+   "recall": 0.9983,
+   "f1": 0.9991,
+   "endpoint_err_mean": 0.4912,
+   "endpoint_err_median": 0.428,
+   "endpoint_match_rate": 0.6667,
+   "length_error_pct": 1.1911,
+   "gt_length": 17130.0009,
+   "pred_length": 17334.0394,
+   "elements": 80,
+   "seconds": 0.0594,
+   "timing_s": {
+    "read_s": 0.013133,
+    "extract_s": 0.037207,
+    "normalize_s": 0.008753
+   }
+  },
+  "raster-300": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.5229,
+   "endpoint_err_median": 0.3682,
+   "endpoint_match_rate": 0.6741,
+   "length_error_pct": 0.9056,
+   "gt_length": 17130.0009,
+   "pred_length": 17285.1326,
+   "elements": 75,
+   "seconds": 0.235,
+   "timing_s": {
+    "read_s": 0.047758,
+    "extract_s": 0.174342,
+    "normalize_s": 0.012547
+   }
+  },
+  "raster-600": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.365,
+   "endpoint_err_median": 0.3694,
+   "endpoint_match_rate": 0.6519,
+   "length_error_pct": 0.425,
+   "gt_length": 17130.0009,
+   "pred_length": 17202.8063,
+   "elements": 74,
+   "seconds": 1.0929,
+   "timing_s": {
+    "read_s": 0.182153,
+    "extract_s": 0.881324,
+    "normalize_s": 0.024139
+   }
+  }
+ },
+ "0298-0026": {
+  "split": "held-out",
+  "gt_lines": 751,
+  "vector": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.019,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.998,
+   "length_error_pct": 0.1981,
+   "gt_length": 28215.0918,
+   "pred_length": 28159.2041,
+   "elements": 5859,
+   "seconds": 0.2629,
+   "timing_s": {
+    "read_s": 0.012471,
+    "extract_s": 0.029277,
+    "normalize_s": 0.18728
+   }
+  },
+  "raster-150": {
+   "precision": 0.9946,
+   "recall": 0.9525,
+   "f1": 0.9731,
+   "endpoint_err_mean": 1.3238,
+   "endpoint_err_median": 0.7201,
+   "endpoint_match_rate": 0.7983,
+   "length_error_pct": 7.0463,
+   "gt_length": 28215.0918,
+   "pred_length": 26226.9732,
+   "elements": 459,
+   "seconds": 0.1213,
+   "timing_s": {
+    "read_s": 0.013006,
+    "extract_s": 0.06855,
+    "normalize_s": 0.037641
+   }
+  },
+  "raster-300": {
+   "precision": 0.992,
+   "recall": 0.9618,
+   "f1": 0.9767,
+   "endpoint_err_mean": 1.2975,
+   "endpoint_err_median": 0.6084,
+   "endpoint_match_rate": 0.8422,
+   "length_error_pct": 3.1944,
+   "gt_length": 28215.0918,
+   "pred_length": 27313.7795,
+   "elements": 499,
+   "seconds": 0.4343,
+   "timing_s": {
+    "read_s": 0.047724,
+    "extract_s": 0.322663,
+    "normalize_s": 0.062144
+   }
+  },
+  "raster-600": {
+   "precision": 0.9871,
+   "recall": 0.9777,
+   "f1": 0.9824,
+   "endpoint_err_mean": 1.1475,
+   "endpoint_err_median": 0.5444,
+   "endpoint_match_rate": 0.8695,
+   "length_error_pct": 1.1084,
+   "gt_length": 28215.0918,
+   "pred_length": 28527.8331,
+   "elements": 668,
+   "seconds": 2.4959,
+   "timing_s": {
+    "read_s": 0.184572,
+    "extract_s": 2.170926,
+    "normalize_s": 0.130184
+   }
+  }
+ },
+ "0672-0021": {
+  "split": "held-out",
+  "gt_lines": 732,
+  "vector": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0169,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.9993,
+   "length_error_pct": 0.1109,
+   "gt_length": 37144.7637,
+   "pred_length": 37185.9589,
+   "elements": 7066,
+   "seconds": 0.6854,
+   "timing_s": {
+    "read_s": 0.016634,
+    "extract_s": 0.038083,
+    "normalize_s": 0.599886
+   }
+  },
+  "raster-150": {
+   "precision": 0.9978,
+   "recall": 0.9583,
+   "f1": 0.9777,
+   "endpoint_err_mean": 0.9119,
+   "endpoint_err_median": 0.536,
+   "endpoint_match_rate": 0.8641,
+   "length_error_pct": 5.669,
+   "gt_length": 37144.7637,
+   "pred_length": 35039.01,
+   "elements": 522,
+   "seconds": 0.1584,
+   "timing_s": {
+    "read_s": 0.013378,
+    "extract_s": 0.096881,
+    "normalize_s": 0.047646
+   }
+  },
+  "raster-300": {
+   "precision": 0.9957,
+   "recall": 0.9703,
+   "f1": 0.9828,
+   "endpoint_err_mean": 0.9727,
+   "endpoint_err_median": 0.4809,
+   "endpoint_match_rate": 0.8757,
+   "length_error_pct": 2.046,
+   "gt_length": 37144.7637,
+   "pred_length": 36384.7842,
+   "elements": 568,
+   "seconds": 0.5753,
+   "timing_s": {
+    "read_s": 0.048728,
+    "extract_s": 0.446728,
+    "normalize_s": 0.078003
+   }
+  },
+  "raster-600": {
+   "precision": 0.993,
+   "recall": 0.9778,
+   "f1": 0.9853,
+   "endpoint_err_mean": 0.9481,
+   "endpoint_err_median": 0.4421,
+   "endpoint_match_rate": 0.9126,
+   "length_error_pct": 1.3529,
+   "gt_length": 37144.7637,
+   "pred_length": 37647.2929,
+   "elements": 647,
+   "seconds": 3.0319,
+   "timing_s": {
+    "read_s": 0.182488,
+    "extract_s": 2.695875,
+    "normalize_s": 0.150078
+   }
   }
  },
  "synth-1-walls": {
@@ -181,7 +773,12 @@
    "gt_length": 8376.0,
    "pred_length": 8376.0,
    "elements": 20,
-   "seconds": 0.0021
+   "seconds": 0.0018,
+   "timing_s": {
+    "read_s": 0.001235,
+    "extract_s": 9.4e-05,
+    "normalize_s": 0.000264
+   }
   },
   "raster-150": {
    "precision": 1.0,
@@ -194,7 +791,12 @@
    "gt_length": 8376.0,
    "pred_length": 8327.306,
    "elements": 25,
-   "seconds": 0.0323
+   "seconds": 0.0354,
+   "timing_s": {
+    "read_s": 0.013471,
+    "extract_s": 0.019542,
+    "normalize_s": 0.002147
+   }
   },
   "raster-300": {
    "precision": 1.0,
@@ -207,7 +809,12 @@
    "gt_length": 8376.0,
    "pred_length": 8366.192,
    "elements": 20,
-   "seconds": 0.1233
+   "seconds": 0.1395,
+   "timing_s": {
+    "read_s": 0.047255,
+    "extract_s": 0.085351,
+    "normalize_s": 0.003345
+   }
   },
   "raster-600": {
    "precision": 1.0,
@@ -220,7 +827,12 @@
    "gt_length": 8376.0,
    "pred_length": 8382.797,
    "elements": 21,
-   "seconds": 0.5643
+   "seconds": 0.5953,
+   "timing_s": {
+    "read_s": 0.182741,
+    "extract_s": 0.407487,
+    "normalize_s": 0.005212
+   }
   }
  },
  "synth-2-diagonal": {
@@ -237,7 +849,12 @@
    "gt_length": 9919.9999,
    "pred_length": 9919.9999,
    "elements": 16,
-   "seconds": 0.0021
+   "seconds": 0.0015,
+   "timing_s": {
+    "read_s": 0.001075,
+    "extract_s": 6.5e-05,
+    "normalize_s": 0.000254
+   }
   },
   "raster-150": {
    "precision": 1.0,
@@ -250,7 +867,12 @@
    "gt_length": 9919.9999,
    "pred_length": 9909.3425,
    "elements": 16,
-   "seconds": 0.0381
+   "seconds": 0.0406,
+   "timing_s": {
+    "read_s": 0.012994,
+    "extract_s": 0.025486,
+    "normalize_s": 0.002072
+   }
   },
   "raster-300": {
    "precision": 1.0,
@@ -263,7 +885,12 @@
    "gt_length": 9919.9999,
    "pred_length": 9913.8201,
    "elements": 16,
-   "seconds": 0.1311
+   "seconds": 0.142,
+   "timing_s": {
+    "read_s": 0.047013,
+    "extract_s": 0.091756,
+    "normalize_s": 0.002878
+   }
   },
   "raster-600": {
    "precision": 1.0,
@@ -276,7 +903,12 @@
    "gt_length": 9919.9999,
    "pred_length": 9918.13,
    "elements": 16,
-   "seconds": 0.7226
+   "seconds": 0.7456,
+   "timing_s": {
+    "read_s": 0.183453,
+    "extract_s": 0.556788,
+    "normalize_s": 0.006175
+   }
   }
  },
  "synth-3-doors": {
@@ -293,7 +925,12 @@
    "gt_length": 8492.2482,
    "pred_length": 8492.8824,
    "elements": 307,
-   "seconds": 0.0101
+   "seconds": 0.0112,
+   "timing_s": {
+    "read_s": 0.00168,
+    "extract_s": 0.003748,
+    "normalize_s": 0.00441
+   }
   },
   "raster-150": {
    "precision": 0.9826,
@@ -306,7 +943,12 @@
    "gt_length": 8492.2482,
    "pred_length": 8342.7971,
    "elements": 119,
-   "seconds": 0.0416
+   "seconds": 0.0443,
+   "timing_s": {
+    "read_s": 0.013051,
+    "extract_s": 0.021925,
+    "normalize_s": 0.008878
+   }
   },
   "raster-300": {
    "precision": 0.968,
@@ -319,7 +961,12 @@
    "gt_length": 8492.2482,
    "pred_length": 8896.0626,
    "elements": 160,
-   "seconds": 0.1353
+   "seconds": 0.1468,
+   "timing_s": {
+    "read_s": 0.047142,
+    "extract_s": 0.082289,
+    "normalize_s": 0.017
+   }
   },
   "raster-600": {
    "precision": 0.9502,
@@ -332,7 +979,12 @@
    "gt_length": 8492.2482,
    "pred_length": 9253.5532,
    "elements": 175,
-   "seconds": 0.6254
+   "seconds": 0.6751,
+   "timing_s": {
+    "read_s": 0.182467,
+    "extract_s": 0.462661,
+    "normalize_s": 0.029324
+   }
   }
  },
  "synth-4-stair": {
@@ -349,7 +1001,12 @@
    "gt_length": 22766.3376,
    "pred_length": 22766.3376,
    "elements": 96,
-   "seconds": 0.0046
+   "seconds": 0.0041,
+   "timing_s": {
+    "read_s": 0.001298,
+    "extract_s": 0.000347,
+    "normalize_s": 0.001922
+   }
   },
   "raster-150": {
    "precision": 1.0,
@@ -362,7 +1019,12 @@
    "gt_length": 22766.3376,
    "pred_length": 22719.9517,
    "elements": 96,
-   "seconds": 0.0876
+   "seconds": 0.0896,
+   "timing_s": {
+    "read_s": 0.012933,
+    "extract_s": 0.055164,
+    "normalize_s": 0.021069
+   }
   },
   "raster-300": {
    "precision": 1.0,
@@ -375,7 +1037,12 @@
    "gt_length": 22766.3376,
    "pred_length": 22756.6599,
    "elements": 96,
-   "seconds": 0.2858
+   "seconds": 0.2972,
+   "timing_s": {
+    "read_s": 0.047256,
+    "extract_s": 0.208015,
+    "normalize_s": 0.041505
+   }
   },
   "raster-600": {
    "precision": 1.0,
@@ -388,7 +1055,12 @@
    "gt_length": 22766.3376,
    "pred_length": 22807.8533,
    "elements": 97,
-   "seconds": 1.2312
+   "seconds": 1.312,
+   "timing_s": {
+    "read_s": 0.182095,
+    "extract_s": 1.018751,
+    "normalize_s": 0.110543
+   }
   }
  },
  "synth-5-near-parallel": {
@@ -405,7 +1077,12 @@
    "gt_length": 14720.0,
    "pred_length": 14720.0,
    "elements": 24,
-   "seconds": 0.0021
+   "seconds": 0.0015,
+   "timing_s": {
+    "read_s": 0.001012,
+    "extract_s": 9.3e-05,
+    "normalize_s": 0.000194
+   }
   },
   "raster-150": {
    "precision": 1.0,
@@ -418,7 +1095,12 @@
    "gt_length": 14720.0,
    "pred_length": 14751.2871,
    "elements": 25,
-   "seconds": 0.048
+   "seconds": 0.0484,
+   "timing_s": {
+    "read_s": 0.01298,
+    "extract_s": 0.033309,
+    "normalize_s": 0.002122
+   }
   },
   "raster-300": {
    "precision": 1.0,
@@ -431,7 +1113,12 @@
    "gt_length": 14720.0,
    "pred_length": 14709.0582,
    "elements": 24,
-   "seconds": 0.1606
+   "seconds": 0.1805,
+   "timing_s": {
+    "read_s": 0.047599,
+    "extract_s": 0.129836,
+    "normalize_s": 0.002392
+   }
   },
   "raster-600": {
    "precision": 1.0,
@@ -444,7 +1131,12 @@
    "gt_length": 14720.0,
    "pred_length": 14719.304,
    "elements": 25,
-   "seconds": 0.7727
+   "seconds": 0.7948,
+   "timing_s": {
+    "read_s": 0.183214,
+    "extract_s": 0.608862,
+    "normalize_s": 0.004172
+   }
   }
  },
  "synth-text-paths": {
@@ -461,7 +1153,12 @@
    "gt_length": 7744.0,
    "pred_length": 8045.789,
    "elements": 37,
-   "seconds": 0.0023
+   "seconds": 0.0023,
+   "timing_s": {
+    "read_s": 0.001323,
+    "extract_s": 0.000164,
+    "normalize_s": 0.00053
+   }
   },
   "raster-150": {
    "precision": 0.9722,
@@ -474,7 +1171,12 @@
    "gt_length": 7744.0,
    "pred_length": 7957.5247,
    "elements": 28,
-   "seconds": 0.0323
+   "seconds": 0.0355,
+   "timing_s": {
+    "read_s": 0.013063,
+    "extract_s": 0.020163,
+    "normalize_s": 0.002114
+   }
   },
   "raster-300": {
    "precision": 0.9636,
@@ -487,7 +1189,12 @@
    "gt_length": 7744.0,
    "pred_length": 8031.275,
    "elements": 35,
-   "seconds": 0.1132
+   "seconds": 0.1254,
+   "timing_s": {
+    "read_s": 0.046901,
+    "extract_s": 0.072166,
+    "normalize_s": 0.003639
+   }
   },
   "raster-600": {
    "precision": 0.966,
@@ -500,7 +1207,12 @@
    "gt_length": 7744.0,
    "pred_length": 8015.4756,
    "elements": 30,
-   "seconds": 0.5419
+   "seconds": 0.6184,
+   "timing_s": {
+    "read_s": 0.183153,
+    "extract_s": 0.428793,
+    "normalize_s": 0.006342
+   }
   }
  }
 }

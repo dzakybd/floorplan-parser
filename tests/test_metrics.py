@@ -83,3 +83,17 @@ def test_collapsed_pair_shows_in_length_error_not_f1():
     s = score([LineString([(0, 0.6), (100, 0.6)])], gt)
     assert s.f1 == 1.0
     assert math.isclose(s.length_error_pct, 50.0, abs_tol=1e-6)
+
+
+def test_partial_overlaps_do_not_double_count_length():
+    gt = [LineString([(0, 0), (100, 0)])]
+    pred = [LineString([(0, 0), (60, 0)]), LineString([(40, 0), (100, 0)])]
+    assert score(pred, gt).length_error_pct == 0.0
+
+
+def test_missing_endpoint_errors_are_json_null():
+    import json
+
+    s = score([], GT).to_dict()
+    assert s["endpoint_err_mean"] is None and s["endpoint_err_median"] is None
+    json.dumps(s, allow_nan=False)
