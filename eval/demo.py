@@ -72,6 +72,11 @@ TEXT = {
 }
 
 
+def score(v: float, lang: str) -> str:
+    """Scores at three decimals in English; two with a decimal comma in Indonesian, so 1,00 never reads as 1000."""
+    return f"{v:.3f}" if lang == "en" else f"{v:.2f}".replace(".", ",")
+
+
 def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(FONT, size, index=1 if bold else 0)
 
@@ -145,10 +150,10 @@ def end_card(t: dict, metrics: dict, lang: str) -> Image.Image:
     assert len(vf1) == 1, "end card says the vector F1 is the same on every drawing"
     rf1 = [v["raster-300"]["f1"] for v in held]
     vals = {
-        "vf1": f"{vf1.pop():.3f}",
-        "rf1": f"{sum(rf1) / len(rf1):.3f}",
-        "rmin": f"{min(rf1):.3f}",
-        "rmax": f"{max(rf1):.3f}",
+        "vf1": score(vf1.pop(), lang),
+        "rf1": score(sum(rf1) / len(rf1), lang),
+        "rmin": score(min(rf1), lang),
+        "rmax": score(max(rf1), lang),
         "pieces": f"{max(v['vector']['elements'] / v['gt_lines'] for v in held):.1f}",
     }
     if lang == "id":
@@ -186,7 +191,7 @@ def main() -> None:
     steps = round(2.5 * FPS)
     for k in range(1, steps + 1):
         n = round(len(vec) * k / steps)
-        sub = t["s2"][1].format(f1=f"{m['vector']['f1']:.3f}")
+        sub = t["s2"][1].format(f1=score(m["vector"]["f1"], args.lang))
         frames.append(frame(t, t["s2"][0], sub, draw_lines(base, vec, n, BLUE), False))
     hold(frames[-1], 0.5)
     steps = round(0.8 * FPS)
@@ -196,7 +201,7 @@ def main() -> None:
     for dpi in (150, 300, 600):
         ex = extract_raster(src / f"raster-{dpi}.pdf", params=params)
         lines = sorted(ex.elements, key=lambda e: (e.geometry[0][1], e.geometry[0][0]))
-        sub = t["s3"][1].format(dpi=dpi, f1=f"{m[f'raster-{dpi}']['f1']:.3f}")
+        sub = t["s3"][1].format(dpi=dpi, f1=score(m[f"raster-{dpi}"]["f1"], args.lang))
         steps = round(1.0 * FPS)
         for k in range(1, steps + 1):
             frames.append(frame(t, t["s3"][0], sub, draw_lines(base, lines, round(len(lines) * k / steps), BLUE), True))
