@@ -80,6 +80,57 @@ def merge_collinear(lines: list[LineString], dist_tol: float, angle_tol_deg: flo
     return out
 
 
+def chain_smooth(lines: list[LineString], max_turn_deg: float = 30.0, tol: float = 1e-3) -> list[LineString]:
+    """Join pieces end to end into polylines where exactly two pieces meet (within `tol`) and the path turns by
+    less than `max_turn_deg` there: a curve flattened into dozens of short lines comes back as one polyline,
+    while corners and junctions (three or more pieces) stay separate. The geometry itself is unchanged."""
+    lines = [ln for ln in lines if ln.length > 1e-9]
+    coords = [np.asarray(ln.coords, float) for ln in lines]
+    nodes: dict[tuple[int, int], list[tuple[int, int]]] = {}
+    for i, c in enumerate(coords):
+        for end, pt in ((0, c[0]), (1, c[-1])):
+            nodes.setdefault((round(pt[0] / tol), round(pt[1] / tol)), []).append((i, end))
+    cos_max = math.cos(math.radians(max_turn_deg))
+
+    def outward(i: int, end: int) -> np.ndarray:
+        c = coords[i]
+        d = c[0] - c[1] if end == 0 else c[-1] - c[-2]
+        return d / np.hypot(*d)
+
+    def partner(i: int, end: int) -> tuple[int, int] | None:
+        pt = coords[i][0 if end == 0 else -1]
+        here = nodes[(round(pt[0] / tol), round(pt[1] / tol))]
+        if len(here) != 2:
+            return None
+        j, e = here[0] if here[1] == (i, end) else here[1]
+        if j == i or float(-outward(i, end) @ outward(j, e)) < cos_max:
+            return None
+        return j, e
+
+    used = [False] * len(lines)
+    out = []
+    for i in range(len(lines)):
+        if used[i]:
+            continue
+        cur, end, seen = i, 0, {i}  # walk back to the open start of the chain (or around a loop)
+        while (p := partner(cur, end)) is not None and p[0] not in seen:
+            seen.add(p[0])
+            cur, end = p[0], 1 - p[1]
+        first, start_end = cur, end
+        path = list(coords[cur] if end == 0 else coords[cur][::-1])
+        used[cur] = True
+        end = 1 - end
+        while (p := partner(cur, end)) is not None and not used[p[0]]:
+            nxt = coords[p[0]] if p[1] == 0 else coords[p[0]][::-1]
+            path.extend(nxt[1:])
+            used[p[0]] = True
+            cur, end = p[0], 1 - p[1]
+        if p == (first, start_end):
+            path[-1] = path[0]  # a closed loop, such as a circle
+        out.append(LineString(path))
+    return out
+
+
 def _segment(u, n, c, t0, t1) -> LineString:
     return LineString([tuple(c * n + t0 * u), tuple(c * n + t1 * u)])
 

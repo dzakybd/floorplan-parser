@@ -1,4 +1,4 @@
-"""CLI: python -m floorplan_parser --input a.pdf --method vector|raster --output out/a [--dpi 300] [--page 1]"""
+"""CLI: python -m floorplan_parser --input a.pdf --method vector|raster --output out/a [--chain] [--dpi 300] [--page 1]"""
 
 import argparse
 import json
@@ -17,13 +17,16 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--method", choices=["vector", "raster"], required=True)
     ap.add_argument("--output", type=Path, required=True, help="directory for elements.json, elements.csv, overlay.png")
     ap.add_argument("--page", type=int, default=1, help="1-based page number")
+    ap.add_argument(
+        "--chain", action="store_true", help="vector: join the pieces of each smooth curve into one polyline"
+    )
     ap.add_argument("--dpi", type=int, default=300, help="raster: render resolution for pages that are not one image")
     ap.add_argument("--params", type=Path, help="raster: JSON file of RasterParams fields")
     ap.add_argument("--coordinate-system", choices=["pdf_points"], default="pdf_points")
     args = ap.parse_args(argv)
     try:
         if args.method == "vector":
-            ex = extract_vector(args.input, page=args.page)
+            ex = extract_vector(args.input, page=args.page, chain=args.chain)
         else:
             params = RasterParams.from_dict(json.loads(args.params.read_text())) if args.params else None
             ex = extract_raster(args.input, page=args.page, dpi=args.dpi, params=params)

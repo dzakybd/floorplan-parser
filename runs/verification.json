@@ -2,10 +2,10 @@
   "pytest": {
     "command": "python -m pytest -q",
     "exit_code": 0,
-    "output": ".................................................................        [100%]\n65 passed in 3.14s"
+    "output": ".......................................................................  [100%]\n71 passed in 4.76s"
   },
-  "exports_checked": 64,
-  "held_out_settings_rescored": 40,
+  "exports_checked": 80,
+  "held_out_settings_rescored": 50,
   "params_unchanged": true,
   "source_hashes_verified": true,
   "checks": "JSON/CSV counts and page/unit metadata; coordinates in page bounds; readable overlays; exported geometry scores equal benchmark"

@@ -2,9 +2,10 @@ import math
 
 from hypothesis import given, settings
 from hypothesis import strategies as st
+from shapely import unary_union
 from shapely.geometry import LineString
 
-from floorplan_parser.geometry import affine, dedupe, merge_collinear, tessellate_bezier
+from floorplan_parser.geometry import affine, chain_smooth, dedupe, merge_collinear, tessellate_bezier
 
 coord = st.floats(-500, 500, allow_nan=False)
 segment = st.tuples(coord, coord, coord, coord).filter(lambda s: math.dist(s[:2], s[2:]) > 1.0)
@@ -91,3 +92,39 @@ def test_coordinate_roundtrip(s, scale, tx, ty):
     moved = affine([line], (scale, 0, 0, scale, tx, ty))
     back = affine(moved, (1 / scale, 0, 0, 1 / scale, -tx / scale, -ty / scale))[0]
     assert line.hausdorff_distance(back) < 1e-8
+
+
+def _arc(cx, cy, r, a0, a1, n):
+    pts = [(cx + r * math.cos(a0 + (a1 - a0) * k / n), cy + r * math.sin(a0 + (a1 - a0) * k / n)) for k in range(n + 1)]
+    return [LineString([pts[k], pts[k + 1]]) for k in range(n)]
+
+
+def test_chain_smooth_joins_a_flattened_arc():
+    pieces = _arc(0, 0, 50, 0, math.pi / 2, 90)
+    out = chain_smooth(pieces)
+    assert len(out) == 1
+    assert math.isclose(out[0].length, _total(pieces))
+
+
+def test_chain_smooth_keeps_corners_and_junctions():
+    square = [LineString(s) for s in [((0, 0), (10, 0)), ((10, 0), (10, 10)), ((10, 10), (0, 10)), ((0, 10), (0, 0))]]
+    assert len(chain_smooth(square)) == 4  # 90 degree turns are corners, not curves
+    t = [LineString([(0, 0), (10, 0)]), LineString([(10, 0), (20, 0)]), LineString([(10, 0), (10, 10)])]
+    assert len(chain_smooth(t)) == 3  # three pieces meet: a junction, never joined
+
+
+def test_chain_smooth_closes_a_circle_and_respects_gaps():
+    circle = _arc(0, 0, 20, 0, 2 * math.pi, 72)
+    out = chain_smooth(circle)
+    assert len(out) == 1 and out[0].is_closed
+    apart = [LineString([(0, 0), (10, 0)]), LineString([(10.5, 0), (20, 0)])]
+    assert len(chain_smooth(apart)) == 2  # 0.5 pt gap: not the same point
+
+
+@settings(max_examples=50, deadline=None)
+@given(st.integers(3, 120), st.floats(1, 300), st.floats(0.1, 2 * math.pi))
+def test_chain_smooth_never_changes_the_geometry(n, r, sweep):
+    pieces = _arc(400, 400, r, 0.3, 0.3 + sweep, n)
+    out = chain_smooth(pieces)
+    assert math.isclose(_total(out), _total(pieces), rel_tol=1e-9)
+    assert unary_union(out).hausdorff_distance(unary_union(pieces)) < 1e-6

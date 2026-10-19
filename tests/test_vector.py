@@ -1,3 +1,4 @@
+import itertools
 import math
 
 import pymupdf
@@ -91,3 +92,17 @@ def test_rotated_page_coordinates(tmp_path):
     ex = extract_vector(_pdf(tmp_path, lambda p: p.draw_line((100, 200), (500, 200)), rotate=90))
     (x0, y0), (x1, y1) = sorted(ex.elements[0].geometry)
     assert (round(x0), round(y0), round(x1), round(y1)) == (100, 200, 500, 200)
+
+
+def test_chain_joins_a_curve_without_changing_the_linework(tmp_path):
+    arc = [(300 + 100 * math.cos(math.pi * k / 120), 300 + 100 * math.sin(math.pi * k / 120)) for k in range(61)]
+
+    def draw(p):
+        for a, b in itertools.pairwise(arc):  # a quarter circle stored as 60 short lines, as CAD exports often do
+            p.draw_line(a, b)
+        p.draw_line(arc[-1], (arc[-1][0], arc[-1][1] + 150))  # meets the arc at a right angle: stays separate
+
+    pdf = _pdf(tmp_path, draw)
+    raw, joined = extract_vector(pdf), extract_vector(pdf, chain=True)
+    assert len(raw.elements) == 61 and len(joined.elements) == 2
+    assert math.isclose(sum(e.length for e in joined.elements), sum(e.length for e in raw.elements), rel_tol=1e-9)

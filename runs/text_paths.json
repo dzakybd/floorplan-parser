@@ -12,6 +12,19 @@
    "pred_length": 8045.789
   }
  },
+ "vector-chained": {
+  "vs_drawing_without_text": {
+   "precision": 0.9625,
+   "recall": 1.0,
+   "f1": 0.9809,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 3.8971,
+   "gt_length": 7744.0,
+   "pred_length": 8045.789
+  }
+ },
  "raster-150": {
   "vs_drawing_without_text": {
    "precision": 0.9722,

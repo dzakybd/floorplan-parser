@@ -130,6 +130,43 @@ def score(pred: list[LineString], gt: list[LineString]) -> Scores:
     )
 
 
+def structure(pred: list[LineString], gt: list[LineString]) -> dict:
+    """How the extracted elements line up with the reference lines, beyond length coverage.
+
+    Each extracted element belongs to the reference line nearest to most of its length. `pieces_per_ref` is the mean
+    number of elements per reference line (a curve read as 90 short lines gives 90), `refs_split_share` the share of
+    reference lines in two or more pieces, and `pieces_merging_refs_share` the share of elements that cover at least
+    SHORT_SEGMENT of two or more reference lines (joined across a gap or a collinear continuation)."""
+    if not pred or not gt:
+        return {"pieces_per_ref": 0.0, "refs_split_share": 0.0, "pieces_merging_refs_share": 0.0}
+    a, b, owner = [], [], []
+    for j, ln in enumerate(pred):
+        c = np.asarray(ln.coords)
+        a.append(c[:-1])
+        b.append(c[1:])
+        owner.append(np.full(len(c) - 1, j))
+    a, b, owner = np.concatenate(a), np.concatenate(b), np.concatenate(owner)
+    keep = np.hypot(*(b - a).T) > 1e-9
+    a, b, owner = a[keep], b[keep], owner[keep]
+    pts, seg, w = _samples(a, b)
+    si, gi = STRtree(gt).query_nearest(points(pts), max_distance=DIST_TOL, all_matches=False)
+    key = owner[seg[si]] * len(gt) + gi
+    keys, inv = np.unique(key, return_inverse=True)
+    cover = np.bincount(inv, weights=w[si])
+    elem, ref = keys // len(gt), keys % len(gt)
+    pieces = np.zeros(len(gt), int)
+    merging = 0
+    for j in np.unique(elem):
+        mine = elem == j
+        pieces[ref[mine][np.argmax(cover[mine])]] += 1
+        merging += int((cover[mine] >= SHORT_SEGMENT).sum() >= 2)
+    return {
+        "pieces_per_ref": float(pieces.mean()),
+        "refs_split_share": float((pieces >= 2).mean()),
+        "pieces_merging_refs_share": merging / len(pred),
+    }
+
+
 def recall_by_label(pred: list[LineString], gt: list[LineString], labels: list[str | None]) -> dict[str, float]:
     """Recall per ground-truth class. Extracted lines carry no labels, so there is no per-class precision."""
     out = {}

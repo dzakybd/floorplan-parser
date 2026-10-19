@@ -12,12 +12,36 @@
    "length_error_pct": 0.0,
    "gt_length": 19182.1968,
    "pred_length": 19182.1965,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0088,
+   "pieces_merging_refs_share": 0.0175,
    "elements": 114,
-   "seconds": 0.0073,
+   "seconds": 0.0049,
    "timing_s": {
-    "read_s": 0.001903,
-    "extract_s": 0.00057,
-    "normalize_s": 0.003924
+    "read_s": 0.001825,
+    "extract_s": 0.000397,
+    "normalize_s": 0.002319
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.9825,
+   "length_error_pct": 0.0,
+   "gt_length": 19182.1968,
+   "pred_length": 19182.1965,
+   "pieces_per_ref": 0.9825,
+   "refs_split_share": 0.0088,
+   "pieces_merging_refs_share": 0.0268,
+   "elements": 112,
+   "seconds": 0.007,
+   "timing_s": {
+    "read_s": 0.002263,
+    "extract_s": 0.000435,
+    "normalize_s": 0.003958
    }
   },
   "raster-150": {
@@ -30,12 +54,15 @@
    "length_error_pct": 0.8178,
    "gt_length": 19182.1968,
    "pred_length": 19025.3308,
+   "pieces_per_ref": 0.9649,
+   "refs_split_share": 0.0439,
+   "pieces_merging_refs_share": 0.0727,
    "elements": 110,
-   "seconds": 0.0945,
+   "seconds": 0.0537,
    "timing_s": {
-    "read_s": 0.016178,
-    "extract_s": 0.066668,
-    "normalize_s": 0.012846
+    "read_s": 0.01207,
+    "extract_s": 0.03313,
+    "normalize_s": 0.008553
    }
   },
   "raster-300": {
@@ -48,12 +75,15 @@
    "length_error_pct": 0.0898,
    "gt_length": 19182.1968,
    "pred_length": 19164.971,
+   "pieces_per_ref": 0.8947,
+   "refs_split_share": 0.0175,
+   "pieces_merging_refs_share": 0.1078,
    "elements": 102,
-   "seconds": 0.3893,
+   "seconds": 0.2193,
    "timing_s": {
-    "read_s": 0.050456,
-    "extract_s": 0.318935,
-    "normalize_s": 0.019066
+    "read_s": 0.041794,
+    "extract_s": 0.162001,
+    "normalize_s": 0.014473
    }
   },
   "raster-600": {
@@ -66,12 +96,15 @@
    "length_error_pct": 0.504,
    "gt_length": 19182.1968,
    "pred_length": 19278.8834,
+   "pieces_per_ref": 0.9123,
+   "refs_split_share": 0.0439,
+   "pieces_merging_refs_share": 0.1154,
    "elements": 104,
-   "seconds": 1.7436,
+   "seconds": 1.1103,
    "timing_s": {
-    "read_s": 0.187172,
-    "extract_s": 1.517919,
-    "normalize_s": 0.038175
+    "read_s": 0.155814,
+    "extract_s": 0.924641,
+    "normalize_s": 0.030574
    }
   }
  },
@@ -88,12 +121,36 @@
    "length_error_pct": 0.0802,
    "gt_length": 15720.2999,
    "pred_length": 15707.6873,
+   "pieces_per_ref": 2.9127,
+   "refs_split_share": 0.0262,
+   "pieces_merging_refs_share": 0.0045,
    "elements": 667,
-   "seconds": 0.0247,
+   "seconds": 0.0193,
    "timing_s": {
-    "read_s": 0.003582,
-    "extract_s": 0.003355,
-    "normalize_s": 0.014316
+    "read_s": 0.003486,
+    "extract_s": 0.002591,
+    "normalize_s": 0.010957
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0326,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.917,
+   "length_error_pct": 0.0802,
+   "gt_length": 15720.2999,
+   "pred_length": 15707.6873,
+   "pieces_per_ref": 0.8952,
+   "refs_split_share": 0.0044,
+   "pieces_merging_refs_share": 0.0341,
+   "elements": 205,
+   "seconds": 0.0255,
+   "timing_s": {
+    "read_s": 0.003098,
+    "extract_s": 0.002726,
+    "normalize_s": 0.018787
    }
   },
   "raster-150": {
@@ -106,12 +163,15 @@
    "length_error_pct": 2.3511,
    "gt_length": 15720.2999,
    "pred_length": 15350.6952,
+   "pieces_per_ref": 5.3144,
+   "refs_split_share": 0.441,
+   "pieces_merging_refs_share": 0.014,
    "elements": 1217,
-   "seconds": 0.1827,
+   "seconds": 0.1478,
    "timing_s": {
-    "read_s": 0.013334,
-    "extract_s": 0.046513,
-    "normalize_s": 0.116724
+    "read_s": 0.011749,
+    "extract_s": 0.036852,
+    "normalize_s": 0.090378
    }
   },
   "raster-300": {
@@ -124,12 +184,15 @@
    "length_error_pct": 11.9148,
    "gt_length": 15720.2999,
    "pred_length": 17593.3446,
+   "pieces_per_ref": 5.9869,
+   "refs_split_share": 0.4541,
+   "pieces_merging_refs_share": 0.0109,
    "elements": 1371,
-   "seconds": 0.4698,
+   "seconds": 0.3636,
    "timing_s": {
-    "read_s": 0.04886,
-    "extract_s": 0.210396,
-    "normalize_s": 0.205927
+    "read_s": 0.041169,
+    "extract_s": 0.152412,
+    "normalize_s": 0.159951
    }
   },
   "raster-600": {
@@ -142,12 +205,15 @@
    "length_error_pct": 25.747,
    "gt_length": 15720.2999,
    "pred_length": 19767.8109,
+   "pieces_per_ref": 7.3144,
+   "refs_split_share": 0.4978,
+   "pieces_merging_refs_share": 0.0072,
    "elements": 1675,
-   "seconds": 1.7398,
+   "seconds": 1.307,
    "timing_s": {
-    "read_s": 0.180955,
-    "extract_s": 1.166131,
-    "normalize_s": 0.381691
+    "read_s": 0.156694,
+    "extract_s": 0.804604,
+    "normalize_s": 0.334079
    }
   }
  },
@@ -164,12 +230,36 @@
    "length_error_pct": 0.1432,
    "gt_length": 28020.7197,
    "pred_length": 27980.59,
+   "pieces_per_ref": 9.8724,
+   "refs_split_share": 0.3185,
+   "pieces_merging_refs_share": 0.0015,
    "elements": 7967,
-   "seconds": 0.4255,
+   "seconds": 0.3609,
    "timing_s": {
-    "read_s": 0.01796,
-    "extract_s": 0.041402,
-    "normalize_s": 0.321934
+    "read_s": 0.013749,
+    "extract_s": 0.032983,
+    "normalize_s": 0.277999
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.6521,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.7639,
+   "length_error_pct": 0.1435,
+   "gt_length": 28020.7197,
+   "pred_length": 27980.5043,
+   "pieces_per_ref": 0.5985,
+   "refs_split_share": 0.0112,
+   "pieces_merging_refs_share": 0.0849,
+   "elements": 483,
+   "seconds": 0.444,
+   "timing_s": {
+    "read_s": 0.013717,
+    "extract_s": 0.031915,
+    "normalize_s": 0.383295
    }
   },
   "raster-150": {
@@ -182,12 +272,15 @@
    "length_error_pct": 7.433,
    "gt_length": 28020.7197,
    "pred_length": 25937.9321,
+   "pieces_per_ref": 0.544,
+   "refs_split_share": 0.052,
+   "pieces_merging_refs_share": 0.1048,
    "elements": 439,
-   "seconds": 0.1195,
+   "seconds": 0.1011,
    "timing_s": {
-    "read_s": 0.013417,
-    "extract_s": 0.069094,
-    "normalize_s": 0.035184
+    "read_s": 0.011836,
+    "extract_s": 0.058116,
+    "normalize_s": 0.02818
    }
   },
   "raster-300": {
@@ -200,12 +293,15 @@
    "length_error_pct": 2.4221,
    "gt_length": 28020.7197,
    "pred_length": 27342.0243,
+   "pieces_per_ref": 0.6382,
+   "refs_split_share": 0.0706,
+   "pieces_merging_refs_share": 0.0971,
    "elements": 515,
-   "seconds": 0.4411,
+   "seconds": 0.3526,
    "timing_s": {
-    "read_s": 0.048976,
-    "extract_s": 0.321482,
-    "normalize_s": 0.063975
+    "read_s": 0.042771,
+    "extract_s": 0.255535,
+    "normalize_s": 0.051348
    }
   },
   "raster-600": {
@@ -218,12 +314,15 @@
    "length_error_pct": 0.9097,
    "gt_length": 28020.7197,
    "pred_length": 28275.6325,
+   "pieces_per_ref": 0.7943,
+   "refs_split_share": 0.1115,
+   "pieces_merging_refs_share": 0.0811,
    "elements": 641,
-   "seconds": 2.4884,
+   "seconds": 1.6016,
    "timing_s": {
-    "read_s": 0.184361,
-    "extract_s": 2.173004,
-    "normalize_s": 0.124309
+    "read_s": 0.156181,
+    "extract_s": 1.332628,
+    "normalize_s": 0.106104
    }
   }
  },
@@ -240,12 +339,36 @@
    "length_error_pct": 0.0971,
    "gt_length": 13210.4513,
    "pred_length": 13197.6255,
+   "pieces_per_ref": 14.3008,
+   "refs_split_share": 0.1545,
+   "pieces_merging_refs_share": 0.0023,
    "elements": 1759,
-   "seconds": 0.0992,
+   "seconds": 0.0844,
    "timing_s": {
-    "read_s": 0.004689,
-    "extract_s": 0.009165,
-    "normalize_s": 0.073526
+    "read_s": 0.004218,
+    "extract_s": 0.006846,
+    "normalize_s": 0.061882
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.3267,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.8618,
+   "length_error_pct": 0.0971,
+   "gt_length": 13210.4513,
+   "pred_length": 13197.6255,
+   "pieces_per_ref": 0.813,
+   "refs_split_share": 0.0488,
+   "pieces_merging_refs_share": 0.12,
+   "elements": 100,
+   "seconds": 0.0931,
+   "timing_s": {
+    "read_s": 0.004336,
+    "extract_s": 0.007165,
+    "normalize_s": 0.080557
    }
   },
   "raster-150": {
@@ -258,12 +381,15 @@
    "length_error_pct": 2.111,
    "gt_length": 13210.4513,
    "pred_length": 12931.5733,
+   "pieces_per_ref": 1.0976,
+   "refs_split_share": 0.0813,
+   "pieces_merging_refs_share": 0.0667,
    "elements": 135,
-   "seconds": 0.0579,
+   "seconds": 0.0488,
    "timing_s": {
-    "read_s": 0.013303,
-    "extract_s": 0.031552,
-    "normalize_s": 0.011436
+    "read_s": 0.011927,
+    "extract_s": 0.027067,
+    "normalize_s": 0.009334
    }
   },
   "raster-300": {
@@ -276,12 +402,15 @@
    "length_error_pct": 0.8407,
    "gt_length": 13210.4513,
    "pred_length": 13321.5079,
+   "pieces_per_ref": 1.0813,
+   "refs_split_share": 0.0407,
+   "pieces_merging_refs_share": 0.0752,
    "elements": 133,
-   "seconds": 0.2253,
+   "seconds": 0.1668,
    "timing_s": {
-    "read_s": 0.047504,
-    "extract_s": 0.161347,
-    "normalize_s": 0.016394
+    "read_s": 0.041419,
+    "extract_s": 0.111687,
+    "normalize_s": 0.013536
    }
   },
   "raster-600": {
@@ -294,12 +423,15 @@
    "length_error_pct": 2.0108,
    "gt_length": 13210.4513,
    "pred_length": 13476.0901,
+   "pieces_per_ref": 1.1789,
+   "refs_split_share": 0.0813,
+   "pieces_merging_refs_share": 0.0621,
    "elements": 145,
-   "seconds": 1.0739,
+   "seconds": 0.7809,
    "timing_s": {
-    "read_s": 0.183533,
-    "extract_s": 0.857299,
-    "normalize_s": 0.03249
+    "read_s": 0.156469,
+    "extract_s": 0.597004,
+    "normalize_s": 0.027122
    }
   }
  },
@@ -316,12 +448,36 @@
    "length_error_pct": 0.0,
    "gt_length": 21145.909,
    "pred_length": 21145.909,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.011,
+   "pieces_merging_refs_share": 0.022,
    "elements": 91,
-   "seconds": 0.0046,
+   "seconds": 0.0043,
    "timing_s": {
-    "read_s": 0.001421,
-    "extract_s": 0.000391,
-    "normalize_s": 0.002309
+    "read_s": 0.001613,
+    "extract_s": 0.000309,
+    "normalize_s": 0.001909
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.8901,
+   "length_error_pct": 0.0,
+   "gt_length": 21145.909,
+   "pred_length": 21145.909,
+   "pieces_per_ref": 0.8901,
+   "refs_split_share": 0.011,
+   "pieces_merging_refs_share": 0.1481,
+   "elements": 81,
+   "seconds": 0.0052,
+   "timing_s": {
+    "read_s": 0.001669,
+    "extract_s": 0.000307,
+    "normalize_s": 0.003014
    }
   },
   "raster-150": {
@@ -334,12 +490,15 @@
    "length_error_pct": 0.5175,
    "gt_length": 21145.909,
    "pred_length": 21036.4876,
+   "pieces_per_ref": 0.8352,
+   "refs_split_share": 0.0659,
+   "pieces_merging_refs_share": 0.25,
    "elements": 76,
-   "seconds": 0.0733,
+   "seconds": 0.0677,
    "timing_s": {
-    "read_s": 0.013011,
-    "extract_s": 0.049236,
-    "normalize_s": 0.010714
+    "read_s": 0.012107,
+    "extract_s": 0.044709,
+    "normalize_s": 0.009333
    }
   },
   "raster-300": {
@@ -352,12 +511,15 @@
    "length_error_pct": 0.2463,
    "gt_length": 21145.909,
    "pred_length": 21197.9843,
+   "pieces_per_ref": 0.7253,
+   "refs_split_share": 0.011,
+   "pieces_merging_refs_share": 0.2879,
    "elements": 66,
-   "seconds": 0.291,
+   "seconds": 0.2291,
    "timing_s": {
-    "read_s": 0.04729,
-    "extract_s": 0.226313,
-    "normalize_s": 0.017105
+    "read_s": 0.041555,
+    "extract_s": 0.172585,
+    "normalize_s": 0.014351
    }
   },
   "raster-600": {
@@ -370,12 +532,15 @@
    "length_error_pct": 2.5974,
    "gt_length": 21145.909,
    "pred_length": 21695.146,
+   "pieces_per_ref": 0.7473,
+   "refs_split_share": 0.033,
+   "pieces_merging_refs_share": 0.2794,
    "elements": 68,
-   "seconds": 1.6159,
+   "seconds": 1.2136,
    "timing_s": {
-    "read_s": 0.182566,
-    "extract_s": 1.394806,
-    "normalize_s": 0.038777
+    "read_s": 0.155432,
+    "extract_s": 1.025719,
+    "normalize_s": 0.033904
    }
   }
  },
@@ -392,12 +557,36 @@
    "length_error_pct": 0.0665,
    "gt_length": 10834.5574,
    "pred_length": 10827.3502,
+   "pieces_per_ref": 1.5484,
+   "refs_split_share": 0.0516,
+   "pieces_merging_refs_share": 0.025,
    "elements": 240,
-   "seconds": 0.0087,
+   "seconds": 0.0072,
    "timing_s": {
-    "read_s": 0.002181,
-    "extract_s": 0.001058,
-    "normalize_s": 0.00433
+    "read_s": 0.002223,
+    "extract_s": 0.000794,
+    "normalize_s": 0.003361
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0916,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.8129,
+   "length_error_pct": 0.0665,
+   "gt_length": 10834.5574,
+   "pred_length": 10827.3502,
+   "pieces_per_ref": 0.8,
+   "refs_split_share": 0.0452,
+   "pieces_merging_refs_share": 0.0968,
+   "elements": 124,
+   "seconds": 0.0104,
+   "timing_s": {
+    "read_s": 0.002298,
+    "extract_s": 0.000859,
+    "normalize_s": 0.006356
    }
   },
   "raster-150": {
@@ -410,12 +599,15 @@
    "length_error_pct": 1.1159,
    "gt_length": 10834.5574,
    "pred_length": 10713.6521,
+   "pieces_per_ref": 0.7161,
+   "refs_split_share": 0.0258,
+   "pieces_merging_refs_share": 0.1892,
    "elements": 111,
-   "seconds": 0.0473,
+   "seconds": 0.0411,
    "timing_s": {
-    "read_s": 0.013024,
-    "extract_s": 0.023817,
-    "normalize_s": 0.009811
+    "read_s": 0.01145,
+    "extract_s": 0.021013,
+    "normalize_s": 0.0081
    }
   },
   "raster-300": {
@@ -428,12 +620,15 @@
    "length_error_pct": 0.9299,
    "gt_length": 10834.5574,
    "pred_length": 10935.3116,
+   "pieces_per_ref": 0.7484,
+   "refs_split_share": 0.0323,
+   "pieces_merging_refs_share": 0.1897,
    "elements": 116,
-   "seconds": 0.1784,
+   "seconds": 0.1479,
    "timing_s": {
-    "read_s": 0.047239,
-    "extract_s": 0.111582,
-    "normalize_s": 0.016795
+    "read_s": 0.040462,
+    "extract_s": 0.091602,
+    "normalize_s": 0.013268
    }
   },
   "raster-600": {
@@ -446,12 +641,15 @@
    "length_error_pct": 2.5788,
    "gt_length": 10834.5574,
    "pred_length": 11113.9612,
+   "pieces_per_ref": 0.7806,
+   "refs_split_share": 0.0452,
+   "pieces_merging_refs_share": 0.1901,
    "elements": 121,
-   "seconds": 0.8939,
+   "seconds": 0.6543,
    "timing_s": {
-    "read_s": 0.182406,
-    "extract_s": 0.675746,
-    "normalize_s": 0.031473
+    "read_s": 0.156726,
+    "extract_s": 0.471205,
+    "normalize_s": 0.025996
    }
   }
  },
@@ -468,12 +666,36 @@
    "length_error_pct": 0.0147,
    "gt_length": 24658.5146,
    "pred_length": 24654.9,
+   "pieces_per_ref": 4.2615,
+   "refs_split_share": 0.0718,
+   "pieces_merging_refs_share": 0.0096,
    "elements": 831,
-   "seconds": 0.037,
+   "seconds": 0.032,
    "timing_s": {
-    "read_s": 0.003384,
-    "extract_s": 0.003415,
-    "normalize_s": 0.026765
+    "read_s": 0.003314,
+    "extract_s": 0.002745,
+    "normalize_s": 0.023134
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0312,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.9487,
+   "length_error_pct": 0.0147,
+   "gt_length": 24658.5146,
+   "pred_length": 24654.9,
+   "pieces_per_ref": 0.9385,
+   "refs_split_share": 0.041,
+   "pieces_merging_refs_share": 0.0765,
+   "elements": 183,
+   "seconds": 0.0405,
+   "timing_s": {
+    "read_s": 0.003154,
+    "extract_s": 0.002931,
+    "normalize_s": 0.033434
    }
   },
   "raster-150": {
@@ -486,12 +708,15 @@
    "length_error_pct": 1.1557,
    "gt_length": 24658.5146,
    "pred_length": 24373.5305,
+   "pieces_per_ref": 0.7949,
+   "refs_split_share": 0.0564,
+   "pieces_merging_refs_share": 0.1161,
    "elements": 155,
-   "seconds": 0.084,
+   "seconds": 0.0713,
    "timing_s": {
-    "read_s": 0.013233,
-    "extract_s": 0.054886,
-    "normalize_s": 0.015345
+    "read_s": 0.0115,
+    "extract_s": 0.045939,
+    "normalize_s": 0.012613
    }
   },
   "raster-300": {
@@ -504,12 +729,15 @@
    "length_error_pct": 0.3836,
    "gt_length": 24658.5146,
    "pred_length": 24563.9124,
+   "pieces_per_ref": 0.7333,
+   "refs_split_share": 0.0103,
+   "pieces_merging_refs_share": 0.1259,
    "elements": 143,
-   "seconds": 0.3545,
+   "seconds": 0.2646,
    "timing_s": {
-    "read_s": 0.050378,
-    "extract_s": 0.270853,
-    "normalize_s": 0.020647
+    "read_s": 0.041121,
+    "extract_s": 0.206644,
+    "normalize_s": 0.017015
    }
   },
   "raster-600": {
@@ -522,12 +750,15 @@
    "length_error_pct": 0.48,
    "gt_length": 24658.5146,
    "pred_length": 24776.8753,
+   "pieces_per_ref": 0.7436,
+   "refs_split_share": 0.0103,
+   "pieces_merging_refs_share": 0.131,
    "elements": 145,
-   "seconds": 1.798,
+   "seconds": 1.3684,
    "timing_s": {
-    "read_s": 0.183242,
-    "extract_s": 1.571427,
-    "normalize_s": 0.043023
+    "read_s": 0.156719,
+    "extract_s": 1.176387,
+    "normalize_s": 0.036667
    }
   }
  },
@@ -544,12 +775,36 @@
    "length_error_pct": 0.0,
    "gt_length": 17130.0009,
    "pred_length": 17130.0007,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0444,
+   "pieces_merging_refs_share": 0.1778,
    "elements": 135,
+   "seconds": 0.0078,
+   "timing_s": {
+    "read_s": 0.002573,
+    "extract_s": 0.000819,
+    "normalize_s": 0.003759
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.8667,
+   "length_error_pct": 0.0,
+   "gt_length": 17130.0009,
+   "pred_length": 17130.0007,
+   "pieces_per_ref": 0.8667,
+   "refs_split_share": 0.0222,
+   "pieces_merging_refs_share": 0.3162,
+   "elements": 117,
    "seconds": 0.0085,
    "timing_s": {
-    "read_s": 0.00234,
-    "extract_s": 0.000993,
-    "normalize_s": 0.004536
+    "read_s": 0.002167,
+    "extract_s": 0.000764,
+    "normalize_s": 0.005151
    }
   },
   "raster-150": {
@@ -562,12 +817,15 @@
    "length_error_pct": 1.1911,
    "gt_length": 17130.0009,
    "pred_length": 17334.0394,
+   "pieces_per_ref": 0.5926,
+   "refs_split_share": 0.0444,
+   "pieces_merging_refs_share": 0.375,
    "elements": 80,
-   "seconds": 0.0594,
+   "seconds": 0.0511,
    "timing_s": {
-    "read_s": 0.013133,
-    "extract_s": 0.037207,
-    "normalize_s": 0.008753
+    "read_s": 0.011868,
+    "extract_s": 0.032071,
+    "normalize_s": 0.006966
    }
   },
   "raster-300": {
@@ -580,12 +838,15 @@
    "length_error_pct": 0.9056,
    "gt_length": 17130.0009,
    "pred_length": 17285.1326,
+   "pieces_per_ref": 0.5556,
+   "refs_split_share": 0.0148,
+   "pieces_merging_refs_share": 0.4133,
    "elements": 75,
-   "seconds": 0.235,
+   "seconds": 0.1919,
    "timing_s": {
-    "read_s": 0.047758,
-    "extract_s": 0.174342,
-    "normalize_s": 0.012547
+    "read_s": 0.040866,
+    "extract_s": 0.139268,
+    "normalize_s": 0.01052
    }
   },
   "raster-600": {
@@ -598,12 +859,15 @@
    "length_error_pct": 0.425,
    "gt_length": 17130.0009,
    "pred_length": 17202.8063,
+   "pieces_per_ref": 0.5481,
+   "refs_split_share": 0.0222,
+   "pieces_merging_refs_share": 0.3919,
    "elements": 74,
-   "seconds": 1.0929,
+   "seconds": 0.8817,
    "timing_s": {
-    "read_s": 0.182153,
-    "extract_s": 0.881324,
-    "normalize_s": 0.024139
+    "read_s": 0.158887,
+    "extract_s": 0.700595,
+    "normalize_s": 0.020599
    }
   }
  },
@@ -620,12 +884,36 @@
    "length_error_pct": 0.1981,
    "gt_length": 28215.0918,
    "pred_length": 28159.2041,
+   "pieces_per_ref": 7.8016,
+   "refs_split_share": 0.2264,
+   "pieces_merging_refs_share": 0.0007,
    "elements": 5859,
-   "seconds": 0.2629,
+   "seconds": 0.2166,
    "timing_s": {
-    "read_s": 0.012471,
-    "extract_s": 0.029277,
-    "normalize_s": 0.18728
+    "read_s": 0.016448,
+    "extract_s": 0.02308,
+    "normalize_s": 0.159081
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.4554,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.7716,
+   "length_error_pct": 0.1982,
+   "gt_length": 28215.0918,
+   "pred_length": 28159.1756,
+   "pieces_per_ref": 0.6778,
+   "refs_split_share": 0.004,
+   "pieces_merging_refs_share": 0.0688,
+   "elements": 509,
+   "seconds": 0.268,
+   "timing_s": {
+    "read_s": 0.010795,
+    "extract_s": 0.022663,
+    "normalize_s": 0.231171
    }
   },
   "raster-150": {
@@ -638,12 +926,15 @@
    "length_error_pct": 7.0463,
    "gt_length": 28215.0918,
    "pred_length": 26226.9732,
+   "pieces_per_ref": 0.6112,
+   "refs_split_share": 0.0573,
+   "pieces_merging_refs_share": 0.1155,
    "elements": 459,
-   "seconds": 0.1213,
+   "seconds": 0.1087,
    "timing_s": {
-    "read_s": 0.013006,
-    "extract_s": 0.06855,
-    "normalize_s": 0.037641
+    "read_s": 0.011787,
+    "extract_s": 0.061747,
+    "normalize_s": 0.032659
    }
   },
   "raster-300": {
@@ -656,12 +947,15 @@
    "length_error_pct": 3.1944,
    "gt_length": 28215.0918,
    "pred_length": 27313.7795,
+   "pieces_per_ref": 0.6644,
+   "refs_split_share": 0.0639,
+   "pieces_merging_refs_share": 0.1062,
    "elements": 499,
-   "seconds": 0.4343,
+   "seconds": 0.3725,
    "timing_s": {
-    "read_s": 0.047724,
-    "extract_s": 0.322663,
-    "normalize_s": 0.062144
+    "read_s": 0.040881,
+    "extract_s": 0.277469,
+    "normalize_s": 0.051215
    }
   },
   "raster-600": {
@@ -674,12 +968,15 @@
    "length_error_pct": 1.1084,
    "gt_length": 28215.0918,
    "pred_length": 28527.8331,
+   "pieces_per_ref": 0.8895,
+   "refs_split_share": 0.1079,
+   "pieces_merging_refs_share": 0.0868,
    "elements": 668,
-   "seconds": 2.4959,
+   "seconds": 1.6527,
    "timing_s": {
-    "read_s": 0.184572,
-    "extract_s": 2.170926,
-    "normalize_s": 0.130184
+    "read_s": 0.155801,
+    "extract_s": 1.384708,
+    "normalize_s": 0.109486
    }
   }
  },
@@ -696,12 +993,36 @@
    "length_error_pct": 0.1109,
    "gt_length": 37144.7637,
    "pred_length": 37185.9589,
+   "pieces_per_ref": 9.653,
+   "refs_split_share": 0.127,
+   "pieces_merging_refs_share": 0.003,
    "elements": 7066,
-   "seconds": 0.6854,
+   "seconds": 0.5695,
    "timing_s": {
-    "read_s": 0.016634,
-    "extract_s": 0.038083,
-    "normalize_s": 0.599886
+    "read_s": 0.014056,
+    "extract_s": 0.02911,
+    "normalize_s": 0.494495
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.1048,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 0.946,
+   "length_error_pct": 0.0245,
+   "gt_length": 37144.7637,
+   "pred_length": 37135.6673,
+   "pieces_per_ref": 0.9754,
+   "refs_split_share": 0.0464,
+   "pieces_merging_refs_share": 0.0462,
+   "elements": 714,
+   "seconds": 0.6227,
+   "timing_s": {
+    "read_s": 0.013141,
+    "extract_s": 0.028416,
+    "normalize_s": 0.573123
    }
   },
   "raster-150": {
@@ -714,12 +1035,15 @@
    "length_error_pct": 5.669,
    "gt_length": 37144.7637,
    "pred_length": 35039.01,
+   "pieces_per_ref": 0.7131,
+   "refs_split_share": 0.0874,
+   "pieces_merging_refs_share": 0.092,
    "elements": 522,
-   "seconds": 0.1584,
+   "seconds": 0.1288,
    "timing_s": {
-    "read_s": 0.013378,
-    "extract_s": 0.096881,
-    "normalize_s": 0.047646
+    "read_s": 0.011583,
+    "extract_s": 0.075145,
+    "normalize_s": 0.037524
    }
   },
   "raster-300": {
@@ -732,12 +1056,15 @@
    "length_error_pct": 2.046,
    "gt_length": 37144.7637,
    "pred_length": 36384.7842,
+   "pieces_per_ref": 0.776,
+   "refs_split_share": 0.0874,
+   "pieces_merging_refs_share": 0.0827,
    "elements": 568,
-   "seconds": 0.5753,
+   "seconds": 0.4518,
    "timing_s": {
-    "read_s": 0.048728,
-    "extract_s": 0.446728,
-    "normalize_s": 0.078003
+    "read_s": 0.041024,
+    "extract_s": 0.345877,
+    "normalize_s": 0.06305
    }
   },
   "raster-600": {
@@ -750,12 +1077,15 @@
    "length_error_pct": 1.3529,
    "gt_length": 37144.7637,
    "pred_length": 37647.2929,
+   "pieces_per_ref": 0.8839,
+   "refs_split_share": 0.1325,
+   "pieces_merging_refs_share": 0.0773,
    "elements": 647,
-   "seconds": 3.0319,
+   "seconds": 2.0869,
    "timing_s": {
-    "read_s": 0.182488,
-    "extract_s": 2.695875,
-    "normalize_s": 0.150078
+    "read_s": 0.159947,
+    "extract_s": 1.8023,
+    "normalize_s": 0.126949
    }
   }
  },
@@ -772,12 +1102,36 @@
    "length_error_pct": 0.0,
    "gt_length": 8376.0,
    "pred_length": 8376.0,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 20,
-   "seconds": 0.0018,
+   "seconds": 0.0016,
    "timing_s": {
-    "read_s": 0.001235,
-    "extract_s": 9.4e-05,
-    "normalize_s": 0.000264
+    "read_s": 0.001236,
+    "extract_s": 6.1e-05,
+    "normalize_s": 0.000202
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0,
+   "gt_length": 8376.0,
+   "pred_length": 8376.0,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
+   "elements": 20,
+   "seconds": 0.0023,
+   "timing_s": {
+    "read_s": 0.001652,
+    "extract_s": 6.2e-05,
+    "normalize_s": 0.000403
    }
   },
   "raster-150": {
@@ -790,12 +1144,15 @@
    "length_error_pct": 0.5814,
    "gt_length": 8376.0,
    "pred_length": 8327.306,
+   "pieces_per_ref": 1.25,
+   "refs_split_share": 0.1,
+   "pieces_merging_refs_share": 0.0,
    "elements": 25,
-   "seconds": 0.0354,
+   "seconds": 0.0321,
    "timing_s": {
-    "read_s": 0.013471,
-    "extract_s": 0.019542,
-    "normalize_s": 0.002147
+    "read_s": 0.012303,
+    "extract_s": 0.017858,
+    "normalize_s": 0.001779
    }
   },
   "raster-300": {
@@ -808,12 +1165,15 @@
    "length_error_pct": 0.1171,
    "gt_length": 8376.0,
    "pred_length": 8366.192,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 20,
-   "seconds": 0.1395,
+   "seconds": 0.1154,
    "timing_s": {
-    "read_s": 0.047255,
-    "extract_s": 0.085351,
-    "normalize_s": 0.003345
+    "read_s": 0.040401,
+    "extract_s": 0.071677,
+    "normalize_s": 0.002581
    }
   },
   "raster-600": {
@@ -826,12 +1186,15 @@
    "length_error_pct": 0.0811,
    "gt_length": 8376.0,
    "pred_length": 8382.797,
+   "pieces_per_ref": 1.05,
+   "refs_split_share": 0.05,
+   "pieces_merging_refs_share": 0.0,
    "elements": 21,
-   "seconds": 0.5953,
+   "seconds": 0.4948,
    "timing_s": {
-    "read_s": 0.182741,
-    "extract_s": 0.407487,
-    "normalize_s": 0.005212
+    "read_s": 0.154603,
+    "extract_s": 0.334465,
+    "normalize_s": 0.004389
    }
   }
  },
@@ -848,12 +1211,36 @@
    "length_error_pct": 0.0,
    "gt_length": 9919.9999,
    "pred_length": 9919.9999,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 16,
-   "seconds": 0.0015,
+   "seconds": 0.002,
    "timing_s": {
-    "read_s": 0.001075,
-    "extract_s": 6.5e-05,
-    "normalize_s": 0.000254
+    "read_s": 0.001569,
+    "extract_s": 5e-05,
+    "normalize_s": 0.000196
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0,
+   "gt_length": 9919.9999,
+   "pred_length": 9919.9999,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
+   "elements": 16,
+   "seconds": 0.0019,
+   "timing_s": {
+    "read_s": 0.001359,
+    "extract_s": 5.5e-05,
+    "normalize_s": 0.000391
    }
   },
   "raster-150": {
@@ -866,12 +1253,15 @@
    "length_error_pct": 0.1074,
    "gt_length": 9919.9999,
    "pred_length": 9909.3425,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 16,
-   "seconds": 0.0406,
+   "seconds": 0.0361,
    "timing_s": {
-    "read_s": 0.012994,
-    "extract_s": 0.025486,
-    "normalize_s": 0.002072
+    "read_s": 0.011719,
+    "extract_s": 0.022574,
+    "normalize_s": 0.001729
    }
   },
   "raster-300": {
@@ -884,12 +1274,15 @@
    "length_error_pct": 0.0623,
    "gt_length": 9919.9999,
    "pred_length": 9913.8201,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 16,
-   "seconds": 0.142,
+   "seconds": 0.1247,
    "timing_s": {
-    "read_s": 0.047013,
-    "extract_s": 0.091756,
-    "normalize_s": 0.002878
+    "read_s": 0.040539,
+    "extract_s": 0.081805,
+    "normalize_s": 0.002326
    }
   },
   "raster-600": {
@@ -902,12 +1295,15 @@
    "length_error_pct": 0.0188,
    "gt_length": 9919.9999,
    "pred_length": 9918.13,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 16,
-   "seconds": 0.7456,
+   "seconds": 0.5676,
    "timing_s": {
-    "read_s": 0.183453,
-    "extract_s": 0.556788,
-    "normalize_s": 0.006175
+    "read_s": 0.154527,
+    "extract_s": 0.406832,
+    "normalize_s": 0.005168
    }
   }
  },
@@ -924,12 +1320,36 @@
    "length_error_pct": 0.0075,
    "gt_length": 8492.2482,
    "pred_length": 8492.8824,
+   "pieces_per_ref": 12.28,
+   "refs_split_share": 0.32,
+   "pieces_merging_refs_share": 0.0,
    "elements": 307,
-   "seconds": 0.0112,
+   "seconds": 0.0094,
    "timing_s": {
-    "read_s": 0.00168,
-    "extract_s": 0.003748,
-    "normalize_s": 0.00441
+    "read_s": 0.002069,
+    "extract_s": 0.002852,
+    "normalize_s": 0.003395
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0075,
+   "gt_length": 8492.2482,
+   "pred_length": 8492.8824,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
+   "elements": 25,
+   "seconds": 0.0115,
+   "timing_s": {
+    "read_s": 0.001696,
+    "extract_s": 0.002899,
+    "normalize_s": 0.006617
    }
   },
   "raster-150": {
@@ -942,12 +1362,15 @@
    "length_error_pct": 1.7599,
    "gt_length": 8492.2482,
    "pred_length": 8342.7971,
+   "pieces_per_ref": 4.76,
+   "refs_split_share": 0.4,
+   "pieces_merging_refs_share": 0.0,
    "elements": 119,
-   "seconds": 0.0443,
+   "seconds": 0.0375,
    "timing_s": {
-    "read_s": 0.013051,
-    "extract_s": 0.021925,
-    "normalize_s": 0.008878
+    "read_s": 0.01127,
+    "extract_s": 0.018644,
+    "normalize_s": 0.007243
    }
   },
   "raster-300": {
@@ -960,12 +1383,15 @@
    "length_error_pct": 4.7551,
    "gt_length": 8492.2482,
    "pred_length": 8896.0626,
+   "pieces_per_ref": 6.4,
+   "refs_split_share": 0.32,
+   "pieces_merging_refs_share": 0.0,
    "elements": 160,
-   "seconds": 0.1468,
+   "seconds": 0.1254,
    "timing_s": {
-    "read_s": 0.047142,
-    "extract_s": 0.082289,
-    "normalize_s": 0.017
+    "read_s": 0.041519,
+    "extract_s": 0.069208,
+    "normalize_s": 0.013771
    }
   },
   "raster-600": {
@@ -978,12 +1404,15 @@
    "length_error_pct": 8.9647,
    "gt_length": 8492.2482,
    "pred_length": 9253.5532,
+   "pieces_per_ref": 7.0,
+   "refs_split_share": 0.32,
+   "pieces_merging_refs_share": 0.0,
    "elements": 175,
-   "seconds": 0.6751,
+   "seconds": 0.5934,
    "timing_s": {
-    "read_s": 0.182467,
-    "extract_s": 0.462661,
-    "normalize_s": 0.029324
+    "read_s": 0.157569,
+    "extract_s": 0.410192,
+    "normalize_s": 0.025043
    }
   }
  },
@@ -1000,12 +1429,36 @@
    "length_error_pct": 0.0,
    "gt_length": 22766.3376,
    "pred_length": 22766.3376,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 96,
-   "seconds": 0.0041,
+   "seconds": 0.0039,
    "timing_s": {
-    "read_s": 0.001298,
-    "extract_s": 0.000347,
-    "normalize_s": 0.001922
+    "read_s": 0.001443,
+    "extract_s": 0.000274,
+    "normalize_s": 0.001723
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0,
+   "gt_length": 22766.3376,
+   "pred_length": 22766.3376,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
+   "elements": 96,
+   "seconds": 0.0048,
+   "timing_s": {
+    "read_s": 0.001557,
+    "extract_s": 0.000269,
+    "normalize_s": 0.002616
    }
   },
   "raster-150": {
@@ -1018,12 +1471,15 @@
    "length_error_pct": 0.2037,
    "gt_length": 22766.3376,
    "pred_length": 22719.9517,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 96,
-   "seconds": 0.0896,
+   "seconds": 0.0776,
    "timing_s": {
-    "read_s": 0.012933,
-    "extract_s": 0.055164,
-    "normalize_s": 0.021069
+    "read_s": 0.011778,
+    "extract_s": 0.047204,
+    "normalize_s": 0.018339
    }
   },
   "raster-300": {
@@ -1036,12 +1492,15 @@
    "length_error_pct": 0.0425,
    "gt_length": 22766.3376,
    "pred_length": 22756.6599,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 96,
-   "seconds": 0.2972,
+   "seconds": 0.2548,
    "timing_s": {
-    "read_s": 0.047256,
-    "extract_s": 0.208015,
-    "normalize_s": 0.041505
+    "read_s": 0.039927,
+    "extract_s": 0.179389,
+    "normalize_s": 0.03501
    }
   },
   "raster-600": {
@@ -1054,12 +1513,15 @@
    "length_error_pct": 0.1824,
    "gt_length": 22766.3376,
    "pred_length": 22807.8533,
+   "pieces_per_ref": 1.0104,
+   "refs_split_share": 0.0104,
+   "pieces_merging_refs_share": 0.0,
    "elements": 97,
-   "seconds": 1.312,
+   "seconds": 1.1018,
    "timing_s": {
-    "read_s": 0.182095,
-    "extract_s": 1.018751,
-    "normalize_s": 0.110543
+    "read_s": 0.157696,
+    "extract_s": 0.849469,
+    "normalize_s": 0.097009
    }
   }
  },
@@ -1076,12 +1538,36 @@
    "length_error_pct": 0.0,
    "gt_length": 14720.0,
    "pred_length": 14720.0,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 24,
-   "seconds": 0.0015,
+   "seconds": 0.0016,
    "timing_s": {
-    "read_s": 0.001012,
-    "extract_s": 9.3e-05,
-    "normalize_s": 0.000194
+    "read_s": 0.001245,
+    "extract_s": 7.3e-05,
+    "normalize_s": 0.000158
+   }
+  },
+  "vector-chained": {
+   "precision": 1.0,
+   "recall": 1.0,
+   "f1": 1.0,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 0.0,
+   "gt_length": 14720.0,
+   "pred_length": 14720.0,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
+   "elements": 24,
+   "seconds": 0.002,
+   "timing_s": {
+    "read_s": 0.001432,
+    "extract_s": 7.2e-05,
+    "normalize_s": 0.0004
    }
   },
   "raster-150": {
@@ -1094,12 +1580,15 @@
    "length_error_pct": 0.2125,
    "gt_length": 14720.0,
    "pred_length": 14751.2871,
+   "pieces_per_ref": 1.0417,
+   "refs_split_share": 0.0417,
+   "pieces_merging_refs_share": 0.0,
    "elements": 25,
-   "seconds": 0.0484,
+   "seconds": 0.0395,
    "timing_s": {
-    "read_s": 0.01298,
-    "extract_s": 0.033309,
-    "normalize_s": 0.002122
+    "read_s": 0.011273,
+    "extract_s": 0.026471,
+    "normalize_s": 0.001697
    }
   },
   "raster-300": {
@@ -1112,12 +1601,15 @@
    "length_error_pct": 0.0743,
    "gt_length": 14720.0,
    "pred_length": 14709.0582,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 24,
-   "seconds": 0.1805,
+   "seconds": 0.1484,
    "timing_s": {
-    "read_s": 0.047599,
-    "extract_s": 0.129836,
-    "normalize_s": 0.002392
+    "read_s": 0.040979,
+    "extract_s": 0.105522,
+    "normalize_s": 0.002011
    }
   },
   "raster-600": {
@@ -1130,12 +1622,15 @@
    "length_error_pct": 0.0047,
    "gt_length": 14720.0,
    "pred_length": 14719.304,
+   "pieces_per_ref": 1.0417,
+   "refs_split_share": 0.0417,
+   "pieces_merging_refs_share": 0.0,
    "elements": 25,
-   "seconds": 0.7948,
+   "seconds": 0.7015,
    "timing_s": {
-    "read_s": 0.183214,
-    "extract_s": 0.608862,
-    "normalize_s": 0.004172
+    "read_s": 0.158903,
+    "extract_s": 0.540421,
+    "normalize_s": 0.003406
    }
   }
  },
@@ -1152,12 +1647,36 @@
    "length_error_pct": 3.8971,
    "gt_length": 7744.0,
    "pred_length": 8045.789,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 37,
    "seconds": 0.0023,
    "timing_s": {
-    "read_s": 0.001323,
-    "extract_s": 0.000164,
-    "normalize_s": 0.00053
+    "read_s": 0.001612,
+    "extract_s": 0.000109,
+    "normalize_s": 0.000377
+   }
+  },
+  "vector-chained": {
+   "precision": 0.9625,
+   "recall": 1.0,
+   "f1": 0.9809,
+   "endpoint_err_mean": 0.0,
+   "endpoint_err_median": 0.0,
+   "endpoint_match_rate": 1.0,
+   "length_error_pct": 3.8971,
+   "gt_length": 7744.0,
+   "pred_length": 8045.789,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
+   "elements": 37,
+   "seconds": 0.003,
+   "timing_s": {
+    "read_s": 0.001651,
+    "extract_s": 0.000129,
+    "normalize_s": 0.001027
    }
   },
   "raster-150": {
@@ -1170,12 +1689,15 @@
    "length_error_pct": 2.7573,
    "gt_length": 7744.0,
    "pred_length": 7957.5247,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 28,
-   "seconds": 0.0355,
+   "seconds": 0.031,
    "timing_s": {
-    "read_s": 0.013063,
-    "extract_s": 0.020163,
-    "normalize_s": 0.002114
+    "read_s": 0.012005,
+    "extract_s": 0.017057,
+    "normalize_s": 0.001883
    }
   },
   "raster-300": {
@@ -1188,12 +1710,15 @@
    "length_error_pct": 3.7096,
    "gt_length": 7744.0,
    "pred_length": 8031.275,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 35,
-   "seconds": 0.1254,
+   "seconds": 0.0997,
    "timing_s": {
-    "read_s": 0.046901,
-    "extract_s": 0.072166,
-    "normalize_s": 0.003639
+    "read_s": 0.040345,
+    "extract_s": 0.05625,
+    "normalize_s": 0.003023
    }
   },
   "raster-600": {
@@ -1206,12 +1731,15 @@
    "length_error_pct": 3.5056,
    "gt_length": 7744.0,
    "pred_length": 8015.4756,
+   "pieces_per_ref": 1.0,
+   "refs_split_share": 0.0,
+   "pieces_merging_refs_share": 0.0,
    "elements": 30,
-   "seconds": 0.6184,
+   "seconds": 0.5054,
    "timing_s": {
-    "read_s": 0.183153,
-    "extract_s": 0.428793,
-    "normalize_s": 0.006342
+    "read_s": 0.161922,
+    "extract_s": 0.341369,
+    "normalize_s": 0.005393
    }
   }
  }

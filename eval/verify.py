@@ -27,7 +27,7 @@ def main():
         if d in REAL:
             assert hashlib.sha256(source_svg(d).read_bytes()).hexdigest() == config["source_sha256"][d]
             gt = load_ground_truth(truth_svg(d), PAGE_PT).lines
-        for setting in ("vector", "raster-150", "raster-300", "raster-600"):
+        for setting in ("vector", "vector-chained", "raster-150", "raster-300", "raster-600"):
             out = RUNS / "outputs" / d / setting
             ex = Extraction.from_json(out / "elements.json")
             assert ex.coordinate_system == "pdf_points" and ex.page == 1

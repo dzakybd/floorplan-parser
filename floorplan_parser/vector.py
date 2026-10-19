@@ -7,7 +7,7 @@ from pathlib import Path
 import pymupdf
 from shapely.geometry import LineString
 
-from floorplan_parser.geometry import dedupe, tessellate_bezier
+from floorplan_parser.geometry import chain_smooth, dedupe, tessellate_bezier
 from floorplan_parser.metrics import TESSELLATION_TOL
 from floorplan_parser.model import Extraction, ExtractionError, elements_from_lines
 
@@ -45,7 +45,9 @@ def _item_lines(item: tuple) -> list[list[tuple[float, float]]]:
     return [[corners[i], corners[(i + 1) % 4]] for i in range(4)]
 
 
-def extract_vector(pdf: Path, page: int = 1, drawing_id: str | None = None) -> Extraction:
+def extract_vector(pdf: Path, page: int = 1, drawing_id: str | None = None, chain: bool = False) -> Extraction:
+    """Read the page's line geometry. `chain=True` also joins pieces of one smooth curve into one polyline
+    (`chain_smooth`): MuPDF hands back an arc as dozens of short lines."""
     t0 = time.perf_counter()
     doc, pg = open_page(pdf, page)
     with doc:
@@ -58,6 +60,8 @@ def extract_vector(pdf: Path, page: int = 1, drawing_id: str | None = None) -> E
         extract_s = time.perf_counter() - t0
         t0 = time.perf_counter()
         lines = dedupe(lines)
+        if chain:
+            lines = chain_smooth(lines)
         normalize_s = time.perf_counter() - t0
         seconds = read_s + extract_s + normalize_s
         size = (float(pg.cropbox.width), float(pg.cropbox.height))

@@ -21,7 +21,7 @@ import cv2
 from eval.common import DPIS, INPUTS, PAGE_PT, REAL, ROTATE_DEG, RUNS, TEXT, TUNE, source_svg, truth_svg
 from floorplan_parser.geometry import affine
 from floorplan_parser.groundtruth import load_ground_truth
-from floorplan_parser.metrics import CONSTANTS, recall_by_label, score
+from floorplan_parser.metrics import CONSTANTS, recall_by_label, score, structure
 from floorplan_parser.overlay import draw_overlay
 from floorplan_parser.raster import RasterParams, extract_raster
 from floorplan_parser.vector import extract_vector
@@ -43,6 +43,7 @@ def timed(fn, *args, **kw):
 
 def settings():
     yield "vector", "vector.pdf", extract_vector, {}
+    yield "vector-chained", "vector.pdf", extract_vector, {"chain": True}
     for dpi in DPIS:
         yield f"raster-{dpi}", f"raster-{dpi}.pdf", extract_raster, {"dpi": dpi}
 
@@ -74,7 +75,9 @@ def main() -> None:
             if fn is extract_raster:
                 kw = {**kw, "params": params}
             ex, seconds = timed(fn, pdf, drawing_id=d, **kw)
-            s = score(ex.lines(), gt.lines).to_dict()
+            s = score(ex.lines(), gt.lines).to_dict() | {
+                k: round(v, 4) for k, v in structure(ex.lines(), gt.lines).items()
+            }
             assert all(
                 -1e-4 <= x <= PAGE_PT + 1e-4 and -1e-4 <= y <= PAGE_PT + 1e-4
                 for e in ex.elements

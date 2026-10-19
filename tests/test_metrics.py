@@ -1,3 +1,4 @@
+import itertools
 import math
 
 from hypothesis import given, settings
@@ -5,7 +6,7 @@ from hypothesis import strategies as st
 from shapely.geometry import LineString
 
 from floorplan_parser.geometry import affine
-from floorplan_parser.metrics import recall_by_label, score
+from floorplan_parser.metrics import recall_by_label, score, structure
 
 GT = [LineString([(0, 0), (100, 0)]), LineString([(0, 50), (100, 50)]), LineString([(20, 10), (80, 40)])]
 
@@ -97,3 +98,16 @@ def test_missing_endpoint_errors_are_json_null():
     s = score([], GT).to_dict()
     assert s["endpoint_err_mean"] is None and s["endpoint_err_median"] is None
     json.dumps(s, allow_nan=False)
+
+
+def test_structure_counts_pieces_and_merges():
+    arc = [(100 + 50 * math.cos(math.pi * k / 180), 100 + 50 * math.sin(math.pi * k / 180)) for k in range(91)]
+    gt = [LineString(arc)]
+    pieces = [LineString([a, b]) for a, b in itertools.pairwise(arc)]
+    s = structure(pieces, gt)
+    assert s["pieces_per_ref"] == 90 and s["refs_split_share"] == 1.0 and s["pieces_merging_refs_share"] == 0.0
+    s = structure([LineString(arc)], gt)
+    assert s["pieces_per_ref"] == 1 and s["refs_split_share"] == 0.0
+    two = [LineString([(0, 0), (100, 0)]), LineString([(100, 0), (200, 0)])]  # two collinear reference lines
+    s = structure([LineString([(0, 0), (200, 0)])], two)
+    assert s["pieces_merging_refs_share"] == 1.0 and s["pieces_per_ref"] == 0.5

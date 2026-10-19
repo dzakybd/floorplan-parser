@@ -26,7 +26,7 @@ def main():
         "aggregation": "Each drawing has equal weight. Endpoint errors are conditional on a nearest predicted endpoint within 5 pt; report endpoint_match_rate alongside them.",
         "settings": {},
     }
-    for setting in ("vector", "raster-150", "raster-300", "raster-600"):
+    for setting in ("vector", "vector-chained", "raster-150", "raster-300", "raster-600"):
         rows = [m[d][setting] for d in REAL]
         entry = {k: distribution([r[k] for r in rows]) for k in rows[0] if k != "timing_s"}
         entry["timing_s"] = {k: distribution([r["timing_s"][k] for r in rows]) for k in rows[0]["timing_s"]}
