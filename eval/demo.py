@@ -38,11 +38,13 @@ TEXT = {
         "s2": ("Read the vector paths", "Every line is already stored: F1 {f1}"),
         "s3": ("Or find lines in pixels", "OpenCV Hough lines at {dpi} DPI: F1 {f1}"),
         "legend": "blue found · red missed · orange extra",
-        "end_title": "Three real CAD drawings",
-        "end_rows": ["Simple grid", "Medium: doors", "Dense plan"],
-        "end_head": ("Vector", "Pixels 300"),
-        "lines": "lines",
-        "end_note": "F1 by length. Paths if the PDF has them.",
+        "end_title": "Ten real CAD drawings",
+        "end_rows": [
+            ("Read the vector paths", "F1 {vf1} on all ten"),
+            ("Find lines in pixels, 300 DPI", "mean F1 {rf1} ({rmin} to {rmax})"),
+            ("But vector lines come in pieces", "up to {pieces} per line: merge first"),
+        ],
+        "end_note": "Out: line coordinates as JSON and CSV.",
         "end_foot": "Data: FloorPlanCAD, numbers only. Pictures: synthetic drawing.",
         "url": "dzaky.ai.id/en/blog/floorplan-parser-vector-vs-raster",
     },
@@ -52,11 +54,13 @@ TEXT = {
         "s2": ("Baca path vektornya", "Setiap garis sudah tersimpan: F1 {f1}"),
         "s3": ("Atau cari garis di piksel", "Hough lines OpenCV pada {dpi} DPI: F1 {f1}"),
         "legend": "biru terbaca · merah terlewat · oranye kelebihan",
-        "end_title": "Tiga gambar CAD nyata",
-        "end_rows": ["Grid sederhana", "Sedang: pintu", "Denah padat"],
-        "end_head": ("Vektor", "Piksel 300"),
-        "lines": "garis",
-        "end_note": "F1 berbasis panjang. Pakai path kalau ada.",
+        "end_title": "Sepuluh gambar CAD nyata",
+        "end_rows": [
+            ("Baca path vektor", "F1 {vf1} di kesepuluhnya"),
+            ("Cari garis di piksel, 300 DPI", "rata-rata F1 {rf1} ({rmin} sampai {rmax})"),
+            ("Tapi garis vektor terpecah", "sampai {pieces} per garis: gabungkan dulu"),
+        ],
+        "end_note": "Hasil: koordinat garis dalam JSON dan CSV.",
         "end_foot": "Data: FloorPlanCAD, hanya angka. Gambar: sintetis.",
         "url": "dzaky.ai.id/id/blog/floorplan-parser-vector-vs-raster",
     },
@@ -107,20 +111,28 @@ def dots(base: Image.Image, pts: np.ndarray, color, r: int = 4) -> Image.Image:
     return im
 
 
-def end_card(t: dict, metrics: dict) -> Image.Image:
+def end_card(t: dict, metrics: dict, lang: str) -> Image.Image:
+    held = [v for v in metrics.values() if v["split"] == "held-out"]
+    vf1 = {round(v["vector"]["f1"], 3) for v in held}
+    assert len(vf1) == 1, "end card says the vector F1 is the same on every drawing"
+    rf1 = [v["raster-300"]["f1"] for v in held]
+    vals = {
+        "vf1": f"{vf1.pop():.3f}",
+        "rf1": f"{sum(rf1) / len(rf1):.3f}",
+        "rmin": f"{min(rf1):.3f}",
+        "rmax": f"{max(rf1):.3f}",
+        "pieces": f"{max(v['vector']['elements'] / v['gt_lines'] for v in held):.1f}",
+    }
+    if lang == "id":
+        vals = {k: v.replace(".", ",") for k, v in vals.items()}
     im = frame(t, t["end_title"], t["end_note"], None, False)
     d = ImageDraw.Draw(im)
-    y0, x1, x2 = 330, 560, 820
-    d.text((x1, y0), t["end_head"][0], fill=PRIMARY, font=font(36, bold=True))
-    d.text((x2, y0), t["end_head"][1], fill=INK, font=font(36, bold=True))
-    for i, (d_id, label) in enumerate(zip(["0674-0822", "1010-0022", "0393-0004"], t["end_rows"])):
-        y = y0 + 110 + i * 150
-        d.rounded_rectangle((PX - 10, y - 30, W - PX + 10, y + 80), radius=18, fill=SOFT if i % 2 == 0 else None)
+    for i, (label, value) in enumerate(t["end_rows"]):
+        y = 300 + i * 190
+        d.rounded_rectangle((PX - 10, y - 20, W - PX + 10, y + 130), radius=18, fill=SOFT if i % 2 == 0 else None)
         d.text((PX + 10, y), label, fill=INK, font=font(38, bold=True))
-        d.text((PX + 10, y + 46), f"{metrics[d_id]['gt_lines']} {t['lines']}", fill=MUTED, font=font(26))
-        d.text((x1, y + 4), f"{metrics[d_id]['vector']['f1']:.3f}", fill=PRIMARY, font=font(52, bold=True))
-        d.text((x2, y + 4), f"{metrics[d_id]['raster-300']['f1']:.3f}", fill=INK, font=font(52, bold=True))
-    d.text((PX, y0 + 600), t["end_foot"], fill=MUTED, font=font(28))
+        d.text((PX + 10, y + 56), value.format(**vals), fill=PRIMARY, font=font(42, bold=True))
+    d.text((PX, 300 + 3 * 190 + 20), t["end_foot"], fill=MUTED, font=font(28))
     return im
 
 
@@ -158,7 +170,7 @@ def main() -> None:
         marked = dots(frames[-1].crop((PX, PY, PX + PANEL, PY + PANEL)), unmatched_points(gt, ex.lines()), RED)
         marked = dots(marked, unmatched_points(ex.lines(), gt), ORANGE, r=3)
         hold(frame(t, t["s3"][0], sub, marked, True), 1.2)
-    hold(end_card(t, metrics), 3.0)
+    hold(end_card(t, metrics, args.lang), 3.0)
 
     tmp = Path(tempfile.mkdtemp())
     for i, f in enumerate(frames):
