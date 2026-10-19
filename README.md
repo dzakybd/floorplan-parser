@@ -13,11 +13,11 @@ Demo (synthetic drawings, precomputed): [huggingface.co/spaces/dzakybd/floorplan
 
 ```bash
 uv sync
-uv run python -m floorplan_parser --input plan.pdf --method vector --output out/plan_vector
+uv run python -m floorplan_parser --input plan.pdf --method vector --chain --output out/plan_vector
 uv run python -m floorplan_parser --input scan.pdf --method raster --dpi 300 --output out/plan_raster
 ```
 
-Options: `--page N` (1-based), `--dpi` (raster: render resolution for pages that are not a single image; a page that is one full-page image is read at its own resolution), `--params file.json` (raster parameters, see `runs/params.json`). An unreadable file exits with code 1. A page with no vector paths (a scan) returns no elements and a warning, so use `--method raster` there.
+Options: `--chain` (vector: join the pieces of each smooth curve into one polyline; see below), `--page N` (1-based), `--dpi` (raster: render resolution for pages that are not a single image; a page that is one full-page image is read at its own resolution), `--params file.json` (raster parameters, see `runs/params.json`). An unreadable file exits with code 1. A page with no vector paths (a scan) returns no elements and a warning, so use `--method raster` there.
 
 Output (`elements.json`):
 
@@ -67,13 +67,14 @@ F1 by length, with the number of extracted pieces in brackets (from `runs/metric
 | 0672-0021 | 732 | 1.000 (7066) | 0.978 (522) | 0.983 (568) | 0.985 (647) |
 
 What the numbers say:
-- **Vector recovers all of the linework on all ten drawings, but in pieces.** Every arc comes back as many short straight segments: up to 14.3 pieces per true line (`0721-0004`, 1,759 pieces for 123 lines). Counting "lines" from a vector PDF needs merging first.
+- **Vector recovers all of the linework on all ten drawings, but in pieces.** Every arc comes back as many short straight segments: up to 14.3 pieces per true line (`0721-0004`, 1,759 pieces for 123 lines). F1 is by length, so it cannot see this; the structure numbers below can.
+- **`--chain` fixes the structure, at a measured cost.** It joins pieces where exactly two meet and the path turns by less than 30° (curves), never at corners or junctions; the geometry is unchanged. Pieces per reference line: mean 5.34 → 0.84, worst drawing 14.30 → 0.98; reference lines split into 2+ pieces: 10.4% → 2.4%; F1 still 1.000. Cost: elements that cover two or more reference lines rise from 2.6% to 10.2% (up to 31.6% on `1083-0018`), because collinear neighbours that the CAD file keeps separate look like one line; endpoint coverage drops from 100% to 87.6% for the same reason. The 30° rule was not tuned on these drawings.
 - **Raster at 300 DPI averages F1 0.981 (0.890–1.000).** It is close on clean drawings and weakest on close double lines. On the medium drawing it adds lines along closely spaced double lines (precision 0.84 at 300 DPI), and more pixels make that worse (length error 2.4% at 150 DPI, 25.7% at 600 DPI). It also drops small circles and the ends of arcs.
-- **Time (median across ten drawings):** vector 31 ms (5 ms–0.69 s), raster at 300 DPI 0.37 s (0.18–0.58 s). Vector slows on dense drawings because it has to dedupe thousands of pieces. Stage timings are in `runs/summary.json`.
+- **Time (median across ten drawings):** vector 26 ms (4 ms–0.57 s), vector with `--chain` 33 ms (5 ms–0.62 s), raster at 300 DPI 0.25 s (0.15–0.45 s). Vector slows on dense drawings because it has to dedupe thousands of pieces. Stage timings are in `runs/summary.json`.
 - **Scan robustness (synthetic, 300 DPI, `runs/robustness.csv`):** noise plus blur moves F1 by at most 0.6 points, and a 2° rotation costs 0.3–2.4 points.
 - **Text drawn as lines (`runs/text_paths.json`):** both routes pick up a dimension label drawn as line strokes as if it were geometry. Vector precision drops to 0.96.
 
-Full distributions (mean, median, min, max) for precision, recall, F1, endpoint error and match rate, length error and stage timings: `runs/summary.json`. Case notes: `runs/failure_cases/`. Per-class recall: `runs/per_class.csv`. Verification of every export and an independent rescoring of all 40 held-out settings: `runs/verification.json`.
+Full distributions (mean, median, min, max) for precision, recall, F1, endpoint error and match rate, length error and stage timings: `runs/summary.json`. Case notes: `runs/failure_cases/`. Per-class recall: `runs/per_class.csv`. Structure (pieces per reference line, reference lines split, elements joining 2+ reference lines; `floorplan_parser.metrics.structure`) is in `runs/metrics.json` per drawing and setting. Verification of every export and an independent rescoring of all 50 held-out settings: `runs/verification.json`.
 
 ## Reproduce
 
@@ -95,6 +96,7 @@ uv run pytest -q
 - The vector PDF is made from the same SVG the score uses, so near-perfect vector numbers are expected by construction. Real CAD-exported PDFs add hatching, text drawn as lines, and clipping.
 - Matching is many-to-one within 2 pt. An extractor that merges two true lines closer than 2 pt into one still scores F1 1.0; only the length error shows it (50% for one pair). On the near-parallel synthetic drawing the raster length error is at most 0.21%, so no such merge happened there (`tests/test_metrics.py::test_collapsed_pair_shows_in_length_error_not_f1` pins this behaviour).
 - Straight lines only on the raster side. Curves come back as short straight pieces.
+- `--chain` cannot tell two collinear CAD lines from one line. Refusing to join exactly straight continuations is the next rule to try, chosen on drawings outside this test set.
 - Geometry only. Walls, doors and rooms need a separate recognition step.
 
 ## Data and licence

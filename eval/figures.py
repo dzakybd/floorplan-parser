@@ -41,6 +41,9 @@ TEXT = {
         "recreation": "Synthetic recreation of a failure seen on a FloorPlanCAD drawing",
         "pieces": "One door arc from the vector PDF: {} pieces",
         "pieces_gt": "In the drawing: 1 arc",
+        "chain_raw": "As read: {} pieces",
+        "chain_joined": "With --chain: {} polyline",
+        "chain_note": "Same synthetic door arc, same geometry; F1 1.00 both ways",
         "text": "A label drawn as lines is picked up as geometry (orange)",
         "chart_title": "F1 by length on three held-out FloorPlanCAD drawings",
         "chart_x": "F1 (length-based), axis starts at 0.85",
@@ -57,6 +60,9 @@ TEXT = {
         "recreation": "Rekonstruksi sintetis dari kegagalan pada gambar FloorPlanCAD",
         "pieces": "Satu busur pintu dari PDF vektor: {} potongan",
         "pieces_gt": "Di gambar: 1 busur",
+        "chain_raw": "Seperti terbaca: {} potongan",
+        "chain_joined": "Dengan --chain: {} polyline",
+        "chain_note": "Busur pintu sintetis yang sama, geometri sama; F1 1,00 di keduanya",
         "text": "Label yang digambar sebagai garis ikut terbaca sebagai geometri (oranye)",
         "chart_title": "F1 berbasis panjang pada tiga gambar FloorPlanCAD uji",
         "chart_x": "F1 (berbasis panjang), sumbu mulai 0,85",
@@ -173,6 +179,31 @@ def main() -> None:
     dr.text((24, 116), t["pieces_gt"], fill=MUTED, font=font(24))
     w.paste(im, (1200 - im.width - 48, 24))
     w.save(out / f"floorplan-parser-recreate-pieces{sfx}.png")
+
+    # 7. The same arc after chaining: pieces of one smooth curve joined into one polyline
+    inside = lambda e: all(
+        arc_box[0] - 1 <= x <= arc_box[2] + 1 and arc_box[1] - 1 <= y <= arc_box[3] + 1 for x, y in e.geometry
+    )
+    joined = [e for e in extract_vector(doors / "vector.pdf", chain=True).elements if inside(e) and len(e.geometry) > 2]
+    pair = Image.new("RGB", (2 * im.width + 72, im.height + 150), BG)
+    dr = ImageDraw.Draw(pair)
+    for k, (title, elems, alternate) in enumerate(
+        ((t["chain_raw"].format(len(pieces)), pieces, True), (t["chain_joined"].format(len(joined)), joined, False))
+    ):
+        x = 24 + k * (im.width + 24)
+        dr.text((x, 20), title, fill=INK, font=font(28, bold=True))
+        for i, e in enumerate(elems):
+            pts = [(x + (px - x0) * s, 76 + (py - y0) * s) for px, py in e.geometry]
+            dr.line(pts, fill=(ORANGE if i % 2 == 0 else BLUE) if alternate else BLUE, width=7, joint="curve")
+    dr.text((24, im.height + 104), t["chain_note"], fill=MUTED, font=font(22))
+    pair.save(out / f"floorplan-parser-chain{sfx}.png")
+    for name, elems, alternate in (("pieces", pieces, True), ("chained", joined, False)):  # poster panels, no text
+        tile = Image.new("RGB", (im.width + 48, im.height + 48), BG)
+        dt = ImageDraw.Draw(tile)
+        for i, e in enumerate(elems):
+            pts = [(24 + (px - x0) * s, 24 + (py - y0) * s) for px, py in e.geometry]
+            dt.line(pts, fill=(ORANGE if i % 2 == 0 else BLUE) if alternate else BLUE, width=9, joint="curve")
+        tile.save(out / f"floorplan-parser-poster-{name}.png")
 
     # 6. Text drawn as lines
     tp = INPUTS / "synth-text-paths"
