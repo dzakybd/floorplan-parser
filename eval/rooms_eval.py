@@ -36,7 +36,11 @@ from floorplan_parser.vector import extract_vector
 
 CUBICASA = Path(__file__).resolve().parents[2] / "quantity-lab" / "runs" / "inputs" / "vector"
 CUBICASA_VAL = CUBICASA.with_name("vector-val")  # validation layouts: where the wall-thickness rule is chosen
-THICKNESS_GRID = {"n_peaks": [1, 2, 3, 4, 5], "thickness_tol": [0.25, 0.4, 0.6], "peak_share": [0.1]}
+THICKNESS_GRID = {"n_peaks": [1, 2, 3, 4, 5, 6, 8], "thickness_tol": [0.25, 0.4, 0.6], "peak_share": [0.1]}
+# rule fixed before the grid was widened: among rules that pass the synthetic guard, take the smallest number of
+# peaks (then the smallest tolerance) whose validation F1 is within this of the best, so a flat curve picks its
+# start, not the edge of the grid
+F1_SLACK = 0.01
 GRID = {"max_gap_factor": [4, 6, 8, 10, 14], "min_area_factor": [5, 10, 20, 40]}
 
 ROOMS = INPUTS / "rooms"
@@ -145,9 +149,12 @@ def main() -> None:
     if val_layouts:
         ok = [r for r in rules if r["synthetic_tune_room_f1"] >= best["room_f1"] - 0.01
               and r["synthetic_tune_abs_total_area_err_pct"] <= 1.0]  # fmt: skip
-        params = RoomParams.from_dict(max(ok, key=lambda r: r["val_room_f1"])["params"])
+        top = max(r["val_room_f1"] for r in ok)
+        near = [r for r in ok if r["val_room_f1"] >= top - F1_SLACK]
+        pick = min(near, key=lambda r: (r["params"]["n_peaks"], r["params"]["thickness_tol"]))
+        params = RoomParams.from_dict(pick["params"])
     rp = json.loads((RUNS / "room_params.json").read_text())
-    rp.update({"thickness_rule_chosen_on": "CubiCasa5K validation layouts (quantity-lab eval/export_vector.py --val), room F1, among rules that keep synthetic tune room F1 within 0.01 of the best and mean |total area error| <= 1%",
+    rp.update({"thickness_rule_chosen_on": "CubiCasa5K validation layouts (quantity-lab eval/export_vector.py --val), room F1, among rules that keep synthetic tune room F1 within 0.01 of the best and mean |total area error| <= 1%; then the smallest peak count and tolerance within 0.01 of the best validation F1",
                "thickness_rules": rules, "final": params.to_dict()})  # fmt: skip
     (RUNS / "room_params.json").write_text(json.dumps(rp, indent=1))
 

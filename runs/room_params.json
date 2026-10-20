@@ -311,7 +311,7 @@
    "abs_total_area_err_pct": 0.416
   }
  ],
- "thickness_rule_chosen_on": "CubiCasa5K validation layouts (quantity-lab eval/export_vector.py --val), room F1, among rules that keep synthetic tune room F1 within 0.01 of the best and mean |total area error| <= 1%",
+ "thickness_rule_chosen_on": "CubiCasa5K validation layouts (quantity-lab eval/export_vector.py --val), room F1, among rules that keep synthetic tune room F1 within 0.01 of the best and mean |total area error| <= 1%; then the smallest peak count and tolerance within 0.01 of the best validation F1",
  "thickness_rules": [
   {
    "params": {
@@ -323,7 +323,7 @@
     "n_peaks": 1,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.019,
+   "val_room_f1": 0.0796,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.416
   },
@@ -337,7 +337,7 @@
     "n_peaks": 1,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.0564,
+   "val_room_f1": 0.1183,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.634
   },
@@ -351,7 +351,7 @@
     "n_peaks": 1,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.135,
+   "val_room_f1": 0.2207,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 1.745
   },
@@ -365,7 +365,7 @@
     "n_peaks": 2,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.1717,
+   "val_room_f1": 0.2936,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.428
   },
@@ -379,7 +379,7 @@
     "n_peaks": 2,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.2348,
+   "val_room_f1": 0.36,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.646
   },
@@ -393,7 +393,7 @@
     "n_peaks": 2,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.3617,
+   "val_room_f1": 0.4608,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 1.791
   },
@@ -407,7 +407,7 @@
     "n_peaks": 3,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.2373,
+   "val_room_f1": 0.4281,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.45
   },
@@ -421,7 +421,7 @@
     "n_peaks": 3,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.3017,
+   "val_room_f1": 0.4677,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.667
   },
@@ -435,7 +435,7 @@
     "n_peaks": 3,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.4323,
+   "val_room_f1": 0.5277,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 1.791
   },
@@ -449,7 +449,7 @@
     "n_peaks": 4,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.2699,
+   "val_room_f1": 0.4805,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.45
   },
@@ -463,7 +463,7 @@
     "n_peaks": 4,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.3269,
+   "val_room_f1": 0.5044,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.667
   },
@@ -477,7 +477,7 @@
     "n_peaks": 4,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.4323,
+   "val_room_f1": 0.5426,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 1.791
   },
@@ -491,7 +491,7 @@
     "n_peaks": 5,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.3411,
+   "val_room_f1": 0.5162,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.45
   },
@@ -505,7 +505,7 @@
     "n_peaks": 5,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.4036,
+   "val_room_f1": 0.5414,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 0.667
   },
@@ -519,7 +519,91 @@
     "n_peaks": 5,
     "peak_share": 0.1
    },
-   "val_room_f1": 0.448,
+   "val_room_f1": 0.5564,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 1.791
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 6,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.5218,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.45
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.4,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 6,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.5414,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.667
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.6,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 6,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.5564,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 1.791
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 8,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.5377,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.45
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.4,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 8,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.5513,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.667
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.6,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 8,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.5697,
    "synthetic_tune_room_f1": 0.9766,
    "synthetic_tune_abs_total_area_err_pct": 1.791
   }
