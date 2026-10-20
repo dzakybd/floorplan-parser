@@ -310,5 +310,227 @@
    "room_f1": 0.9766,
    "abs_total_area_err_pct": 0.416
   }
- ]
+ ],
+ "thickness_rule_chosen_on": "CubiCasa5K validation layouts (quantity-lab eval/export_vector.py --val), room F1, among rules that keep synthetic tune room F1 within 0.01 of the best and mean |total area error| <= 1%",
+ "thickness_rules": [
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 1,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.019,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.416
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.4,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 1,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.0564,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.634
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.6,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 1,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.135,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 1.745
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 2,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.1717,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.428
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.4,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 2,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.2348,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.646
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.6,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 2,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.3617,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 1.791
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 3,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.2373,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.45
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.4,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 3,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.3017,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.667
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.6,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 3,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.4323,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 1.791
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 4,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.2699,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.45
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.4,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 4,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.3269,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.667
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.6,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 4,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.4323,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 1.791
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 5,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.3411,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.45
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.4,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 5,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.4036,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 0.667
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.6,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0,
+    "n_peaks": 5,
+    "peak_share": 0.1
+   },
+   "val_room_f1": 0.448,
+   "synthetic_tune_room_f1": 0.9766,
+   "synthetic_tune_abs_total_area_err_pct": 1.791
+  }
+ ],
+ "final": {
+  "max_gap_factor": 14,
+  "min_area_factor": 5,
+  "thickness_tol": 0.4,
+  "angle_tol_deg": 2.0,
+  "max_thickness": 40.0,
+  "n_peaks": 5,
+  "peak_share": 0.1
+ }
 }
