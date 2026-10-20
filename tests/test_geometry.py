@@ -128,3 +128,11 @@ def test_chain_smooth_never_changes_the_geometry(n, r, sweep):
     out = chain_smooth(pieces)
     assert math.isclose(_total(out), _total(pieces), rel_tol=1e-9)
     assert unary_union(out).hausdorff_distance(unary_union(pieces)) < 1e-6
+
+
+def test_chain_smooth_keeps_straight_continuations_apart():
+    two = [LineString([(0, 0), (100, 0)]), LineString([(100, 0), (200, 0)])]  # two CAD lines that continue each other
+    assert len(chain_smooth(two)) == 2
+    assert len(chain_smooth(two, min_turn_deg=0.0)) == 1  # the old behaviour, still available
+    big_arc = _arc(0, 0, 1000, 0, math.pi / 8, 40)  # a large, gentle arc still turns more than the threshold
+    assert len(chain_smooth(big_arc)) == 1

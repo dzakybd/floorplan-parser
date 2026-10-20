@@ -80,10 +80,14 @@ def merge_collinear(lines: list[LineString], dist_tol: float, angle_tol_deg: flo
     return out
 
 
-def chain_smooth(lines: list[LineString], max_turn_deg: float = 30.0, tol: float = 1e-3) -> list[LineString]:
+def chain_smooth(
+    lines: list[LineString], max_turn_deg: float = 30.0, min_turn_deg: float = 0.1, tol: float = 1e-3
+) -> list[LineString]:
     """Join pieces end to end into polylines where exactly two pieces meet (within `tol`) and the path turns by
     less than `max_turn_deg` there: a curve flattened into dozens of short lines comes back as one polyline,
-    while corners and junctions (three or more pieces) stay separate. The geometry itself is unchanged."""
+    while corners and junctions (three or more pieces) stay separate. A straight continuation (turn below
+    `min_turn_deg`) is not joined either: a flattened curve always turns, while two collinear lines that meet are
+    usually two lines in the CAD file. The geometry itself is unchanged."""
     lines = [ln for ln in lines if ln.length > 1e-9]
     coords = [np.asarray(ln.coords, float) for ln in lines]
     nodes: dict[tuple[int, int], list[tuple[int, int]]] = {}
@@ -91,6 +95,7 @@ def chain_smooth(lines: list[LineString], max_turn_deg: float = 30.0, tol: float
         for end, pt in ((0, c[0]), (1, c[-1])):
             nodes.setdefault((round(pt[0] / tol), round(pt[1] / tol)), []).append((i, end))
     cos_max = math.cos(math.radians(max_turn_deg))
+    cos_min = math.cos(math.radians(min_turn_deg))
 
     def outward(i: int, end: int) -> np.ndarray:
         c = coords[i]
@@ -103,7 +108,8 @@ def chain_smooth(lines: list[LineString], max_turn_deg: float = 30.0, tol: float
         if len(here) != 2:
             return None
         j, e = here[0] if here[1] == (i, end) else here[1]
-        if j == i or float(-outward(i, end) @ outward(j, e)) < cos_max:
+        cos_turn = float(-outward(i, end) @ outward(j, e))
+        if j == i or cos_turn < cos_max or (min_turn_deg > 0 and cos_turn > cos_min):
             return None
         return j, e
 
