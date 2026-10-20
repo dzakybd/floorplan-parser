@@ -15,7 +15,9 @@ from PIL import Image
 
 REPO = Path(__file__).resolve().parent.parent
 RUNS = REPO / "runs"
-SETTINGS = ["vector", "raster-150", "raster-300", "raster-600"]
+SETTINGS = ["vector", "vector-chained", "raster-150", "raster-300", "raster-600"]
+# the lines -> walls -> rooms figure is drawn by eval.figures into the portfolio repo next to this one
+ROOMS_FIGURE = REPO.parent / "dzakyfawwaz" / "content" / "floorplan-parser" / "media" / "floorplan-parser-rooms.png"
 TITLES = {
     "synth-1-walls": "Walls and door gaps",
     "synth-2-diagonal": "Diagonal walls",
@@ -50,9 +52,11 @@ def main() -> None:
         "held_out": held_out,
         "robustness": list(csv.DictReader((RUNS / "robustness.csv").open())),
         "text_paths": json.loads((RUNS / "text_paths.json").read_text()),
+        "rooms": json.loads((RUNS / "rooms.json").read_text())["summary"],
         "config": json.loads((RUNS / "experiment_config.json").read_text()),
     }
     (data / "results.json").write_text(json.dumps(out, indent=1))
+    shutil.copy(ROOMS_FIGURE, data / "rooms.png")
     print(f"{len(drawings)} synthetic drawings x {len(SETTINGS)} settings -> {data}")
 
 

@@ -51,7 +51,7 @@ footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
 <main>
   <h1>Do you need computer vision to read construction drawings?</h1>
   <p class="muted">floorplan-parser pulls line geometry out of a drawing PDF two ways: it reads the vector paths the PDF already stores, or it renders the page to pixels and finds the lines with classic computer vision (threshold and Hough lines, no neural network). Both are scored against the drawing's own geometry. This recovers lines, not meaning: it does not know a wall from a door.</p>
-  <pre>uv run python -m floorplan_parser --input plan.pdf --method vector --output out/plan</pre>
+  <pre>uv run python -m floorplan_parser --input plan.pdf --method vector --chain --rooms --output out/plan</pre>
   <p class="muted" style="margin-top:8px">Code (MIT): <a href="https://github.com/dzakybd/floorplan-parser">github.com/dzakybd/floorplan-parser</a>. Write-up: <a href="https://dzaky.ai.id/en/blog/floorplan-parser-vector-vs-raster">dzaky.ai.id</a>. Results were computed ahead of time; this page runs no model.</p>
 
   <div class="row">
@@ -65,7 +65,7 @@ footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
     <section class="panel">
       <h2 id="scoreTitle">Score</h2>
       <div class="stats" id="stats"></div>
-      <p class="muted" style="font-size:12px;margin-top:10px">Precision and recall are measured by length: how much of the extracted linework lies on the true lines (within 2 pt and 5°), and how much of the true linework was found. Time is the extraction call on an Apple M3 Pro, median of 3 runs.</p>
+      <p class="muted" style="font-size:12px;margin-top:10px">Precision and recall are measured by length: how much of the extracted linework lies on the true lines (within 2 pt and 5°), and how much of the true linework was found. Pieces per reference line shows fragmentation, which length-based F1 cannot see. Time is the extraction call on an Apple M1 Pro, median of 3 runs.</p>
     </section>
   </div>
 
@@ -75,6 +75,13 @@ footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
     <div class="scroll"><table id="heldout"></table></div>
   </section>
   <section class="panel">
+    <h2>Lines → walls → rooms (<code>--rooms</code>)</h2>
+    <p class="muted" style="font-size:13px">Wall thicknesses are the strongest peaks of the gaps between parallel lines; parallel pairs about that far apart become walls; doorways between collinear walls are bridged; rooms are the closed pieces of page minus walls. Geometry only (Shapely).</p>
+    <img src="data/rooms.png" alt="A synthetic plan in three steps: lines read from the PDF, walls with bridged doorways in orange, and rooms with their areas; two rooms with no wall between them come out as one." style="width:100%;height:auto;background:#fff;border-radius:6px;margin-top:8px">
+    <div class="stats" id="roomstats" style="margin-top:12px"></div>
+    <p class="muted" style="font-size:12px;margin-top:10px">Synthetic plans have a room answer key. Real layouts are ten CubiCasa5K test plans drawn as vector PDFs from their wall, door and room annotations (so the walls are clean); the wall-thickness rule was chosen on ten validation layouts. FloorPlanCAD has no room labels.</p>
+  </section>
+  <section class="panel">
     <h2>Raster under a skewed or noisy scan (synthetic, 300 DPI)</h2>
     <div class="scroll"><table id="robust"></table></div>
   </section>
@@ -82,7 +89,7 @@ footer { margin-top: 28px; font-size: 13px; color: var(--muted); }
   <footer>FloorPlanCAD: Fan et al., ICCV 2021, <a href="https://floorplancad.github.io/">floorplancad.github.io</a> (annotations CC BY-NC 4.0). No FloorPlanCAD drawing is shown or included here; every picture is a synthetic drawing made for this project.</footer>
 </main>
 <script>
-const SETTINGS = { "vector": "Vector paths", "raster-150": "Pixels 150 DPI", "raster-300": "Pixels 300 DPI", "raster-600": "Pixels 600 DPI" };
+const SETTINGS = { "vector": "Vector paths", "vector-chained": "Vector + --chain", "raster-150": "Pixels 150 DPI", "raster-300": "Pixels 300 DPI", "raster-600": "Pixels 600 DPI" };
 const LABELS = { "0674-0822": "Simple: structural grid", "1010-0022": "Medium: doors, stair, double lines", "0393-0004": "Dense: apartment plan" };
 let data, cur = { d: 0, s: "vector" };
 const pct = v => (v * 100).toFixed(1) + "%";
@@ -104,7 +111,8 @@ function render() {
   document.getElementById("scoreTitle").textContent = `${d.title} · ${SETTINGS[cur.s]}`;
   document.getElementById("stats").innerHTML = [
     [pct(sc.recall), "recall (true lines found)"], [pct(sc.precision), "precision (found lines that are real)"],
-    [sc.elements, "pieces extracted"], [(sc.seconds * 1000).toFixed(0) + " ms", "time"],
+    [sc.elements, "pieces extracted"], [sc.pieces_per_ref.toFixed(2), "pieces per reference line"],
+    [(sc.seconds * 1000).toFixed(0) + " ms", "time"],
   ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
 }
 function tables() {
@@ -119,7 +127,14 @@ function tables() {
   document.getElementById("robust").innerHTML = "<tr><th>Drawing</th>" + Object.values(names).map(n => `<th>F1, ${n}</th>`).join("") + "</tr>" +
     Object.entries(by).map(([d, v]) => `<tr><td>${titles[d]}</td>` + Object.keys(names).map(k => `<td>${v[k].toFixed(3)}</td>`).join("") + "</tr>").join("");
 }
-fetch("data/results.json").then(r => r.json()).then(j => { data = j; render(); tables(); });
+function rooms() {
+  const r = data.rooms;
+  document.getElementById("roomstats").innerHTML = [
+    [r.synthetic_held_out.room_f1.mean.toFixed(2), "room F1, 20 synthetic plans"],
+    [r.cubicasa_layouts.room_f1.mean.toFixed(2), "room F1, 10 real CubiCasa5K layouts"],
+  ].map(([b, s]) => `<div class="stat"><b>${b}</b><span>${s}</span></div>`).join("");
+}
+fetch("data/results.json").then(r => r.json()).then(j => { data = j; render(); tables(); rooms(); });
 </script>
 </body>
 </html>
