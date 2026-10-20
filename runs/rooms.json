@@ -4,7 +4,9 @@
   "min_area_factor": 5,
   "thickness_tol": 0.25,
   "angle_tol_deg": 2.0,
-  "max_thickness": 40.0
+  "max_thickness": 40.0,
+  "n_peaks": 1,
+  "peak_share": 0.25
  },
  "summary": {
   "synthetic_held_out": {
@@ -17,33 +19,40 @@
    },
    "area_abs_err_pct_median": {
     "n": 20,
-    "mean": 0.00020486586629928462,
+    "mean": 0.00020083253283826124,
     "median": 0.00017819365071573395,
     "min": 5.5363025259377785e-05,
     "max": 0.0005286478270607501
    },
    "total_area_err_pct": {
     "n": 20,
-    "mean": 0.08156664167829497,
+    "mean": 0.07727333467862844,
     "median": -3.088915471222618e-06,
-    "min": -0.5315466151759219,
+    "min": -0.5870531783599208,
     "max": 1.1778116258588247
    },
    "matched_iou_mean": {
     "n": 20,
-    "mean": 0.9815892185026255,
-    "median": 0.9971931943122597,
+    "mean": 0.9815322614025196,
+    "median": 0.997160622169599,
     "min": 0.9002836083889268,
     "max": 0.9999983996192158
    }
   },
   "thickness_exact_within_0.5pt": 20,
-  "real_wall_recall": {
+  "real_label_audit_inside": {
    "n": 10,
-   "mean": 0.59542,
-   "median": 0.77625,
+   "mean": 0.59591,
+   "median": 0.7792,
    "min": 0.0361,
    "max": 1.0
+  },
+  "real_label_audit_edge": {
+   "n": 10,
+   "mean": 0.15526,
+   "median": 0.02635,
+   "min": 0.0,
+   "max": 0.5234
   }
  },
  "synthetic": {
@@ -74,9 +83,9 @@
    "pred_rooms": 11,
    "matched": 10,
    "room_f1": 0.8695652173913043,
-   "matched_iou_mean": 0.9959233664127006,
+   "matched_iou_mean": 0.9958596594607002,
    "area_abs_err_pct_median": 0.000385212157224367,
-   "total_area_err_pct": 0.5532664850757887,
+   "total_area_err_pct": 0.5528099497993162,
    "wall_thickness_true_pt": 10.0,
    "wall_thickness_est_pt": 10.0
   },
@@ -85,9 +94,9 @@
    "pred_rooms": 4,
    "matched": 4,
    "room_f1": 1.0,
-   "matched_iou_mean": 0.9958598990282,
+   "matched_iou_mean": 0.9956150938021475,
    "area_abs_err_pct_median": 9.472139459030075e-05,
-   "total_area_err_pct": -0.36686051369090206,
+   "total_area_err_pct": -0.38857010886448307,
    "wall_thickness_true_pt": 16.0,
    "wall_thickness_est_pt": 16.0
   },
@@ -118,9 +127,9 @@
    "pred_rooms": 6,
    "matched": 6,
    "room_f1": 1.0,
-   "matched_iou_mean": 0.9962499157392837,
+   "matched_iou_mean": 0.9962070682854742,
    "area_abs_err_pct_median": 0.0001837693661987595,
-   "total_area_err_pct": -0.40973842184340675,
+   "total_area_err_pct": -0.41442170276778256,
    "wall_thickness_true_pt": 16.0,
    "wall_thickness_est_pt": 16.0
   },
@@ -129,9 +138,9 @@
    "pred_rooms": 7,
    "matched": 7,
    "room_f1": 0.9333333333333333,
-   "matched_iou_mean": 0.9271407539531467,
+   "matched_iou_mean": 0.9270238816714335,
    "area_abs_err_pct_median": 0.00023007553181598068,
-   "total_area_err_pct": 0.8769846237695272,
+   "total_area_err_pct": 0.8698879906332175,
    "wall_thickness_true_pt": 10.0,
    "wall_thickness_est_pt": 10.0
   },
@@ -140,9 +149,9 @@
    "pred_rooms": 12,
    "matched": 12,
    "room_f1": 1.0,
-   "matched_iou_mean": 0.9968147535057369,
+   "matched_iou_mean": 0.9968338792706817,
    "area_abs_err_pct_median": 0.0003409782634588967,
-   "total_area_err_pct": -0.3848799680082618,
+   "total_area_err_pct": -0.3811773502520872,
    "wall_thickness_true_pt": 10.0,
    "wall_thickness_est_pt": 10.0
   },
@@ -162,9 +171,9 @@
    "pred_rooms": 9,
    "matched": 9,
    "room_f1": 1.0,
-   "matched_iou_mean": 0.9924814231293416,
+   "matched_iou_mean": 0.9916969598318851,
    "area_abs_err_pct_median": 0.00017261793523270843,
-   "total_area_err_pct": -0.5315466151759219,
+   "total_area_err_pct": -0.5870531783599208,
    "wall_thickness_true_pt": 16.0,
    "wall_thickness_est_pt": 16.0
   },
@@ -195,9 +204,9 @@
    "pred_rooms": 5,
    "matched": 5,
    "room_f1": 0.9090909090909091,
-   "matched_iou_mean": 0.9225198824485604,
+   "matched_iou_mean": 0.9225563405167618,
    "area_abs_err_pct_median": 0.00028857050798214456,
-   "total_area_err_pct": 0.5400875949575237,
+   "total_area_err_pct": 0.5419692825938265,
    "wall_thickness_true_pt": 8.0,
    "wall_thickness_est_pt": 8.0
   },
@@ -228,9 +237,9 @@
    "pred_rooms": 12,
    "matched": 12,
    "room_f1": 1.0,
-   "matched_iou_mean": 0.9921469869542173,
-   "area_abs_err_pct_median": 0.00028174517637454444,
-   "total_area_err_pct": -0.5271595275000281,
+   "matched_iou_mean": 0.9921611615482848,
+   "area_abs_err_pct_median": 0.00020107850715407675,
+   "total_area_err_pct": -0.526731118129455,
    "wall_thickness_true_pt": 12.0,
    "wall_thickness_est_pt": 12.0
   },
@@ -250,9 +259,9 @@
    "pred_rooms": 6,
    "matched": 6,
    "room_f1": 1.0,
-   "matched_iou_mean": 0.9981827014941929,
+   "matched_iou_mean": 0.9983107663261608,
    "area_abs_err_pct_median": 0.00010223750821437301,
-   "total_area_err_pct": -0.12566757185554187,
+   "total_area_err_pct": -0.11679658548941492,
    "wall_thickness_true_pt": 10.0,
    "wall_thickness_est_pt": 10.0
   },
@@ -261,9 +270,9 @@
    "pred_rooms": 8,
    "matched": 8,
    "room_f1": 1.0,
-   "matched_iou_mean": 0.9975716351187826,
+   "matched_iou_mean": 0.9974873650685162,
    "area_abs_err_pct_median": 0.00030215191969841114,
-   "total_area_err_pct": -0.3248117038772841,
+   "total_area_err_pct": -0.33610893730505415,
    "wall_thickness_true_pt": 12.0,
    "wall_thickness_est_pt": 12.0
   }
@@ -271,62 +280,112 @@
  "floorplancad_walls": {
   "0410-0016": {
    "wall_lines": 31,
-   "wall_thickness_est_pt": 8.0,
-   "wall_recall": 0.9756,
+   "wall_thicknesses_est_pt": [
+    8.0
+   ],
+   "label_audit": {
+    "inside_detected_walls": 0.9756,
+    "on_detected_wall_edges": 0.4984
+   },
    "rooms_found": 3
   },
   "1202-0007": {
    "wall_lines": 47,
-   "wall_thickness_est_pt": 8.0,
-   "wall_recall": 0.2927,
+   "wall_thicknesses_est_pt": [
+    8.0
+   ],
+   "label_audit": {
+    "inside_detected_walls": 0.2927,
+    "on_detected_wall_edges": 0.1469
+   },
    "rooms_found": 0
   },
   "0100-0014": {
    "wall_lines": 201,
-   "wall_thickness_est_pt": 15.998,
-   "wall_recall": 0.6259,
-   "rooms_found": 3
+   "wall_thicknesses_est_pt": [
+    15.998
+   ],
+   "label_audit": {
+    "inside_detected_walls": 0.6318,
+    "on_detected_wall_edges": 0.0164
+   },
+   "rooms_found": 4
   },
   "0046-0015": {
    "wall_lines": 42,
-   "wall_thickness_est_pt": 8.0,
-   "wall_recall": 0.0576,
+   "wall_thicknesses_est_pt": [
+    8.0
+   ],
+   "label_audit": {
+    "inside_detected_walls": 0.0566,
+    "on_detected_wall_edges": 0.0218
+   },
    "rooms_found": 2
   },
   "0462-0051": {
    "wall_lines": 20,
-   "wall_thickness_est_pt": 35.987,
-   "wall_recall": 1.0,
+   "wall_thicknesses_est_pt": [
+    35.987
+   ],
+   "label_audit": {
+    "inside_detected_walls": 1.0,
+    "on_detected_wall_edges": 0.0013
+   },
    "rooms_found": 0
   },
   "0007-0020": {
    "wall_lines": 37,
-   "wall_thickness_est_pt": 7.999,
-   "wall_recall": 0.0397,
+   "wall_thicknesses_est_pt": [
+    7.999
+   ],
+   "label_audit": {
+    "inside_detected_walls": 0.0397,
+    "on_detected_wall_edges": 0.0302
+   },
    "rooms_found": 4
   },
   "0559-0018": {
    "wall_lines": 32,
-   "wall_thickness_est_pt": 4.0,
-   "wall_recall": 0.9266,
+   "wall_thicknesses_est_pt": [
+    4.0
+   ],
+   "label_audit": {
+    "inside_detected_walls": 0.9266,
+    "on_detected_wall_edges": 0.5234
+   },
    "rooms_found": 0
   },
   "0017-0004": {
    "wall_lines": 76,
-   "wall_thickness_est_pt": 8.003,
-   "wall_recall": 1.0,
+   "wall_thicknesses_est_pt": [
+    8.003
+   ],
+   "label_audit": {
+    "inside_detected_walls": 1.0,
+    "on_detected_wall_edges": 0.2917
+   },
    "rooms_found": 7
   },
   "0036-0120": {
    "wall_lines": 95,
-   "wall_thickness_est_pt": 8.0,
-   "wall_recall": 1.0,
-   "rooms_found": 4
+   "wall_thicknesses_est_pt": [
+    8.0
+   ],
+   "label_audit": {
+    "inside_detected_walls": 1.0,
+    "on_detected_wall_edges": 0.0
+   },
+   "rooms_found": 3
   },
   "0007-0013": {
    "wall_lines": 60,
-   "wall_thickness_est_pt": 7.999,
-   "wall_recall": 0.0361,
+   "wall_thicknesses_est_pt": [
+    7.999
+   ],
+   "label_audit": {
+    "inside_detected_walls": 0.0361,
+    "on_detected_wall_edges": 0.0225
+   },
    "rooms_found": 2
   }
  }

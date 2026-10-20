@@ -2,8 +2,9 @@
 
 1. Rooms, on synthetic plans with an answer key (eval/synth_rooms.py): the two room parameters are chosen on the
    tune seeds only, frozen in runs/room_params.json, then scored once on the held-out seeds.
-2. Walls, on FloorPlanCAD drawings with wall labels (eval/fetch_walls.py): recall of the wall-labelled linework.
-   Precision cannot be scored there: many real walls are unlabelled.
+2. FloorPlanCAD drawings with wall labels (eval/fetch_walls.py): a label audit, not an accuracy. Inspection shows
+   the 'wall' label marks only some walls (often thin partitions) while many thick walls are unlabelled, so the
+   share of labelled linework inside, or on the edges of, the detected walls describes the labels, not detection.
 
 Rooms are matched one-to-one at IoU > 0.5 (a match above 0.5 is unique, so no assignment step is needed).
 Writes runs/room_params.json and runs/rooms.json.
@@ -24,10 +25,11 @@ from eval.synth_rooms import TEST_SEEDS, TUNE_SEEDS, make
 from floorplan_parser.groundtruth import load_ground_truth
 from floorplan_parser.metrics import _samples, _segments
 from floorplan_parser.prep import clean_svg, svg_to_vector_pdf
-from floorplan_parser.rooms import RoomParams, detect_walls, extract_rooms, wall_thickness
+from floorplan_parser.rooms import RoomParams, detect_walls, extract_rooms, wall_thickness, wall_thicknesses
 from floorplan_parser.vector import extract_vector
 
 GRID = {"max_gap_factor": [4, 6, 8, 10, 14], "min_area_factor": [5, 10, 20, 40]}
+
 ROOMS = INPUTS / "rooms"
 
 
@@ -65,14 +67,33 @@ def _plan(seed: int):
     return name, ex, [Polygon(r) for r in gt["rooms"]], gt["wall_thickness_pt"]
 
 
-def _wall_recall(lines, gt_lines) -> float:
+def _label_audit(lines, gt_lines, p: RoomParams) -> dict:
+    """Where FloorPlanCAD's wall-labelled lines fall relative to the detected walls. Not an accuracy: the labels mark
+    only some walls (often thin partitions), and many thick walls are unlabelled, so neither share is a recall."""
     a, b = _segments(gt_lines)
     pts, _, w = _samples(a, b)
-    walls = detect_walls(lines, wall_thickness(lines) or 1.0)
-    if walls.is_empty or len(pts) == 0:
-        return 0.0
-    near = walls.buffer(1.0).contains(points(pts))
-    return float(w[near].sum() / w.sum())
+    ts = wall_thicknesses(lines, p)
+    if not ts or len(pts) == 0:
+        return {"inside_detected_walls": 0.0, "on_detected_wall_edges": 0.0}
+    walls = detect_walls(lines, ts, p)
+    if walls.is_empty:
+        return {"inside_detected_walls": 0.0, "on_detected_wall_edges": 0.0}
+    inside = walls.buffer(1.0).contains(points(pts))
+    edge = walls.boundary.buffer(1.0).contains(points(pts))
+    return {"inside_detected_walls": round(float(w[inside].sum() / w.sum()), 4),
+            "on_detected_wall_edges": round(float(w[edge].sum() / w.sum()), 4)}  # fmt: skip
+
+
+def _real_walls(drawing: str, folder: str):
+    svg = SAMPLES / folder / f"{drawing}.svg"
+    out = INPUTS / folder / drawing
+    out.mkdir(parents=True, exist_ok=True)
+    pdf = out / "vector.pdf"
+    if not pdf.exists():
+        svg_to_vector_pdf(clean_svg(svg.read_text(encoding="utf-8"), PAGE_PT), pdf)
+    ex = extract_vector(pdf, chain=True)
+    gt = load_ground_truth(svg, PAGE_PT)
+    return ex, [ln for ln, lb in zip(gt.lines, gt.labels, strict=True) if lb == "wall"]
 
 
 def main() -> None:
@@ -102,18 +123,12 @@ def main() -> None:
     real = {}
     manifest = json.loads((RUNS / "wall_manifest.json").read_text())
     for d in manifest["drawings"]:
-        svg = SAMPLES / "walls" / f"{d}.svg"
-        out = INPUTS / "walls" / d
-        out.mkdir(parents=True, exist_ok=True)
-        pdf = svg_to_vector_pdf(clean_svg(svg.read_text(encoding="utf-8"), PAGE_PT), out / "vector.pdf")
-        ex = extract_vector(pdf, chain=True)
-        gt = load_ground_truth(svg, PAGE_PT)
-        wall_lines = [ln for ln, lb in zip(gt.lines, gt.labels, strict=True) if lb == "wall"]
-        t = wall_thickness(ex.lines(), params)
+        ex, wall_lines = _real_walls(d, "walls")
+        ts = wall_thicknesses(ex.lines(), params)
         real[d] = {
             "wall_lines": len(wall_lines),
-            "wall_thickness_est_pt": round(t, 3) if t else None,
-            "wall_recall": round(_wall_recall(ex.lines(), wall_lines), 4),
+            "wall_thicknesses_est_pt": [round(t, 3) for t in ts],
+            "label_audit": _label_audit(ex.lines(), wall_lines, params),
             "rooms_found": len(extract_rooms(ex.lines(), ex.page_size, params)),
         }
 
@@ -141,7 +156,8 @@ def main() -> None:
             for v in synthetic.values()
             if v["wall_thickness_est_pt"]
         ),
-        "real_wall_recall": dist([v["wall_recall"] for v in real.values()]),
+        "real_label_audit_inside": dist([v["label_audit"]["inside_detected_walls"] for v in real.values()]),
+        "real_label_audit_edge": dist([v["label_audit"]["on_detected_wall_edges"] for v in real.values()]),
     }
     (RUNS / "rooms.json").write_text(json.dumps({"params": params.to_dict(), "summary": summary,
                                                  "synthetic": synthetic, "floorplancad_walls": real}, indent=1))  # fmt: skip

@@ -73,7 +73,7 @@ What the numbers say:
 - **Time (median across ten drawings):** vector 26 ms, vector with `--chain` 32 ms, raster at 300 DPI 0.25 s.
 - **Lines → walls → rooms (`--rooms`, `floorplan_parser/rooms.py`, Shapely):** wall thickness is the most common gap between overlapping parallel lines; parallel pairs about that far apart become wall bands; gaps between collinear bands up to 14 thicknesses are bridged (doorways); rooms are the closed pieces of page minus walls. Scored by `eval.rooms_eval` (`runs/rooms.json`):
   - *Synthetic plans with a room answer key* (`eval/synth_rooms.py`; parameters chosen on 10 plans, scored on 20 others): wall thickness within 0.5 pt on 20/20, room F1 mean 0.977 (median 1.000, min 0.870), matched room area error median under 0.001%, total area error −0.53% to +1.18%. All five imperfect plans are open kitchens found as one room. These plans follow the generator's own conventions.
-  - *FloorPlanCAD drawings with wall labels* (`eval/fetch_walls.py`, `runs/wall_manifest.json`: ten of the 46 test drawings with ≥ 30 wall primitives, seeded): wall recall median 0.78, mean 0.60, range 0.04–1.00. Precision cannot be scored (many walls are unlabelled). The four drawings at recall ≤ 0.30 have wall faces 2–3 pt apart while their most common parallel gap is 8 pt, so the thickness estimate is wrong there. Vector slows on dense drawings because it has to dedupe thousands of pieces. Stage timings are in `runs/summary.json`.
+  - *FloorPlanCAD drawings with wall labels* (`eval/fetch_walls.py`, `runs/wall_manifest.json`: ten of the 46 test drawings with ≥ 30 wall primitives, seeded): **not scored as accuracy.** The share of wall-labelled linework inside the detected walls has a median 0.78, but on their edges, where wall faces should be, 0.03. Inspection shows the `wall` label marks only some walls (often thin partitions 2–4 pt thick) while thick walls are unlabelled, so both numbers describe the labels (`label_audit` in `runs/rooms.json`). A multi-thickness option (`n_peaks`) exists but stays at 1: it could not be chosen on sound labels.
 - **Scan robustness (synthetic, 300 DPI, `runs/robustness.csv`):** noise plus blur moves F1 by at most 0.6 points, and a 2° rotation costs 0.3–2.4 points.
 - **Text drawn as lines (`runs/text_paths.json`):** both routes pick up a dimension label drawn as line strokes as if it were geometry. Vector precision drops to 0.96.
 
@@ -102,7 +102,7 @@ uv run pytest -q
 - Matching is many-to-one within 2 pt. An extractor that merges two true lines closer than 2 pt into one still scores F1 1.0; only the length error shows it (50% for one pair). On the near-parallel synthetic drawing the raster length error is at most 0.21%, so no such merge happened there (`tests/test_metrics.py::test_collapsed_pair_shows_in_length_error_not_f1` pins this behaviour).
 - Straight lines only on the raster side. Curves come back as short straight pieces.
 - Rooms are scored on synthetic plans only: FloorPlanCAD has no room labels.
-- One wall thickness per drawing, from the most common gap. On real drawings this guess is the weak link; several thickness peaks or stroke widths are the next thing to try, on drawings outside the wall set.
+- No real-drawing score for walls or rooms: FloorPlanCAD labels only some walls and no rooms. Needs vector drawings with wall faces and rooms labelled.
 - Geometry only. Walls, doors and rooms need a separate recognition step.
 
 ## Data and licence

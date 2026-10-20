@@ -211,14 +211,13 @@ def main() -> None:
 
     # 8. Lines -> walls -> rooms on a held-out synthetic plan with an open kitchen
     from eval.rooms_eval import _plan
-    from floorplan_parser.rooms import RoomParams, bridges, extract_rooms, wall_bands, wall_thickness
+    from floorplan_parser.rooms import RoomParams, bridges, extract_rooms, wall_bands, wall_thicknesses
 
     rp = RoomParams.from_dict(json.loads((RUNS / "room_params.json").read_text())["chosen"])
     _, rex, rgt, _ = _plan(105)
     lines = rex.lines()
-    t_est = wall_thickness(lines, rp)
-    bands = wall_bands(lines, t_est, rp)
-    brs = bridges(bands, t_est, rp.max_gap_factor * t_est, rp.angle_tol_deg)
+    bands = wall_bands(lines, wall_thicknesses(lines, rp), rp)
+    brs = bridges(bands, rp.max_gap_factor, rp.angle_tol_deg)
     found = extract_rooms(lines, rex.page_size, rp)
     bx0 = min(ln.bounds[0] for ln in lines) - 10
     by0 = min(ln.bounds[1] for ln in lines) - 10

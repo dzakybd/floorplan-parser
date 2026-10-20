@@ -27,6 +27,8 @@ class RoomParams:
     thickness_tol: float = 0.25  # a pair is a wall when its gap is within this share of the wall thickness
     angle_tol_deg: float = 2.0
     max_thickness: float = 40.0  # pt; wider parallel gaps are never walls
+    n_peaks: int = 1  # wall thicknesses kept: the strongest peaks of the gap histogram
+    peak_share: float = 0.25  # a further peak must weigh at least this share of the strongest one
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -80,16 +82,30 @@ def _parallel_pairs(segs: list[LineString], max_gap: float, angle_tol_deg: float
     return _Pairs(gap[ok], (hi - lo)[ok], lo[ok], hi[ok], c0[ok], c1[ok], u[ok], n[ok])
 
 
-def wall_thickness(lines: list[LineString], p: RoomParams = DEFAULT) -> float | None:
-    """The most common gap (pt) between overlapping parallel straight lines, weighted by overlap length."""
+def wall_thicknesses(lines: list[LineString], p: RoomParams = DEFAULT) -> list[float]:
+    """Wall thicknesses (pt), strongest first: peaks of the histogram of gaps between overlapping parallel straight
+    lines, weighted by overlap length. Up to `n_peaks`, each at least `peak_share` of the strongest and at least
+    1.5 pt from a kept one."""
     pairs = _parallel_pairs(_straight(lines, 4.0), p.max_thickness, p.angle_tol_deg, 4.0)
     if len(pairs.gap) == 0:
-        return None
+        return []
     bins = np.arange(0.25, p.max_thickness + 0.5, 0.5)
     hist, _ = np.histogram(pairs.gap, bins=bins, weights=pairs.overlap)
-    k = int(np.argmax(hist))
-    in_bin = (pairs.gap >= bins[k]) & (pairs.gap < bins[k + 1])
-    return float(np.average(pairs.gap[in_bin], weights=pairs.overlap[in_bin]))
+    out: list[float] = []
+    for k in np.argsort(hist)[::-1]:
+        if len(out) == p.n_peaks or hist[k] <= 0 or hist[k] < p.peak_share * hist.max():
+            break
+        in_bin = (pairs.gap >= bins[k]) & (pairs.gap < bins[k + 1])
+        t = float(np.average(pairs.gap[in_bin], weights=pairs.overlap[in_bin]))
+        if all(abs(t - u) >= 1.5 for u in out):
+            out.append(t)
+    return out
+
+
+def wall_thickness(lines: list[LineString], p: RoomParams = DEFAULT) -> float | None:
+    """The most common wall thickness (pt), or None when there are no parallel pairs."""
+    ts = wall_thicknesses(lines, p)
+    return ts[0] if ts else None
 
 
 @dataclass(frozen=True)
@@ -118,50 +134,65 @@ def _band(u: np.ndarray, lo: float, hi: float, c0: float, c1: float) -> Band:
     return Band(u, n, lo, hi, (c0 + c1) / 2, abs(c1 - c0))
 
 
-def wall_bands(lines: list[LineString], t: float, p: RoomParams = DEFAULT) -> list[Band]:
-    """One band per pair of parallel lines about `t` apart, extended by `t` at both ends so that walls meeting at a
-    corner overlap instead of touching at a point."""
-    pairs = _parallel_pairs(_straight(lines, t / 2), t * (1 + p.thickness_tol), p.angle_tol_deg, t / 2)
-    wall = np.abs(pairs.gap - t) <= p.thickness_tol * t
-    return [_band(pairs.u[k], pairs.lo[k] - t, pairs.hi[k] + t, pairs.c0[k], pairs.c1[k]) for k in np.flatnonzero(wall)]
+def wall_bands(lines: list[LineString], t: float | list[float], p: RoomParams = DEFAULT) -> list[Band]:
+    """One band per pair of parallel lines about one of the thicknesses `t` apart, extended by its gap at both ends
+    so that walls meeting at a corner overlap instead of touching at a point."""
+    ts = [t] if isinstance(t, (int, float)) else list(t)
+    if not ts:
+        return []
+    lo_t, hi_t = min(ts), max(ts)
+    pairs = _parallel_pairs(_straight(lines, lo_t / 2), hi_t * (1 + p.thickness_tol), p.angle_tol_deg, lo_t / 2)
+    wall = np.zeros(len(pairs.gap), bool)
+    for u in ts:
+        wall |= np.abs(pairs.gap - u) <= p.thickness_tol * u
+    return [
+        _band(pairs.u[k], pairs.lo[k] - pairs.gap[k], pairs.hi[k] + pairs.gap[k], pairs.c0[k], pairs.c1[k])
+        for k in np.flatnonzero(wall)
+    ]
 
 
-def detect_walls(lines: list[LineString], t: float, p: RoomParams = DEFAULT) -> BaseGeometry:
+def detect_walls(lines: list[LineString], t: float | list[float], p: RoomParams = DEFAULT) -> BaseGeometry:
     return union_all([b.polygon() for b in wall_bands(lines, t, p)])
 
 
-def bridges(bands: list[Band], t: float, max_gap: float, angle_tol_deg: float = 2.0) -> list[Band]:
-    """For each band, a bridge to the nearest band that continues it on the same line within `max_gap`: a doorway
-    closed. Bands on parallel but different lines (a corridor) are never bridged."""
+def bridges(
+    bands: list[Band], max_gap_factor: float, angle_tol_deg: float = 2.0, width_tol: float = 0.25
+) -> list[Band]:
+    """For each band, a bridge to the nearest band of about the same width that continues it on the same line within
+    `max_gap_factor` widths: a doorway closed. Bands on parallel but different lines (a corridor) are never
+    bridged."""
     cos_tol = math.cos(math.radians(angle_tol_deg))
     out = []
     for a in bands:
         best = None
         for b in bands:
-            if b is a or float(a.u @ b.u) < cos_tol or abs(a.c - b.c) > t / 2:
+            if b is a or float(a.u @ b.u) < cos_tol or abs(a.c - b.c) > a.width / 2:
+                continue
+            if abs(a.width - b.width) > width_tol * a.width:
                 continue
             gap = b.lo - a.hi
-            if 0 < gap <= max_gap and (best is None or gap < best):
+            if 0 < gap <= max_gap_factor * a.width and (best is None or gap < best):
                 best = gap
         if best is not None:
-            out.append(Band(a.u, a.n, a.hi, a.hi + best, a.c, t))
+            out.append(Band(a.u, a.n, a.hi, a.hi + best, a.c, a.width))
     return out
 
 
-def close_openings(lines: list[LineString], t: float, p: RoomParams = DEFAULT) -> BaseGeometry:
+def close_openings(lines: list[LineString], t: float | list[float], p: RoomParams = DEFAULT) -> BaseGeometry:
     """Walls with their doorways closed."""
     bands = wall_bands(lines, t, p)
     if not bands:
         return Polygon()
-    return union_all([b.polygon() for b in [*bands, *bridges(bands, t, p.max_gap_factor * t, p.angle_tol_deg)]])
+    return union_all([b.polygon() for b in [*bands, *bridges(bands, p.max_gap_factor, p.angle_tol_deg)]])
 
 
 def extract_rooms(lines: list[LineString], page_size: tuple[float, float], p: RoomParams = DEFAULT) -> list[Polygon]:
     """Room polygons (PDF points), largest first. Empty when no wall thickness can be found."""
-    t = wall_thickness(lines, p)
-    if t is None:
+    ts = wall_thicknesses(lines, p)
+    if not ts:
         return []
-    walls = close_openings(lines, t, p)
+    t = ts[0]
+    walls = close_openings(lines, ts, p)
     if walls.is_empty:
         return []
     page = box(0, 0, *page_size)
