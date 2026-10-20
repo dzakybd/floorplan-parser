@@ -213,7 +213,7 @@ def main() -> None:
     from eval.rooms_eval import _plan
     from floorplan_parser.rooms import RoomParams, bridges, extract_rooms, wall_bands, wall_thicknesses
 
-    rp = RoomParams.from_dict(json.loads((RUNS / "room_params.json").read_text())["chosen"])
+    rp = RoomParams.from_dict(json.loads((RUNS / "room_params.json").read_text())["final"])
     _, rex, rgt, _ = _plan(105)
     lines = rex.lines()
     bands = wall_bands(lines, wall_thicknesses(lines, rp), rp)

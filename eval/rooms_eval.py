@@ -115,7 +115,8 @@ def main() -> None:
     tune = [_plan(s) for s in TUNE_SEEDS]
     trials = []
     for values in itertools.product(*GRID.values()):
-        p = RoomParams(**dict(zip(GRID, values, strict=True)))
+        # step 1 tunes the room parameters with the single-thickness rule; step 2 then chooses the thickness rule
+        p = RoomParams(**dict(zip(GRID, values, strict=True)), thickness_tol=0.25, n_peaks=1, peak_share=0.25)
         ms = [score_rooms(extract_rooms(ex.lines(), ex.page_size, p), gt) for _, ex, gt, _ in tune]
         trials.append({"params": p.to_dict(), "room_f1": round(statistics.mean(x["room_f1"] for x in ms), 4),
                        "abs_total_area_err_pct": round(statistics.mean(abs(x["total_area_err_pct"]) for x in ms), 3)})  # fmt: skip

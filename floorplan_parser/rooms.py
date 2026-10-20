@@ -22,13 +22,15 @@ from shapely.geometry.base import BaseGeometry
 
 @dataclass(frozen=True)
 class RoomParams:
-    max_gap_factor: float = 10.0  # bridge doorways up to this many wall thicknesses wide
-    min_area_factor: float = 20.0  # rooms smaller than this many squared wall thicknesses are dropped
-    thickness_tol: float = 0.25  # a pair is a wall when its gap is within this share of the wall thickness
+    """Defaults are the frozen choice in runs/room_params.json ('final')."""
+
+    max_gap_factor: float = 14.0  # bridge doorways up to this many wall thicknesses wide
+    min_area_factor: float = 5.0  # rooms smaller than this many squared wall thicknesses are dropped
+    thickness_tol: float = 0.4  # a pair is a wall when its gap is within this share of the wall thickness
     angle_tol_deg: float = 2.0
     max_thickness: float = 40.0  # pt; wider parallel gaps are never walls
-    n_peaks: int = 1  # wall thicknesses kept: the strongest peaks of the gap histogram
-    peak_share: float = 0.25  # a further peak must weigh at least this share of the strongest one
+    n_peaks: int = 5  # wall thicknesses kept: the strongest peaks of the gap histogram
+    peak_share: float = 0.1  # a further peak must weigh at least this share of the strongest one
 
     def to_dict(self) -> dict:
         return asdict(self)
