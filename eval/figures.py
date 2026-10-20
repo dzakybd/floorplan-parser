@@ -44,6 +44,8 @@ TEXT = {
         "chain_raw": "As read: {} pieces",
         "chain_joined": "With --chain: {} polyline",
         "chain_note": "Same synthetic door arc, same geometry; F1 1.00 both ways",
+        "rooms_titles": ["1. Lines read from the PDF", "2. Walls, doorways closed", "3. Rooms and areas"],
+        "rooms_note": "Synthetic held-out plan. Orange: doorways bridged. Red outline: two rooms with no wall between them, found as one.",
         "text": "A label drawn as lines is picked up as geometry (orange)",
         "chart_title": "F1 by length on three held-out FloorPlanCAD drawings",
         "chart_x": "F1 (length-based), axis starts at 0.85",
@@ -63,6 +65,8 @@ TEXT = {
         "chain_raw": "Seperti terbaca: {} potongan",
         "chain_joined": "Dengan --chain: {} polyline",
         "chain_note": "Busur pintu sintetis yang sama, geometri sama; F1 1,00 di keduanya",
+        "rooms_titles": ["1. Garis dibaca dari PDF", "2. Dinding, pintu ditutup", "3. Ruangan dan luasnya"],
+        "rooms_note": "Denah sintetis held-out. Oranye: pintu dijembatani. Garis merah: dua ruangan tanpa dinding di antaranya, terbaca jadi satu.",
         "text": "Label yang digambar sebagai garis ikut terbaca sebagai geometri (oranye)",
         "chart_title": "F1 berbasis panjang pada tiga gambar FloorPlanCAD uji",
         "chart_x": "F1 (berbasis panjang), sumbu mulai 0,85",
@@ -204,6 +208,68 @@ def main() -> None:
             pts = [(24 + (px - x0) * s, 24 + (py - y0) * s) for px, py in e.geometry]
             dt.line(pts, fill=(ORANGE if i % 2 == 0 else BLUE) if alternate else BLUE, width=9, joint="curve")
         tile.save(out / f"floorplan-parser-poster-{name}.png")
+
+    # 8. Lines -> walls -> rooms on a held-out synthetic plan with an open kitchen
+    from eval.rooms_eval import _plan
+    from floorplan_parser.rooms import RoomParams, bridges, extract_rooms, wall_bands, wall_thickness
+
+    rp = RoomParams.from_dict(json.loads((RUNS / "room_params.json").read_text())["chosen"])
+    _, rex, rgt, _ = _plan(105)
+    lines = rex.lines()
+    t_est = wall_thickness(lines, rp)
+    bands = wall_bands(lines, t_est, rp)
+    brs = bridges(bands, t_est, rp.max_gap_factor * t_est, rp.angle_tol_deg)
+    found = extract_rooms(lines, rex.page_size, rp)
+    bx0 = min(ln.bounds[0] for ln in lines) - 10
+    by0 = min(ln.bounds[1] for ln in lines) - 10
+    bx1 = max(ln.bounds[2] for ln in lines) + 10
+    by1 = max(ln.bounds[3] for ln in lines) + 10
+    sc = 560 / max(bx1 - bx0, by1 - by0)
+    pw, ph = round((bx1 - bx0) * sc), round((by1 - by0) * sc)
+    to = lambda x, y: ((x - bx0) * sc, (y - by0) * sc)
+    panels = []
+    for k in range(3):
+        im3 = Image.new("RGB", (pw, ph), BG)
+        dr3 = ImageDraw.Draw(im3, "RGBA")
+        if k == 0:
+            for ln in lines:
+                dr3.line([to(x, y) for x, y in ln.coords], fill=INK, width=2)
+        if k == 1:
+            for b in bands:
+                dr3.polygon([to(x, y) for x, y in b.polygon().exterior.coords], fill=(42, 120, 214, 255))
+            for b in brs:
+                dr3.polygon([to(x, y) for x, y in b.polygon().exterior.coords], fill=(235, 104, 52, 255))
+        if k == 2:
+            fills = [
+                (42, 120, 214, 70),
+                (27, 175, 122, 70),
+                (235, 104, 52, 60),
+                (164, 123, 232, 70),
+                (230, 180, 40, 80),
+            ]
+            for i, r in enumerate(found):
+                dr3.polygon(
+                    [to(x, y) for x, y in r.exterior.coords], fill=fills[i % len(fills)], outline=(80, 80, 80, 255)
+                )
+                merged = sum(r.intersection(g).area / g.area > 0.9 for g in rgt) >= 2
+                if merged:
+                    dr3.line([to(x, y) for x, y in r.exterior.coords], fill=(214, 39, 40, 255), width=5)
+                cx, cy = to(*r.representative_point().coords[0])
+                label = (
+                    f"{r.area / 1000:.1f}k pt²" if args.lang == "en" else f"{r.area / 1000:.1f}k pt²".replace(".", ",")
+                )
+                dr3.text((cx - 34, cy - 10), label, fill=INK, font=font(17, bold=True))
+            for ln in lines:
+                dr3.line([to(x, y) for x, y in ln.coords], fill=(150, 150, 145, 255), width=1)
+        panels.append(im3)
+    trio = Image.new("RGB", (24 + 3 * (pw + 24), ph + 52 + 60), BG)
+    dr = ImageDraw.Draw(trio)
+    for k, im3 in enumerate(panels):
+        x = 24 + k * (pw + 24)
+        dr.text((x, 14), t["rooms_titles"][k], fill=INK, font=font(24, bold=True))
+        trio.paste(im3, (x, 52))
+    dr.text((24, ph + 52 + 18), t["rooms_note"], fill=MUTED, font=font(19))
+    trio.save(out / f"floorplan-parser-rooms{sfx}.png")
 
     # 6. Text drawn as lines
     tp = INPUTS / "synth-text-paths"

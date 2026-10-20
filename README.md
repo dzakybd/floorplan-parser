@@ -13,11 +13,11 @@ Demo (synthetic drawings, precomputed): [huggingface.co/spaces/dzakybd/floorplan
 
 ```bash
 uv sync
-uv run python -m floorplan_parser --input plan.pdf --method vector --chain --output out/plan_vector
+uv run python -m floorplan_parser --input plan.pdf --method vector --chain --rooms --output out/plan_vector
 uv run python -m floorplan_parser --input scan.pdf --method raster --dpi 300 --output out/plan_raster
 ```
 
-Options: `--chain` (vector: join the pieces of each smooth curve into one polyline; see below), `--page N` (1-based), `--dpi` (raster: render resolution for pages that are not a single image; a page that is one full-page image is read at its own resolution), `--params file.json` (raster parameters, see `runs/params.json`). An unreadable file exits with code 1. A page with no vector paths (a scan) returns no elements and a warning, so use `--method raster` there.
+Options: `--chain` (vector: join the pieces of each curve into one polyline; see below), `--rooms` (also find walls and rooms; writes `rooms.json` with each room's polygon, area in pt² and perimeter in pt), `--page N` (1-based), `--dpi` (raster: render resolution for pages that are not a single image; a page that is one full-page image is read at its own resolution), `--params file.json` (raster parameters, see `runs/params.json`). An unreadable file exits with code 1. A page with no vector paths (a scan) returns no elements and a warning, so use `--method raster` there.
 
 Output (`elements.json`):
 
@@ -68,9 +68,12 @@ F1 by length, with the number of extracted pieces in brackets (from `runs/metric
 
 What the numbers say:
 - **Vector recovers all of the linework on all ten drawings, but in pieces.** Every arc comes back as many short straight segments: up to 14.3 pieces per true line (`0721-0004`, 1,759 pieces for 123 lines). F1 is by length, so it cannot see this; the structure numbers below can.
-- **`--chain` fixes the structure, at a measured cost.** It joins pieces where exactly two meet and the path turns by less than 30° (curves), never at corners or junctions; the geometry is unchanged. Pieces per reference line: mean 5.34 → 0.84, worst drawing 14.30 → 0.98; reference lines split into 2+ pieces: 10.4% → 2.4%; F1 still 1.000. Cost: elements that cover two or more reference lines rise from 2.6% to 10.2% (up to 31.6% on `1083-0018`), because collinear neighbours that the CAD file keeps separate look like one line; endpoint coverage drops from 100% to 87.6% for the same reason. The 30° rule was not tuned on these drawings.
+- **`--chain` fixes the structure, at a measured cost.** It joins pieces where exactly two meet and the path turns by 0.1° to 30° (curves), never at corners, junctions or exactly straight continuations; the geometry is unchanged. Pieces per reference line: mean 5.34 → 0.93, worst drawing 14.30 → 1.27; reference lines split into 2+ pieces: 10.4% → 2.9%; F1 still 1.000. Cost: elements that cover two or more reference lines rise from 2.6% to 5.5% (the worst drawing's 17.8% is the same as the raw vector route); endpoint coverage 100% → 93.0%. Without the 0.1° floor, joined elements were 10.2%; the floor comes from geometry (a flattened curve always turns), not from these drawings.
 - **Raster at 300 DPI averages F1 0.981 (0.890–1.000).** It is close on clean drawings and weakest on close double lines. On the medium drawing it adds lines along closely spaced double lines (precision 0.84 at 300 DPI), and more pixels make that worse (length error 2.4% at 150 DPI, 25.7% at 600 DPI). It also drops small circles and the ends of arcs.
-- **Time (median across ten drawings):** vector 26 ms (4 ms–0.57 s), vector with `--chain` 33 ms (5 ms–0.62 s), raster at 300 DPI 0.25 s (0.15–0.45 s). Vector slows on dense drawings because it has to dedupe thousands of pieces. Stage timings are in `runs/summary.json`.
+- **Time (median across ten drawings):** vector 26 ms, vector with `--chain` 32 ms, raster at 300 DPI 0.25 s.
+- **Lines → walls → rooms (`--rooms`, `floorplan_parser/rooms.py`, Shapely):** wall thickness is the most common gap between overlapping parallel lines; parallel pairs about that far apart become wall bands; gaps between collinear bands up to 14 thicknesses are bridged (doorways); rooms are the closed pieces of page minus walls. Scored by `eval.rooms_eval` (`runs/rooms.json`):
+  - *Synthetic plans with a room answer key* (`eval/synth_rooms.py`; parameters chosen on 10 plans, scored on 20 others): wall thickness within 0.5 pt on 20/20, room F1 mean 0.977 (median 1.000, min 0.870), matched room area error median under 0.001%, total area error −0.53% to +1.18%. All five imperfect plans are open kitchens found as one room. These plans follow the generator's own conventions.
+  - *FloorPlanCAD drawings with wall labels* (`eval/fetch_walls.py`, `runs/wall_manifest.json`: ten of the 46 test drawings with ≥ 30 wall primitives, seeded): wall recall median 0.78, mean 0.60, range 0.04–1.00. Precision cannot be scored (many walls are unlabelled). The four drawings at recall ≤ 0.30 have wall faces 2–3 pt apart while their most common parallel gap is 8 pt, so the thickness estimate is wrong there. Vector slows on dense drawings because it has to dedupe thousands of pieces. Stage timings are in `runs/summary.json`.
 - **Scan robustness (synthetic, 300 DPI, `runs/robustness.csv`):** noise plus blur moves F1 by at most 0.6 points, and a 2° rotation costs 0.3–2.4 points.
 - **Text drawn as lines (`runs/text_paths.json`):** both routes pick up a dimension label drawn as line strokes as if it were geometry. Vector precision drops to 0.96.
 
@@ -86,6 +89,8 @@ uv run python -m eval.benchmark
 uv run python -m eval.failures
 uv run python -m eval.report
 uv run python -m eval.verify
+uv run python -m eval.fetch_walls --archive ~/Downloads/test-00.tar.xz   # wall-labelled set (list committed)
+uv run python -m eval.rooms_eval
 uv run python space/build.py
 uv run pytest -q
 ```
@@ -96,7 +101,8 @@ uv run pytest -q
 - The vector PDF is made from the same SVG the score uses, so near-perfect vector numbers are expected by construction. Real CAD-exported PDFs add hatching, text drawn as lines, and clipping.
 - Matching is many-to-one within 2 pt. An extractor that merges two true lines closer than 2 pt into one still scores F1 1.0; only the length error shows it (50% for one pair). On the near-parallel synthetic drawing the raster length error is at most 0.21%, so no such merge happened there (`tests/test_metrics.py::test_collapsed_pair_shows_in_length_error_not_f1` pins this behaviour).
 - Straight lines only on the raster side. Curves come back as short straight pieces.
-- `--chain` cannot tell two collinear CAD lines from one line. Refusing to join exactly straight continuations is the next rule to try, chosen on drawings outside this test set.
+- Rooms are scored on synthetic plans only: FloorPlanCAD has no room labels.
+- One wall thickness per drawing, from the most common gap. On real drawings this guess is the weak link; several thickness peaks or stroke widths are the next thing to try, on drawings outside the wall set.
 - Geometry only. Walls, doors and rooms need a separate recognition step.
 
 ## Data and licence

@@ -89,3 +89,23 @@ def test_overlay_aligned_on_rotated_page(tmp_path):
     p = pymupdf.Point(300, 200) * doc[0].rotation_matrix
     x, y = round(p.x), round(p.y)
     assert img[y, min(x, pix.width - 1) - 1].tolist()[:3] != [255, 255, 255]
+
+
+def test_cli_rooms(tmp_path):
+    doc = pymupdf.open()
+    page = doc.new_page(width=800, height=800)
+    t = 8
+    for x0, y0, x1, y1 in [(100, 100, 508, 300 + t), (100 + t, 100 + t, 500, 300)]:  # outer and inner face
+        page.draw_rect(pymupdf.Rect(x0, y0, x1, y1))
+    for x in (300, 300 + t):  # a dividing wall with a doorway between y 180 and 220
+        page.draw_line((x, 100 + t), (x, 180))
+        page.draw_line((x, 220), (x, 300))
+    path = tmp_path / "plan.pdf"
+    doc.save(path)
+    out = tmp_path / "out"
+    r = _run("--input", path, "--method", "vector", "--rooms", "--output", out)
+    assert r.returncode == 0, r.stderr
+    data = json.loads((out / "rooms.json").read_text())
+    assert data["unit"] == "pt2" and data["wall_thickness_pt"] == pytest.approx(8, abs=0.3)
+    assert len(data["rooms"]) == 2
+    assert sum(room["area_pt2"] for room in data["rooms"]) == pytest.approx(2 * 192 * 192, rel=0.01)

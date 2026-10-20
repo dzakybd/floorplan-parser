@@ -8,6 +8,7 @@ from pathlib import Path
 from floorplan_parser.model import ExtractionError
 from floorplan_parser.overlay import draw_overlay
 from floorplan_parser.raster import RasterParams, extract_raster
+from floorplan_parser.rooms import write_rooms
 from floorplan_parser.vector import extract_vector
 
 
@@ -20,6 +21,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument(
         "--chain", action="store_true", help="vector: join the pieces of each smooth curve into one polyline"
     )
+    ap.add_argument("--rooms", action="store_true", help="also find walls and rooms: rooms.json (areas in pt2)")
     ap.add_argument("--dpi", type=int, default=300, help="raster: render resolution for pages that are not one image")
     ap.add_argument("--params", type=Path, help="raster: JSON file of RasterParams fields")
     ap.add_argument("--coordinate-system", choices=["pdf_points"], default="pdf_points")
@@ -34,6 +36,8 @@ def main(argv: list[str] | None = None) -> int:
         ex.to_json(args.output / "elements.json")
         ex.to_csv(args.output / "elements.csv")
         draw_overlay(args.input, args.page, ex, args.output / "overlay.png")
+        if args.rooms:
+            write_rooms(ex, args.output / "rooms.json")
     except ExtractionError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1

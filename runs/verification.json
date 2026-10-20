@@ -2,7 +2,7 @@
   "pytest": {
     "command": "python -m pytest -q",
     "exit_code": 0,
-    "output": "........................................................................ [100%]\n72 passed in 5.64s"
+    "output": "........................................................................ [ 92%]\n......                                                                   [100%]\n78 passed in 8.69s"
   },
   "exports_checked": 80,
   "held_out_settings_rescored": 50,

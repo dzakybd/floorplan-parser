@@ -1,0 +1,270 @@
+{
+ "tuned_on": [
+  "rooms-000",
+  "rooms-001",
+  "rooms-002",
+  "rooms-003",
+  "rooms-004",
+  "rooms-005",
+  "rooms-006",
+  "rooms-007",
+  "rooms-008",
+  "rooms-009"
+ ],
+ "objective": "mean room F1, ties broken by mean |total area error|",
+ "grid": {
+  "max_gap_factor": [
+   4,
+   6,
+   8,
+   10,
+   14
+  ],
+  "min_area_factor": [
+   5,
+   10,
+   20,
+   40
+  ]
+ },
+ "chosen": {
+  "max_gap_factor": 14,
+  "min_area_factor": 5,
+  "thickness_tol": 0.25,
+  "angle_tol_deg": 2.0,
+  "max_thickness": 40.0
+ },
+ "chosen_score": {
+  "params": {
+   "max_gap_factor": 14,
+   "min_area_factor": 5,
+   "thickness_tol": 0.25,
+   "angle_tol_deg": 2.0,
+   "max_thickness": 40.0
+  },
+  "room_f1": 0.9766,
+  "abs_total_area_err_pct": 0.336
+ },
+ "all_trials": [
+  {
+   "params": {
+    "max_gap_factor": 4,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.5171,
+   "abs_total_area_err_pct": 23.095
+  },
+  {
+   "params": {
+    "max_gap_factor": 4,
+    "min_area_factor": 10,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.5171,
+   "abs_total_area_err_pct": 23.095
+  },
+  {
+   "params": {
+    "max_gap_factor": 4,
+    "min_area_factor": 20,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.5171,
+   "abs_total_area_err_pct": 23.095
+  },
+  {
+   "params": {
+    "max_gap_factor": 4,
+    "min_area_factor": 40,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.5171,
+   "abs_total_area_err_pct": 23.095
+  },
+  {
+   "params": {
+    "max_gap_factor": 6,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.8639,
+   "abs_total_area_err_pct": 1.538
+  },
+  {
+   "params": {
+    "max_gap_factor": 6,
+    "min_area_factor": 10,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.8639,
+   "abs_total_area_err_pct": 1.538
+  },
+  {
+   "params": {
+    "max_gap_factor": 6,
+    "min_area_factor": 20,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.8639,
+   "abs_total_area_err_pct": 1.538
+  },
+  {
+   "params": {
+    "max_gap_factor": 6,
+    "min_area_factor": 40,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.8639,
+   "abs_total_area_err_pct": 1.538
+  },
+  {
+   "params": {
+    "max_gap_factor": 8,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 8,
+    "min_area_factor": 10,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 8,
+    "min_area_factor": 20,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 8,
+    "min_area_factor": 40,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 10,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 10,
+    "min_area_factor": 10,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 10,
+    "min_area_factor": 20,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 10,
+    "min_area_factor": 40,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9723,
+   "abs_total_area_err_pct": 0.289
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 5,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9766,
+   "abs_total_area_err_pct": 0.336
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 10,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9766,
+   "abs_total_area_err_pct": 0.336
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 20,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9766,
+   "abs_total_area_err_pct": 0.336
+  },
+  {
+   "params": {
+    "max_gap_factor": 14,
+    "min_area_factor": 40,
+    "thickness_tol": 0.25,
+    "angle_tol_deg": 2.0,
+    "max_thickness": 40.0
+   },
+   "room_f1": 0.9766,
+   "abs_total_area_err_pct": 0.336
+  }
+ ]
+}
