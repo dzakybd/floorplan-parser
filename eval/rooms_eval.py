@@ -8,8 +8,8 @@
 
 3. Rooms on real layouts: CubiCasa5K plans drawn as vector PDFs from their wall, door and room annotations by
    quantity-lab (eval/export_vector.py). Real walls vary in thickness, so the wall-thickness rule (peaks kept,
-   tolerance) is chosen on ten validation layouts by room F1, then everything is scored once on the ten test ones. This tests walls -> rooms on
-   real room shapes and openings; the walls are drawn cleanly from the annotation, not read from messy CAD.
+   tolerance) is chosen on thirty validation layouts by room F1, then everything is scored once on the ten test
+   ones. This tests walls -> rooms on real room shapes and openings; the walls are drawn cleanly from the annotation, not read from messy CAD.
 
 Rooms are matched one-to-one at IoU > 0.5 (a match above 0.5 is unique, so no assignment step is needed).
 Writes runs/room_params.json and runs/rooms.json.

@@ -1,5 +1,13 @@
 # floorplan-parser
 
+## Why this exists
+
+The drawing a contractor prices from is usually a PDF, not the CAD model: the model stays with the consultant or the architect, and a revision means re-measuring every changed sheet, not one edit. A CAD file is not a takeoff either — a wall is a pair of lines on a layer, a door is a block, dimensions are text — so the geometry still has to be read, measured and checked.
+
+Two questions follow. If the PDF was exported from CAD it still stores every line as coordinates: read them, no computer vision needed. If it was scanned, only pixels are left. And for the pixel route, why classic CV and not a trained model? Because the target is a straight line, not a room. Hough is deterministic, needs no training data, and when it fails you can inspect why. A model earns its cost when the target is meaning; that is the [quantity-lab](https://github.com/dzakybd/quantity-lab) question, not this one.
+
+## What it does
+
 Line geometry from construction drawing PDFs, two ways, measured against the drawing's own geometry:
 
 - **vector**: read the paths the PDF already stores (PyMuPDF `page.get_drawings()`).
